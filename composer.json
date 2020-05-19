@@ -1,5 +1,5 @@
 {
-    "name": "yismen/timy",
+    "name": "dainsys/timy",
     "description": "Time tracker module based on Laravel",
     "type": "library",
     "require": {
