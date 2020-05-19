@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Tests;
 
 use App\User;
+use Carbon\Carbon;
 use Dainsys\Timy\Models\Timer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
@@ -62,18 +63,27 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         $timer = factory(Timer::class)->make([
             'user_id' => $this->user->id,
-            'name' => $this->user->name
+            'name' => $this->user->name,
+            'started_at' => now()->subDays(8)
         ])->toArray();
+        $parsed_date = Carbon::parse($timer['started_at'])->format('Y-m-d H:i:s');
 
         $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), $timer)
             ->assertOk()
             ->assertJson([
-                'data' => $timer
+                'data' => [
+                    'user_id' => $timer['user_id'],
+                    'task_id' => $timer['task_id'],
+                ]
             ]);
 
         $this->assertDatabaseHas('timy_timers', [
             'user_id' => $timer['user_id'],
-            'task_id' => $timer['task_id'],
+            'task_id' => $timer['task_id']
+        ]);
+
+        $this->assertDatabaseMissing('timy_timers', [
+            'started_at' => $parsed_date
         ]);
     }
 

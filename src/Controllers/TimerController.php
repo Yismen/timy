@@ -22,7 +22,9 @@ class TimerController extends BaseController
             'task_id' => 'exists:timy_tasks,id'
         ]);
 
-        $task = auth()->user()->timers()->create(request()->all());
+        $task = auth()->user()->timers()->create(
+            array_merge(request()->all(), ['started_at' => now()])
+        );
 
         return response()->json(['data' => $task]);
     }
