@@ -14,19 +14,18 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function user_can_only_see_own_timers()
     {
-        $user = factory(config('timy.models.user'))->create();
-        $user2 = factory(config('timy.models.user'))->create();
-        $this->actingAs($user);
+        $this->user2 = factory(\App\User::class)->create();
+        $this->actingAs($this->user);
 
-        factory(Timer::class, 5)->create(['user_id' => $user->id]);
-        factory(Timer::class, 5)->create(['user_id' => $user2->id]);
+        factory(Timer::class, 5)->create(['user_id' => $this->user->id]);
+        factory(Timer::class, 5)->create(['user_id' => $this->user2->id]);
 
-        $this->get('/timy_timers')
+        $this->get(route('timy_timers.index', ['api_token' => $this->user->api_token]))
             ->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'user_id' => $user->id
+                        'user_id' => $this->user->id
                     ]
                 ],
                 'to' => 5,
@@ -35,7 +34,7 @@ class TimyTimerTests extends TestCase
             ->assertJsonMissing([
                 'data' => [
                     [
-                        'user_id' => $user2->id
+                        'user_id' => $this->user2->id
                     ]
                 ]
             ]);
@@ -44,11 +43,10 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function user_can_see_a_single_timers()
     {
-        $user = factory(config('timy.models.user'))->create();
-        $this->actingAs($user);
-        $timer = factory(Timer::class)->create(['user_id' => $user->id]);
+        $this->actingAs($this->user);
+        $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
 
-        $this->get(route('timy_timers.show', $timer->id))
+        $this->get(route('timy_timers.show', ['timy_timer' => $timer->id, 'api_token' => $this->user->api_token]))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -61,14 +59,13 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function a_timer_can_be_created()
     {
-        $user = factory(config('timy.models.user'))->create();
-        $this->actingAs($user);
+        $this->actingAs($this->user);
         $timer = factory(Timer::class)->make([
-            'user_id' => $user->id,
-            'name' => $user->name
+            'user_id' => $this->user->id,
+            'name' => $this->user->name
         ])->toArray();
 
-        $this->post(route('timy_timers.store'), $timer)
+        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), $timer)
             ->assertOk()
             ->assertJson([
                 'data' => $timer
@@ -83,25 +80,23 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function a_timer_can_have_only_one_timer_running()
     {
-        $user = factory(config('timy.models.user'))->create();
-        $this->actingAs($user);
-        factory(Timer::class, 5)->create(['user_id' => $user->id, 'finished_at' => null]);
-        $timer = factory(Timer::class)->make(['user_id' => $user->id, 'finished_at' => null])->toArray();
+        $this->actingAs($this->user);
+        factory(Timer::class, 5)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+        $timer = factory(Timer::class)->make(['user_id' => $this->user->id, 'finished_at' => null])->toArray();
 
-        $this->post(route('timy_timers.store'), $timer);
+        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), $timer);
 
-        $this->assertCount(6, $user->timers()->get());
-        $this->assertCount(1, $user->timers()->running()->get());
+        $this->assertCount(6, $this->user->timers()->get());
+        $this->assertCount(1, $this->user->timers()->running()->get());
     }
 
     /** @test */
     public function a_timer_can_be_updated()
     {
-        $user = factory(config('timy.models.user'))->create();
-        $this->actingAs($user);
-        $timer = factory(Timer::class)->create(['user_id' => $user->id, 'finished_at' => null]);
+        $this->actingAs($this->user);
+        $timer = factory(Timer::class)->create(['user_id' => $this->user->id, 'finished_at' => null]);
 
-        $this->put(route('timy_timers.update', $timer->id), [
+        $this->put(route('timy_timers.update', ['timy_timer' => $timer->id, 'api_token' => $this->user->api_token]), [
             'finished_at' => now()
         ])
             ->assertOk()
@@ -119,18 +114,17 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function task_id_is_exists_to_create_a_timer()
     {
-        $this->post(route('timy_timers.store'), ['task_id' => null])
+        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), ['task_id' => null])
             ->assertSessionHasErrors(['task_id']);
     }
 
     /** @test */
     public function name_is_required_to_update_a_timer()
     {
-        $user = factory(config('timy.models.user'))->create();
-        $this->actingAs($user);
-        $timer = factory(Timer::class)->create(['user_id' => $user->id]);
+        $this->actingAs($this->user);
+        $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
 
-        $this->put(route('timy_timers.update', $timer->id), ['task_id' => null])
+        $this->put(route('timy_timers.update', ['timy_timer' => $timer->id, 'api_token' => $this->user->api_token]), ['task_id' => null])
             ->assertSessionHasErrors(['task_id']);
     }
 }

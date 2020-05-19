@@ -2,8 +2,10 @@
 
 namespace Dainsys\Timy\Tests;
 
+use App\User;
 use Dainsys\Timy\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 
 class TimyTaskTests extends TestCase
 {
@@ -12,15 +14,15 @@ class TimyTaskTests extends TestCase
     /** @test */
     public function user_can_see_tasks()
     {
-        factory(Task::class, 10)->create();
+        $tasks = factory(Task::class, 10)->create();
+        $tasks = $tasks->sortBy('name');
 
-        $this->get('/timy_tasks')
+        $this->get(route('timy_tasks.index', ['api_token' => $this->user->api_token]))
             ->assertOk()
             ->assertJson([
-                'data' => [],
-                'to' => 10,
-                'per_page' => 50
-            ]);
+                'data' => []
+            ])
+            ->assertJsonCount(10, 'data');
     }
 
     /** @test */
@@ -28,7 +30,7 @@ class TimyTaskTests extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->get(route('timy_tasks.show', $task->id))
+        $this->get(route('timy_tasks.show', ['timy_task' => $task->id, 'api_token' => $this->user->api_token]))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -44,7 +46,7 @@ class TimyTaskTests extends TestCase
     {
         $task = factory(Task::class)->make()->toArray();
 
-        $this->post(route('timy_tasks.store'), $task)
+        $this->post(route('timy_tasks.store', ['api_token' => $this->user->api_token]), $task)
             ->assertOk()
             ->assertJson([
                 'data' => $task
@@ -58,7 +60,7 @@ class TimyTaskTests extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->put(route('timy_tasks.update', $task->id), [
+        $this->put(route('timy_tasks.update', ['timy_task' => $task->id, 'api_token' => $this->user->api_token]), [
             'name' => 'Updated Name'
         ])
             ->assertOk()
@@ -78,7 +80,7 @@ class TimyTaskTests extends TestCase
     /** @test */
     public function name_is_required_to_create_a_task()
     {
-        $this->post(route('timy_tasks.store'), ['name' => null])
+        $this->post(route('timy_tasks.store', ['api_token' => $this->user->api_token]), ['name' => null])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -87,7 +89,7 @@ class TimyTaskTests extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->put(route('timy_tasks.update', $task->id), ['name' => null])
+        $this->put(route('timy_tasks.update', ['timy_task' => $task->id, 'api_token' => $this->user->api_token]), ['name' => null])
             ->assertSessionHasErrors(['name']);
     }
 }

@@ -8,7 +8,10 @@ class TaskController extends BaseController
 {
     public function index()
     {
-        return Task::latest()->paginate(50);
+        return response()->json([
+            'data' => Task::orderBy('name')->get(),
+            'status' => 200
+        ]);
     }
 
     public function show(Task $timy_task)

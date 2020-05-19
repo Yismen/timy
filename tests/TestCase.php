@@ -4,6 +4,7 @@ namespace Dainsys\Timy\Tests;
 
 use Dainsys\Timy\ClearLogsServiceProvider;
 use Dainsys\Timy\TimyServiceProvider;
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
@@ -15,6 +16,8 @@ class TestCase extends OrchestraTestCase
      */
     protected $logDirectory;
 
+    public $user;
+
     /**
      * Executed before each test.
      */
@@ -22,6 +25,7 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
         $this->loadLaravelMigrations();
+        $this->user = factory(\App\User::class)->create();
     }
 
     /**
