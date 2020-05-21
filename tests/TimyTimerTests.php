@@ -52,7 +52,7 @@ class TimyTimerTests extends TestCase
             ->assertJson([
                 'data' => [
                     'id' => $timer->id,
-                    'task_id' => $timer->task_id,
+                    'disposition_id' => $timer->disposition_id,
                 ]
             ]);
     }
@@ -73,13 +73,13 @@ class TimyTimerTests extends TestCase
             ->assertJson([
                 'data' => [
                     'user_id' => $timer['user_id'],
-                    'task_id' => $timer['task_id'],
+                    'disposition_id' => $timer['disposition_id'],
                 ]
             ]);
 
         $this->assertDatabaseHas('timy_timers', [
             'user_id' => $timer['user_id'],
-            'task_id' => $timer['task_id']
+            'disposition_id' => $timer['disposition_id']
         ]);
 
         $this->assertDatabaseMissing('timy_timers', [
@@ -122,10 +122,10 @@ class TimyTimerTests extends TestCase
     }
 
     /** @test */
-    public function task_id_is_exists_to_create_a_timer()
+    public function disposition_id_is_exists_to_create_a_timer()
     {
-        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), ['task_id' => null])
-            ->assertSessionHasErrors(['task_id']);
+        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), ['disposition_id' => null])
+            ->assertSessionHasErrors(['disposition_id']);
     }
 
     /** @test */
@@ -134,8 +134,8 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
 
-        $this->put(route('timy_timers.update', ['timy_timer' => $timer->id, 'api_token' => $this->user->api_token]), ['task_id' => null])
-            ->assertSessionHasErrors(['task_id']);
+        $this->put(route('timy_timers.update', ['timy_timer' => $timer->id, 'api_token' => $this->user->api_token]), ['disposition_id' => null])
+            ->assertSessionHasErrors(['disposition_id']);
     }
 
     /** @test */

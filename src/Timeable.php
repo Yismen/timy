@@ -11,11 +11,11 @@ trait Timeable
         return $this->hasMany(Timer::class);
     }
 
-    public function startTimer($task_id)
+    public function startTimer($disposition_id)
     {
         $this->timers()->create([
             'name' => $this->name,
-            'task_id' => $task_id,
+            'disposition_id' => $disposition_id,
             'started_at' => now(),
         ]);
     }

@@ -8,7 +8,7 @@ class Timer extends Model
 {
     protected $table = 'timy_timers';
 
-    protected $fillable = ['user_id', 'task_id', 'name', 'started_at', 'finished_at'];
+    protected $fillable = ['user_id', 'disposition_id', 'name', 'started_at', 'finished_at'];
 
     protected $dates = ['started_at', 'finished_at'];
 
@@ -31,13 +31,13 @@ class Timer extends Model
     }
 
     /**
-     * Get the related task
+     * Get the related disposition
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function task()
+    public function disposition()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Disposition::class);
     }
 
     /**

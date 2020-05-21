@@ -4,9 +4,9 @@ namespace Dainsys\Timy\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class Disposition extends Model
 {
-    protected $table = 'timy_tasks';
+    protected $table = 'timy_dispositions';
 
     protected $fillable = ['name', 'payable', 'invoiceable'];
 

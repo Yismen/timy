@@ -19,20 +19,20 @@ class TimerController extends BaseController
     protected function store()
     {
         $this->validate(request(), [
-            'task_id' => 'exists:timy_tasks,id'
+            'disposition_id' => 'exists:timy_dispositions,id'
         ]);
 
-        $task = auth()->user()->timers()->create(
+        $disposition = auth()->user()->timers()->create(
             array_merge(request()->all(), ['started_at' => now()])
         );
 
-        return response()->json(['data' => $task]);
+        return response()->json(['data' => $disposition]);
     }
 
     public function update(Timer $timy_timer)
     {
         $this->validate(request(), [
-            'task_id' => 'exists:timy_tasks,id'
+            'disposition_id' => 'exists:timy_dispositions,id'
         ]);
 
         $timy_timer->update(request()->all());

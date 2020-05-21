@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimyTasksTable extends Migration
+class CreateTimyDispositionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTimyTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('timy_tasks', function (Blueprint $table) {
+        Schema::create('timy_dispositions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
             $table->boolean('payable')->default(false);
@@ -29,6 +29,6 @@ class CreateTimyTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timy_tasks');
+        Schema::dropIfExists('timy_dispositions');
     }
 }

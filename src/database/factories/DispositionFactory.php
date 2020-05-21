@@ -1,9 +1,9 @@
 <?php
 
-use Dainsys\Timy\Models\Task;
+use Dainsys\Timy\Models\Disposition;
 use Faker\Generator as Faker;
 
-$factory->define(Task::class, function (Faker $faker) {
+$factory->define(Disposition::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'payable' => rand(0, 1),

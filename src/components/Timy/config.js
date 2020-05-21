@@ -11,7 +11,7 @@ export const TIMY_DROPDOWN_CONFIG = {
      * However, when the component is mounted a new timer is set automatically using
      * the known id provided in this variable. 
      */
-    default_task_id: 1,
+    default_disposition_id: 1,
 
     /**
      * Store all the timers in this module to allow store like centralized state controlls

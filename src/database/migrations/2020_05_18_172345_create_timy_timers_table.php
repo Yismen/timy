@@ -17,7 +17,7 @@ class CreateTimyTimersTable extends Migration
             $table->id();
             $table->string('name', 100)->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('task_id')->references('id')->on('timy_tasks')->onDelete('cascade');
+            $table->foreignId('disposition_id')->references('id')->on('timy_dispositions')->onDelete('cascade');
             $table->timestamp('started_at');
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
