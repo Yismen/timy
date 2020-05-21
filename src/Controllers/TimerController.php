@@ -39,4 +39,20 @@ class TimerController extends BaseController
 
         return response()->json(['data' => $timy_timer]);
     }
+
+    protected function closeAll()
+    {
+        auth()->user()->timers()->running()->each(function ($timer) {
+            $timer->stop();
+        });
+
+        return response()->json(['data' => auth()->user()->timers()->running()->get()]);
+    }
+
+    public function running()
+    {
+        return response()->json([
+            'data' => auth()->user()->timers()->running()->first()
+        ]);
+    }
 }

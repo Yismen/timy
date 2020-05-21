@@ -18,7 +18,7 @@ class Timer extends Model
 
         static::creating(function ($model) {
             $model->mine()->running()->each(function ($timer) {
-                $timer->stopRunning();
+                $timer->stop();
             });
 
             $model->name = auth()->user()->name;
@@ -64,10 +64,12 @@ class Timer extends Model
     /**
      * Method to mark current timer as complete!
      */
-    public function stopRunning()
+    public function stop()
     {
         $this->update([
             'finished_at' => now()
         ]);
+
+        return $this;
     }
 }

@@ -137,4 +137,30 @@ class TimyTimerTests extends TestCase
         $this->put(route('timy_timers.update', ['timy_timer' => $timer->id, 'api_token' => $this->user->api_token]), ['task_id' => null])
             ->assertSessionHasErrors(['task_id']);
     }
+
+    /** @test */
+    public function it_closes_all_running_timers()
+    {
+        $this->actingAs($this->user);
+        factory(Timer::class, 10)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+
+        $this->post(route('timy_timers.close_all', ['api_token' => $this->user->api_token]));
+
+        $this->assertCount(10, $this->user->timers()->get());
+        $this->assertCount(0, $this->user->timers()->running()->get());
+    }
+
+    /** @test */
+    public function it_retunrs_last_running_timer()
+    {
+        $this->withoutExceptionHandling();
+        $this->actingAs($this->user);
+        factory(Timer::class, 10)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+
+        $this->get(route('timy_timers.running', ['api_token' => $this->user->api_token]))
+            ->assertJson(['data' => $this->user->timers()->running()->first()->toArray()]);
+
+        $this->assertCount(10, $this->user->timers()->get());
+        $this->assertCount(1, $this->user->timers()->running()->get());
+    }
 }
