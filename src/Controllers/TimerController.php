@@ -2,13 +2,16 @@
 
 namespace Dainsys\Timy\Controllers;
 
+use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Models\Timer;
 
 class TimerController extends BaseController
 {
     public function index()
     {
-        return Timer::latest()->paginate(50);
+        return TimerResource::collection(
+            Timer::latest()->with(['disposition', 'user'])->paginate(20)
+        );
     }
 
     public function show(Timer $timy_timer)
@@ -22,11 +25,13 @@ class TimerController extends BaseController
             'disposition_id' => 'exists:timy_dispositions,id'
         ]);
 
-        $disposition = auth()->user()->timers()->create(
+        $timer = auth()->user()->timers()->create(
             array_merge(request()->all(), ['started_at' => now()])
         );
 
-        return response()->json(['data' => $disposition]);
+        TimerResource::withoutWrapping();
+
+        return response()->json(['data' => new TimerResource($timer)]);
     }
 
     public function update(Timer $timy_timer)
@@ -37,7 +42,9 @@ class TimerController extends BaseController
 
         $timy_timer->update(request()->all());
 
-        return response()->json(['data' => $timy_timer]);
+        TimerResource::withoutWrapping();
+
+        return response()->json(['data' => new TimerResource($timy_timer)]);
     }
 
     protected function closeAll()
