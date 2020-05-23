@@ -10,3 +10,6 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     Route::post('timy_timers/close_all', '\Dainsys\Timy\Controllers\TimerController@closeAll')->name('timy_timers.close_all');
     Route::apiResource('timy_timers', '\Dainsys\Timy\Controllers\TimerController');
 });
+Route::middleware('auth')->group(function () {
+    Route::get('/timy_ping');
+});
