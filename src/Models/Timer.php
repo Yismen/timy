@@ -12,6 +12,8 @@ class Timer extends Model
 
     protected $dates = ['started_at', 'finished_at'];
 
+    protected $appends = ['path'];
+
     protected static function booted()
     {
         static::addGlobalScope(new MineScope);
@@ -25,9 +27,14 @@ class Timer extends Model
         });
     }
 
+    public function getPathAttribute()
+    {
+        return $this->id;
+    }
+
     public function user()
     {
-        return $this->belongsTo(config('timy.models.user'), 'foreign_key', 'other_key');
+        return $this->belongsTo(config('timy.models.user'));
     }
 
     /**
