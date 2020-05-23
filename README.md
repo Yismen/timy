@@ -15,9 +15,12 @@ Add time tracker functionality
 - Step 3: The Package should be auto-discovered by Laravel. However, you could all register it in your config.app file within the providers array:
     ```php
         'providers' => [
-            App\Providers\TimyServiceProvider::class,
+            Dainsys\Timy\TimyServiceProvider::class,
         ]
     ```
 
 ## Publish
 Run `php artisan vendor:publish` and search for timy to publish the assets.
+
+## Working with Assets
+If you are publishing the components to work with Vuejs, install the following dependencies with `npm install vue@^2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* --save-dev && npm run production`.
