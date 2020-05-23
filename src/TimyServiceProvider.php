@@ -23,10 +23,6 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/database/migrations' => database_path('migrations'),
         ], 'timy-migrations');
 
-        $this->publishes([
-            __DIR__ . '/database/factories' => database_path('factories'),
-        ], 'timy-factories');
-
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/database/factories');
