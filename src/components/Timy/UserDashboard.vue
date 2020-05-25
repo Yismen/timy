@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-6 mb-2 mb-xl-0">
                    <TimersBarChart :chart-data="hours_daily"
                     chart-title="Daily" 
                     border-color="rgba(63, 81, 181, 1)" 
