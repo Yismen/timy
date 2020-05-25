@@ -36,3 +36,7 @@ export const TIMY_DROPDOWN_CONFIG = {
      */
     cookie_prefix: 'dainsys_timy'
 }
+
+import Vue from 'vue'
+
+export const eventBus = new Vue()

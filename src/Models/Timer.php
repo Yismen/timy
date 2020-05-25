@@ -68,6 +68,13 @@ class Timer extends Model
     {
         return $query->whereNull('finished_at');
     }
+
+    public function scopePayable($query)
+    {
+        return $query->whereHas('disposition', function ($query) {
+            return $query->where('payable', 1);
+        });
+    }
     /**
      * Method to mark current timer as complete!
      */
