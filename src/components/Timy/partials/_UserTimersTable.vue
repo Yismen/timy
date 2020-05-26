@@ -16,10 +16,14 @@
                     :class="{'text-info': !timer.finished_at, 'text-danger': !timer.is_payable && timer.finished_at}"
                 >
                     <td scope="row">{{ timer.disposition }}</td>
-                    <td>{{ getFormatedDate(timer.started_at) }}</td>
-                    <td>{{ getFormatedDate(timer.finished_at) }}</td>
-                    <td>{{ timer.total_hours.toFixed(2).toLocaleString() }}</td>
-                    <td>{{ timer.payable_hours.toFixed(2).toLocaleString() }}</td>
+                    <td>{{ timer.started_at }}</td>
+                    <td>{{ timer.finished_at }}</td>
+                    <td :class="[timer.is_payable ? 'text-success' : 'text-danger']">
+                        {{ timer.total_hours.toFixed(2).toLocaleString() }}
+                    </td>
+                    <td :class="[timer.is_payable ? 'text-success' : 'text-danger']">
+                        {{ timer.payable_hours.toFixed(2).toLocaleString() }}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -35,6 +39,7 @@ export default {
     data() {
         return {
             loading: false,
+            now: null,
             timers: [],
             links: [],
             meta: [],
@@ -43,12 +48,6 @@ export default {
     },
 
     mounted() {
-        /**
-         * Change momentjs default configuration for invalid dates
-         */
-        moment.updateLocale('en', {
-            invalidDate : '--:--'
-        });
         /**
          * Update the timers list.
          */
@@ -59,20 +58,18 @@ export default {
          * this aproach to reduce dependencies.
          */
         eventBus.$on('timer-created', async (timer) => {
-            await this.timers.filter(timer => timer.finished_at == null)
-                .forEach(timer => timer.finished_at = moment())
-
+            await this.timers.forEach(timer => {
+                if (timer.finished_at == null) {
+                    timer.finished_at = moment().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss')
+                }
+            })
+            
+            this.now = moment() // reset timer
             this.timers.unshift(timer)
         })
     },
 
     methods: {
-        /**
-         * Parse the given date to a given format.
-         */
-        getFormatedDate(date, format = 'YYYY-MMM-DD HH:mm:ss') {
-            return moment(date).format(format)
-        },
         /**
          * Fetch the timers from the backend. If @param url is null, us index url, otherwise use 
          * passed url. This is ideal for using pagination links. Then the openTimersInterval 
@@ -96,17 +93,19 @@ export default {
          * open timers visible. Open timers are those where the finished_at date is null.
          */
         updateOpenTimers(timer) {
+            this.now = moment()
             this.openTimersInterval = setInterval(() => {
                 this.timers.forEach(timer => {
                     if (timer.finished_at == null) {
-                        let total_hours = moment().diff(moment(timer.started_at), 'hours', true)
+                        let total_hours = Number(moment().diff(moment(this.now), 'seconds') / 60 / 60)
+                        
                         timer.total_hours = total_hours
                         if (!! timer.is_payable) {
                             timer.payable_hours = total_hours
                         }
                     }
                 })
-            }, 35000 /** Every 35 seconds, time that actually change a decimal value */)
+            }, 1000 /** Every 35 seconds, time that actually change a decimal value */)
         },
         /**
          * Return a boolean indicating if the current timer is payable to the user.

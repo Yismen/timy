@@ -4,28 +4,28 @@
         <div class="" v-else>
             <div class="row">
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox :title="Number(hours_today.hours).toFixed(2)" description="Hours Today" />
+                    <Infobox :title="hoursToday" description="Hours Today" />
                 </div>
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox :title="Number(hours_last_date.hours).toFixed(2)" description="Previous Date" />
-                </div>
-                
-                <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox :title="Number(hours_payrolltd.hours).toFixed(2)" description="This Payroll" />
+                    <Infobox :title="hoursLastDate" description="Previous Date" />
                 </div>
                 
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox :title="Number(hours_last_payroll.hours).toFixed(2)" description="Last Payroll" />
+                    <Infobox :title="hoursPayrollTD" description="This Payroll" />
+                </div>
+                
+                <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
+                    <Infobox :title="hoursLastPayroll" description="Last Payroll" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-6 mb-2 mb-xl-0">
+                <div class="col-12">
                    <TimersBarChart :chart-data="hours_daily"
                     chart-title="Daily" 
                     border-color="rgba(63, 81, 181, 1)" 
                     background-color="rgba(63, 81, 181, 0.25)" />
                 </div>
-                <div class="col-xl-6">
+                <div class="col-12">
                    <TimersBarChart :chart-data="hours_by_payrolls" 
                     chart-title="Hours By Payroll" 
                     border-color="rgba(46,125,50 ,1)" 
@@ -51,12 +51,12 @@ export default {
     data() {
         return {
             loading: true,
-            hours_today: {},
-            hours_last_date: {},
-            hours_payrolltd: {},
-            hours_last_payroll: {},
-            hours_daily: {},
-            hours_by_payrolls: {}
+            hours_today: 0,
+            hours_last_date: 0,
+            hours_payrolltd: 0,
+            hours_last_payroll: 0,
+            hours_daily: 0,
+            hours_by_payrolls: 0
         }
     },
 
@@ -76,6 +76,24 @@ export default {
                 })
                 .finally(() => this.loading = false)
         }, 3000)
+    },
+
+    computed: {
+        hoursToday() {
+            return this.hours_today ? Number(this.hours_today.hours).toFixed(2):  0
+        },
+
+        hoursLastDate() {
+            return this.hours_last_date ? Number(this.hours_last_date.hours).toFixed(2): 0
+        },
+
+        hoursPayrollTD() {
+            return this.hours_payrolltd ? Number(this.hours_payrolltd.hours).toFixed(2): 0
+        },
+
+        hoursLastPayroll() {
+            return this.hours_last_payroll ? Number(this.hours_last_payroll.hours).toFixed(2):  0
+        }
     },
 
     components: {Infobox, TimersTable, TimersBarChart}
