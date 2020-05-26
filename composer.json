@@ -14,6 +14,16 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Dainsys\\Timy\\": "src/"
+        }
+    },
+    "autoload-dev":  {
+        "psr-4": {
+            "Dainsys\\Timy\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
