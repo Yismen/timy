@@ -1,5 +1,6 @@
 <?php
 
+use Dainsys\Timy\Models\Disposition;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +16,16 @@ class CreateTimyDispositionsTable extends Migration
     {
         Schema::create('timy_dispositions', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('name', 100)->unique();
             $table->boolean('payable')->default(false);
             $table->boolean('invoiceable')->default(false);
             $table->timestamps();
         });
+
+        /**
+         * Create
+         */
+        Disposition::insert(config('timy.initial_dispositions'));
     }
 
     /**

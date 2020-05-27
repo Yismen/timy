@@ -14,9 +14,9 @@ class TimerController extends BaseController
         );
     }
 
-    public function show(Timer $timy_timer)
+    public function show(Timer $timer)
     {
-        return response()->json(['data' => $timy_timer]);
+        return response()->json(['data' => $timer]);
     }
 
     protected function store()
@@ -34,17 +34,17 @@ class TimerController extends BaseController
         return response()->json(['data' => new TimerResource($timer)]);
     }
 
-    public function update(Timer $timy_timer)
+    public function update(Timer $timer)
     {
         $this->validate(request(), [
             'disposition_id' => 'exists:timy_dispositions,id'
         ]);
 
-        $timy_timer->update(request()->all());
+        $timer->update(request()->all());
 
         TimerResource::withoutWrapping();
 
-        return response()->json(['data' => new TimerResource($timy_timer)]);
+        return response()->json(['data' => new TimerResource($timer)]);
     }
 
     protected function closeAll()
@@ -60,6 +60,13 @@ class TimerController extends BaseController
     {
         return response()->json([
             'data' => auth()->user()->timers()->running()->first()
+        ]);
+    }
+
+    public function ping()
+    {
+        return response()->json([
+            'Session is alive!'
         ]);
     }
 }

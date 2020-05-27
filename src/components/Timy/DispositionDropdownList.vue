@@ -1,26 +1,26 @@
 <template>
-  <li class="__dispos_control">
+  <form class="form-inline">
     <div v-if="loading" class="loading">
         Loading...
     </div>
     <select
         v-else
         class="custom-select"
-        :class="[payable ? 'bg-green' : 'bg-yellow']"
+        :class="[payable ? 'bg-success text-white' : 'bg-danger text-white']"
         id="inputGroupSelect01"
         @change.prevent="createNewTimer"
     >
         <!-- <option value="0" selected>-- Select One --</option> -->
         <option
-        class="disposition_option"
-        :selected="current == disposition.id"
-        v-for="disposition in dispositions"
-        :key="disposition.id"
-        :value="disposition.id"
-        :class="[disposition.payable == 1 ? 'bg-white' : 'bg-yellow']"
+            class="disposition_option"
+            :selected="current == disposition.id"
+            v-for="disposition in dispositions"
+            :key="disposition.id"
+            :value="disposition.id"
+            :class="[!!disposition.payable ? 'bg-white text-dark' : 'bg-danger text-white']"
         >{{ disposition.name }} {{ disposition.payable == 1 ? '$$' : '--'}}</option>
     </select>
-  </li>
+  </form>
 </template>
 
 <script>
@@ -58,12 +58,12 @@ export default {
     methods: {
         getCurrentlyOpenTimerOrCreateANewOne() {
             this.loading = true
-            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers/running`)
+            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/running`)
                 .then(({data}) => {    
                     this.current = this.getCurrentDispositionId(data.data)
                 })
                 .then(() => {
-                    axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers`, {disposition_id: this.current})
+                    axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`, {disposition_id: this.current})
                         
                 })
                 .finally(() => this.loading = false)
@@ -77,6 +77,7 @@ export default {
 
             // Check if there is a valid cookie
             let cookie_disposition = Cookies.get('dainsys_timy')
+
             if(cookie_disposition) {
                 return cookie_disposition
             }
@@ -88,34 +89,37 @@ export default {
         setupTimerToReloadWindow() {
             // Check if backend session is alive
             setInterval(() => {
-                axios.get('timy_ping')
+                axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/ping`)
                     .catch(error => window.location.reload())
-            }, 15 * 60 * 1000)
+            }, 5*60*1000) // Every five minutes
             
             if(TIMY_DROPDOWN_CONFIG.auto_refresh && TIMY_DROPDOWN_CONFIG.auto_refresh == true) {
                 setInterval(() => {
-                    window.location.reload()                
+                    window.location.reload() /** Terminate current timer and trigger auth check */        
                 }, Number(TIMY_DROPDOWN_CONFIG.session_length));
             }
         },
 
         watchForWindowUnloadEvent() {
+            /**
+             * Bootup a watched for when the window is closed and close all active timers.
+             */
             window.onbeforeunload = function() {
-                axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers/close_all`)
-                    .then((response) => {})
+                axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/close_all`)
+                    .then(() => eventBus.$emit('all-timers-closed'))
             }
         },
 
         fetchDispositions() {          
             this.loading = true
-            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_dispositions`)
+            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/dispositions`)
                 .then(({data}) => this.dispositions = data.data)
                 .finally(() => this.loading = false)
         },
 
         createNewTimer(event) {
             this.loading = true
-            axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers`, {disposition_id: event.target.value})
+            axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`, {disposition_id: event.target.value})
                 .then(({data}) =>{ 
                     this.current = data.data.disposition_id
                     eventBus.$emit('timer-created', data.data)
@@ -125,7 +129,7 @@ export default {
                     Cookies.set(
                         TIMY_DROPDOWN_CONFIG.cookie_prefix, 
                         response.disposition_id, 
-                        {expires: 0.5}
+                        {expires: 0.5} // 0.5 days is 12 hours
                     )
                 })
                 .finally(() => this.loading = false)
@@ -134,12 +138,6 @@ export default {
 }
 </script>
 <style lang="css" scoped>
-    .bg-green {
-    background-color: rgba(59, 193, 114, 0.5);
-    }
-    .bg-yellow {
-    background-color: rgba(255, 237, 74, 0.5);
-    }
     .loading {
         padding: 0.5rem !important;
         font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;

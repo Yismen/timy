@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             loading: false,
-            now: null,
+            now: moment(),
             timers: [],
             links: [],
             meta: [],
@@ -77,7 +77,7 @@ export default {
          * update all open timers visible in the table.
          */
         getTimers(url = null) {            
-            url = url ?? `${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers`
+            url = url ?? `${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`
             
             axios.get(url)
                 .then(({data}) => {
@@ -93,7 +93,6 @@ export default {
          * open timers visible. Open timers are those where the finished_at date is null.
          */
         updateOpenTimers(timer) {
-            this.now = moment()
             this.openTimersInterval = setInterval(() => {
                 this.timers.forEach(timer => {
                     if (timer.finished_at == null) {

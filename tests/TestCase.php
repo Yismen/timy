@@ -25,7 +25,7 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
         $this->loadLaravelMigrations();
-        $this->user = factory(\App\User::class)->create();
+        $this->user = factory(config('timy.models.user'))->create();
     }
 
     /**

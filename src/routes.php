@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:api', 'bindings'])->group(function () {
-    Route::get('timy_timers/user_dashboard', '\Dainsys\Timy\Controllers\UserDashboardDataController@index')->name('timy_timers.user_dashboard');
+$middlewres = preg_split("/[,|]+/", config('timy.midlewares'));
 
-    Route::get('timy_timers/running', '\Dainsys\Timy\Controllers\TimerController@running')->name('timy_timers.running');
-    Route::post('timy_timers/close_all', '\Dainsys\Timy\Controllers\TimerController@closeAll')->name('timy_timers.close_all');
+Route::middleware($middlewres)
+    ->prefix('timy')
+    ->group(function () {
+        Route::get('timers/user_dashboard', '\Dainsys\Timy\Controllers\UserDashboardDataController@index')->name('timy_timers.user_dashboard');
 
+        Route::get('timers/running', '\Dainsys\Timy\Controllers\TimerController@running')->name('timy_timers.running');
+        Route::post('timers/close_all', '\Dainsys\Timy\Controllers\TimerController@closeAll')->name('timy_timers.close_all');
 
-    Route::apiResource('timy_dispositions', '\Dainsys\Timy\Controllers\DispositionController');
-    Route::apiResource('timy_timers', '\Dainsys\Timy\Controllers\TimerController');
-});
-Route::middleware('auth')->group(function () {
-    Route::get('/timy_ping');
-});
+        Route::apiResource('dispositions', '\Dainsys\Timy\Controllers\DispositionController')->names('timy_dispositions');
+        Route::apiResource('timers', '\Dainsys\Timy\Controllers\TimerController')->names('timy_timers');
+        Route::get('ping', '\Dainsys\Timy\Controllers\TimerController@ping');
+    });

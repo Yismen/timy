@@ -19,9 +19,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 mb-2">
                    <TimersBarChart :chart-data="hours_daily"
-                    chart-title="Daily" 
+                    chart-title="Daily Hours" 
                     border-color="rgba(63, 81, 181, 1)" 
                     background-color="rgba(63, 81, 181, 0.25)" />
                 </div>
@@ -66,7 +66,7 @@ export default {
          * Trying to ensure the last timer is also fetched by the UserTimesTable component. 
          */
         setTimeout(() => {
-            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers/user_dashboard`)
+            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/user_dashboard`)
                 .then(({data}) => {
                     this.hours_today = data.data.hours_today
                     this.hours_last_date = data.data.hours_last_date
@@ -75,7 +75,7 @@ export default {
                     this.hours_by_payrolls = data.data.hours_by_payrolls
                 })
                 .finally(() => this.loading = false)
-        }, 3000)
+        }, 2000)
     },
 
     computed: {

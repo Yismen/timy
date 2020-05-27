@@ -4,7 +4,7 @@ export const TIMY_DROPDOWN_CONFIG = {
      * to prefix your routes. For instance, you can pass the whole server url 'https://example.com' or
      * maybe just use the backslash pattern such as '/api' or '/admin' https://example.com/api'
      */
-    routes_prefix: "",
+    routes_prefix: "/timy",
 
     /**
      * Any time the user refresh the browser or close it all running timers are closed. 

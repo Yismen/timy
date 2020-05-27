@@ -2,27 +2,30 @@
 
 namespace Dainsys\Timy\Tests;
 
-use App\User;
 use Carbon\Carbon;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Timer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Http;
 
 class TimyTimerTests extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
     /** @test */
     public function user_can_only_see_own_timers()
     {
-        $this->user2 = factory(\App\User::class)->create();
         $this->actingAs($this->user);
+        $this->user2 = factory(config('timy.models.user'))->create();
 
         factory(Timer::class, 5)->create(['user_id' => $this->user->id]);
         factory(Timer::class, 5)->create(['user_id' => $this->user2->id]);
 
-        $this->get(route('timy_timers.index', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.index'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -48,7 +51,7 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
 
-        $this->get(route('timy_timers.show', ['timy_timer' => $timer->path, 'api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.show', $timer->path))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -69,7 +72,7 @@ class TimyTimerTests extends TestCase
         ])->toArray();
         $parsed_date = Carbon::parse($timer['started_at'])->format('Y-m-d H:i:s');
 
-        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), $timer)
+        $this->post(route('timy_timers.store'), $timer)
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -95,7 +98,7 @@ class TimyTimerTests extends TestCase
         factory(Timer::class, 5)->create(['user_id' => $this->user->id, 'finished_at' => null]);
         $timer = factory(Timer::class)->make(['user_id' => $this->user->id, 'finished_at' => null])->toArray();
 
-        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), $timer);
+        $this->post(route('timy_timers.store'), $timer);
 
         $this->assertCount(6, $this->user->timers()->get());
         $this->assertCount(1, $this->user->timers()->running()->get());
@@ -107,7 +110,7 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         $timer = factory(Timer::class)->create(['user_id' => $this->user->id, 'finished_at' => null]);
 
-        $this->put(route('timy_timers.update', ['timy_timer' => $timer->path, 'api_token' => $this->user->api_token]), [
+        $this->put(route('timy_timers.update', $timer->path), [
             'finished_at' => now()
         ])
             ->assertOk()
@@ -125,7 +128,9 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function disposition_id_is_exists_to_create_a_timer()
     {
-        $this->post(route('timy_timers.store', ['api_token' => $this->user->api_token]), ['disposition_id' => null])
+        $this->actingAs($this->user);
+
+        $this->post(route('timy_timers.store'), ['disposition_id' => null])
             ->assertSessionHasErrors(['disposition_id']);
     }
 
@@ -135,7 +140,7 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
 
-        $this->put(route('timy_timers.update', ['timy_timer' => $timer->path, 'api_token' => $this->user->api_token]), ['disposition_id' => null])
+        $this->put(route('timy_timers.update', $timer->path), ['disposition_id' => null])
             ->assertSessionHasErrors(['disposition_id']);
     }
 
@@ -145,7 +150,7 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         factory(Timer::class, 10)->create(['user_id' => $this->user->id, 'finished_at' => null]);
 
-        $this->post(route('timy_timers.close_all', ['api_token' => $this->user->api_token]));
+        $this->post(route('timy_timers.close_all'));
 
         $this->assertCount(10, $this->user->timers()->get());
         $this->assertCount(0, $this->user->timers()->running()->get());
@@ -157,7 +162,7 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         factory(Timer::class, 10)->create(['user_id' => $this->user->id, 'finished_at' => null]);
 
-        $this->get(route('timy_timers.running', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.running'))
             ->assertJson(['data' => $this->user->timers()->running()->first()->toArray()]);
 
         $this->assertCount(10, $this->user->timers()->get());
@@ -171,7 +176,7 @@ class TimyTimerTests extends TestCase
         $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 1])); // Create 1 payable for today
         $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 0]), 1, now()); // Create 1 non payable for today
 
-        $this->get(route('timy_timers.user_dashboard', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -195,7 +200,7 @@ class TimyTimerTests extends TestCase
         $this->createRangeOfTimers($non_payable, 0, now()->subDays(2)); // Create 1 non payable for today
         $this->createRangeOfTimers($payable, 0, now()->subDays(2)); // Create 1 payable for today
 
-        $this->get(route('timy_timers.user_dashboard', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -217,7 +222,7 @@ class TimyTimerTests extends TestCase
         $starting_date = $date->day <= 15 ? $date->copy()->startOfMonth() : Carbon::create($date->year, $date->month, 16);
         $ending_date = $date->day > 15 ? $date->copy()->endOfMonth() : Carbon::create($date->year, $date->month, 15);
 
-        $this->get(route('timy_timers.user_dashboard', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -240,7 +245,7 @@ class TimyTimerTests extends TestCase
         $starting_date = $date->day <= 15 ? $date->copy()->startOfMonth() : Carbon::create($date->year, $date->month, 16);
         $ending_date = $date->day > 15 ? $date->copy()->endOfMonth() : Carbon::create($date->year, $date->month, 15);
 
-        $this->get(route('timy_timers.user_dashboard', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -258,7 +263,7 @@ class TimyTimerTests extends TestCase
         $this->actingAs($this->user);
         $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 1]), 20); // Create 10 records for last 10 days
 
-        $this->get(route('timy_timers.user_dashboard', ['api_token' => $this->user->api_token]))
+        $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
             ->assertJsonCount(12, 'data.hours_daily')
             ->assertJson([

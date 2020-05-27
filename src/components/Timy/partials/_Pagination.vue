@@ -1,5 +1,5 @@
 <template>
-<nav aria-label="">
+<nav aria-label="" v-if="meta.total > meta.per_page">
     <ul class="pagination mt-2 mb-2">
         <li class="page-item" :class="{'disabled': ! links.prev}">
             <a class="page-link" href="#" aria-label="Previous" @click.prevent="fetchData(links.prev)">
