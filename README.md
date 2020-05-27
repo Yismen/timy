@@ -19,21 +19,21 @@ Add time tracker functionality to Laravel and Vue apps.
         ]
     ```
 - Next you may want to publish the config file: `php artisan vendor:publish --tag=timy-config` to change default configuration. Pay attention to the option of creating default dispositions. 
-- Next you may want to run migrations with command `php artisan migrate`.
-- Add the `use Dainsys\Timy\Timeable` trait to your `User` model.
+- Next you may want to run migrations with command `php artisan migrate`. 
+- Add the `use Dainsys\Timy\Timeable` trait to your `User` model. 
 
 ## Usage: PHP
 
 ## Ussage: Vue
-If you are using the vue components shipped with the package:
-    1. First publish them using the `php artisan vendor:publish --tag=timy-components` 
-    2. Install the following dependencies by running `npm install vue@^2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* --save-dev && npm run production`.
-    3. Register your components previous to creating the vue instance:
-`Vue.component('timy-dropdown', require('./components/Timy/DispositionDropdownList.vue').default);`.
-`Vue.component('timy-user-dashbord', require('./components/Timy/UserDashboard.vue').default);`.
-    4. Drop the `<TimyDropdown />` in your nav-bar or any other blade partial that only shows under auth and is visible when user refresh the page.
-    5. Crete a route and return a view that includes the `<TimyUserDashboard />` component so the user can see its own stats.
-    6. Create a route and return a view where a user with role `timy-admin` can manage all aspects of the packages and include in it the `<TimyAdminDashboard />` component.
+If you are using the vue components shipped with the package: 
+1. First publish them using the `php artisan vendor:publish --tag=timy-components`   
+2. Install the following dependencies by running `npm install vue@^2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* --save-dev && npm run production`.  
+3. Register your components previous to creating the vue instance:  
+`Vue.component('timy-dropdown', require('./components/Timy/DispositionDropdownList.vue').default);`     
+`Vue.component('timy-user-dashbord', require('./components/Timy/UserDashboard.vue').default);`  
+4. Drop the `<TimyDropdown />` in your nav-bar or any other blade partial that only shows under auth and is visible when user refresh the page.  
+5. Crete a route and return a view that includes the `<TimyUserDashboard />` component so the user can see its own stats.  
+6. Create a route and return a view where a user with role `timy-admin` can manage all aspects of the packages and include in it the `<TimyAdminDashboard />` component.  
 
 ## Features
 - Authenticated users is required for the package to work. 
@@ -47,12 +47,12 @@ If you are using the vue components shipped with the package:
 - When migrations run, some Disposition records are created by default. you can change this option in the config file.
 
 #TODO
-[x] Routes should not be API
-[x] It should include DB Seeders with the initial dispositions.
-[] Add roles table for admin
-[] Add admin module
-[] Improve documentation for installation
-[x] Improve documentation for ussage
-[] Isolate CSS classes
-[] Public it's own css and javascript so the user is not forced to install all npm dependencies
-[] A user may need to have timy_user role to use the package.
+[x] Routes should not be API  
+[x] It should include DB Seeders with the initial dispositions.  
+[] Add roles table for admin  
+[] Add admin module  
+[] Improve documentation for installation  
+[x] Improve documentation for ussage  
+[] Isolate CSS classes  
+[] Public it's own css and javascript so the user is not forced to install all npm dependencies  
+[] A user may need to have timy_user role to use the package.  
