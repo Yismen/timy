@@ -1,6 +1,6 @@
 <?php
 
-use Dainsys\Timy\Models\Disposition;
+use Dainsys\Timy\App\Disposition;
 use Faker\Generator as Faker;
 
 $factory->define(Disposition::class, function (Faker $faker) {

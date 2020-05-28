@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Models;
+namespace Dainsys\Timy\App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +16,7 @@ class Timer extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new MineScope);
+        static::addGlobalScope(new MineScope());
 
         static::creating(function ($model) {
             $model->mine()->running()->each(function ($timer) {

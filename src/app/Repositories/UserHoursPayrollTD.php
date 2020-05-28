@@ -1,9 +1,9 @@
 <?php
 
-namespace Dainsys\Timy\Repositories;
+namespace Dainsys\Timy\App\Repositories;
 
 use Carbon\Carbon;
-use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\App\Timer;
 use Illuminate\Support\Facades\DB;
 
 class UserHoursPayrollTD extends UserHours

@@ -2,17 +2,21 @@
 
 namespace Dainsys\Timy\Tests;
 
-use Dainsys\Timy\Models\Disposition;
+use Dainsys\Timy\App\Disposition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimyDispositionTests extends TestCase
 {
-    use RefreshDatabase;
+    /** @test */
+    public function guest_are_unauthorized()
+    {
+        $this->get(route('timy_dispositions.index'))
+            ->assertRedirect(route('login'));
+    }
 
     /** @test */
     public function user_can_see_dispositions()
     {
-        $this->withoutExceptionHandling();
         factory(Disposition::class, 10)->create();
         $initial = config('timy.initial_dispositions');
 

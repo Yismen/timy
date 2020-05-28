@@ -1,9 +1,9 @@
 <?php
 
-namespace Dainsys\Timy\Repositories;
+namespace Dainsys\Timy\App\Repositories;
 
-use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Resources\UserTimerResource;
+use Dainsys\Timy\App\Resources\TimerResource;
+use Dainsys\Timy\App\Resources\UserTimerResource;
 
 class UserDataRepository
 {

@@ -2,8 +2,8 @@
 
 namespace Dainsys\Timy\Controllers;
 
-use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\App\Resources\TimerResource;
+use Dainsys\Timy\App\Timer;
 
 class TimerController extends BaseController
 {
@@ -66,7 +66,7 @@ class TimerController extends BaseController
     public function ping()
     {
         return response()->json([
-            'Session is alive!'
+            'Authenticated!'
         ]);
     }
 }

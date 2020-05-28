@@ -3,17 +3,17 @@
 namespace Dainsys\Timy\Tests;
 
 use Carbon\Carbon;
-use Dainsys\Timy\Models\Disposition;
-use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\App\Disposition;
+use Dainsys\Timy\App\Timer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimyTimerTests extends TestCase
 {
-    use RefreshDatabase;
-
-    public function setUp(): void
+    /** @test */
+    public function guest_are_unauthorized()
     {
-        parent::setUp();
+        $this->get(route('timy_timers.index'))
+            ->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -65,6 +65,7 @@ class TimyTimerTests extends TestCase
     public function a_timer_can_be_created()
     {
         $this->actingAs($this->user);
+
         $timer = factory(Timer::class)->make([
             'user_id' => $this->user->id,
             'name' => $this->user->name,
@@ -172,6 +173,8 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_returns_user_payable_hours_today()
     {
+
+        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
         $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 1])); // Create 1 payable for today
         $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 0]), 1, now()); // Create 1 non payable for today
@@ -321,5 +324,16 @@ class TimyTimerTests extends TestCase
             'started_at' => $date->copy()->endOfMonth(),
             'finished_at' => $date->copy()->endOfMonth()->addHours(8)
         ]);
+    }
+
+    /** @test */
+    public function it_checks_if_user_is_authenticated()
+    {
+        $this->get('timy/ping')
+            ->assertRedirect(route('login'));
+
+        $this->actingAs($this->user);
+        $this->get('timy/ping')
+            ->assertOk();
     }
 }

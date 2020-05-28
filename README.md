@@ -19,6 +19,7 @@ Add time tracker functionality to Laravel and Vue apps.
         ]
     ```
 - Next you may want to publish the config file: `php artisan vendor:publish --tag=timy-config` to change default configuration. Pay attention to the option of creating default dispositions. 
+- Next provide the super user email in the `config/timy.php` file for key `super_admin => email`. It is recomended to set `TIMY_SUPER_USER_EMAIL` variable in you .env with the super user email for security. 
 - Next you may want to run migrations with command `php artisan migrate`. 
 - Add the `use Dainsys\Timy\Timeable` trait to your `User` model. 
 
@@ -49,7 +50,16 @@ If you are using the vue components shipped with the package:
 #TODO
 [x] Routes should not be API  
 [x] It should include DB Seeders with the initial dispositions.  
-[] Add roles table for admin  
+[] Add roles module
+    [] Super admin should:
+        [] Assign roles
+        [] Modify timers
+    [] Admin
+        [] See admin dashboard
+        [] Update timers dispositions
+        [] Logout users out
+    [] User
+        [] See own dashboard
 [] Add admin module  
 [] Improve documentation for installation  
 [x] Improve documentation for ussage  

@@ -15,4 +15,7 @@ Route::middleware($middlewres)
         Route::apiResource('dispositions', '\Dainsys\Timy\Controllers\DispositionController')->names('timy_dispositions');
         Route::apiResource('timers', '\Dainsys\Timy\Controllers\TimerController')->names('timy_timers');
         Route::get('ping', '\Dainsys\Timy\Controllers\TimerController@ping');
+
+        Route::get('super_admin', '\Dainsys\Timy\Controllers\SuperAdminController@index')->name('timy_super_admin');
+        Route::post('assign/{user}/{role}', '\Dainsys\Timy\Controllers\SuperAdminController@assign')->name('timy_assign_user_role');
     });

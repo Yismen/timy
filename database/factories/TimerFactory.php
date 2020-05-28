@@ -1,7 +1,7 @@
 <?php
 
-use Dainsys\Timy\Models\Disposition;
-use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\App\Disposition;
+use Dainsys\Timy\App\Timer;
 use Faker\Generator as Faker;
 
 $factory->define(Timer::class, function (Faker $faker) {

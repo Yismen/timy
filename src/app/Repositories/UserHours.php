@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Repositories;
+namespace Dainsys\Timy\App\Repositories;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;

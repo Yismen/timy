@@ -2,9 +2,18 @@
 
 return [
     /**
-     * Here you can specify a list of middleware to apply to all routes. use "," or "|" to separate the list.
+     * Here you can specify a list of middleware to apply to 
+     * all routes. use "," or "|" to separate the list.
      */
     'midlewares' => 'web|auth',
+    /**
+     * The email of the user who can access the super admin 
+     * pannel, in which roles are not in places.
+     */
+    'super_admin' => [
+        'email' => env('TIMY_SUPER_USER_EMAIL', null),
+        'role' => 'timy_super_admin',
+    ],
     /**
      * Seeder
      */
@@ -25,7 +34,7 @@ return [
     'models' => [
         /**
          * User model. Replace this model by your eloquen User model 'App\Model' and add
-         * use the Dainsys\Timy\Models\Timeable trait.
+         * use the Dainsys\Timy\App\Timeable trait.
          */
         'user' => App\User::class,
     ]
