@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-$middlewres = preg_split("/[,|]+/", config('timy.midlewares'));
+$middlewres = preg_split("/[,|]+/", config('timy.midlewares.api'));
 
 Route::middleware($middlewres)
     ->prefix('timy')

@@ -5,7 +5,10 @@ return [
          * Here you can specify a list of middleware to apply to 
          * all routes. use "," or "|" to separate the list.
          */
-    'midlewares' => 'web|auth',
+    'midlewares' => [
+        'api' => 'web|auth',
+        'web' => 'web|auth',
+    ],
     /**
      * The email of the user who can access the super admin 
      * pannel, in which roles are not in places.
