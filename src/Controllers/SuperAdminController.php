@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Controllers;
 
-use Dainsys\Timy\App\Role;
+use Dainsys\Timy\Role;
 use Illuminate\Support\Facades\Gate;
 
 class SuperAdminController extends BaseController

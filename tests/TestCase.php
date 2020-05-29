@@ -42,7 +42,7 @@ class TestCase extends OrchestraTestCase
     /**
      * Load the command service provider.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param \Illuminate\Foundationlication $app
      * @return array
      */
     protected function getPackageProviders($app): array

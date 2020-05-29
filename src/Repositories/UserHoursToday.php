@@ -1,8 +1,8 @@
 <?php
 
-namespace Dainsys\Timy\App\Repositories;
+namespace Dainsys\Timy\Repositories;
 
-use Dainsys\Timy\App\Timer;
+use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\DB;
 
 class UserHoursToday extends UserHours

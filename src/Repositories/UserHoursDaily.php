@@ -1,12 +1,12 @@
 <?php
 
-namespace Dainsys\Timy\App\Repositories;
+namespace Dainsys\Timy\Repositories;
 
 use Carbon\Carbon;
-use Dainsys\Timy\App\Timer;
+use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\DB;
 
-class UserHoursByPayroll extends UserHours
+class UserHoursDaily extends UserHours
 {
     public static function get(int $many = 0)
     {

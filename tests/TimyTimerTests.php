@@ -3,8 +3,8 @@
 namespace Dainsys\Timy\Tests;
 
 use Carbon\Carbon;
-use Dainsys\Timy\App\Disposition;
-use Dainsys\Timy\App\Timer;
+use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Timer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimyTimerTests extends TestCase

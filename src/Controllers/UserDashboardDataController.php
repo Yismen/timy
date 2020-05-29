@@ -2,9 +2,9 @@
 
 namespace Dainsys\Timy\Controllers;
 
-use Dainsys\Timy\App\Resources\TimerResource;
-use Dainsys\Timy\App\Timer;
-use Dainsys\Timy\App\Repositories\UserDataRepository;
+use Dainsys\Timy\Resources\TimerResource;
+use Dainsys\Timy\Timer;
+use Dainsys\Timy\Repositories\UserDataRepository;
 
 class UserDashboardDataController extends BaseController
 {

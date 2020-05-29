@@ -1,7 +1,7 @@
 <?php
 
-use Dainsys\Timy\App\Disposition;
-use Dainsys\Timy\App\Role;
+use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Role;
 use Faker\Generator as Faker;
 
 $factory->define(Role::class, function (Faker $faker) {

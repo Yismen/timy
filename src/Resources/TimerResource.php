@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\App\Resources;
+namespace Dainsys\Timy\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;

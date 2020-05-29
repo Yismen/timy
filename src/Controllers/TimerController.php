@@ -2,8 +2,8 @@
 
 namespace Dainsys\Timy\Controllers;
 
-use Dainsys\Timy\App\Resources\TimerResource;
-use Dainsys\Timy\App\Timer;
+use Dainsys\Timy\Resources\TimerResource;
+use Dainsys\Timy\Timer;
 
 class TimerController extends BaseController
 {

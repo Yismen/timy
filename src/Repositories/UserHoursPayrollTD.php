@@ -1,12 +1,12 @@
 <?php
 
-namespace Dainsys\Timy\App\Repositories;
+namespace Dainsys\Timy\Repositories;
 
 use Carbon\Carbon;
-use Dainsys\Timy\App\Timer;
+use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\DB;
 
-class UserHoursLastPayroll extends UserHours
+class UserHoursPayrollTD extends UserHours
 {
     public static function get(int $many = 0)
     {
@@ -21,8 +21,7 @@ class UserHoursLastPayroll extends UserHours
 
     protected static function getResults()
     {
-        $date = now()->subDays(15);
-
+        $date = now();
         $starting_date = $date->day <= 15 ? $date->copy()->startOfMonth() : Carbon::create($date->year, $date->month, 16);
         $ending_date = $date->day > 15 ? $date->copy()->endOfMonth() : Carbon::create($date->year, $date->month, 15);
 

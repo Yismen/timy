@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Tests;
 
-use Dainsys\Timy\App\Disposition;
+use Dainsys\Timy\Disposition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimyDispositionTests extends TestCase

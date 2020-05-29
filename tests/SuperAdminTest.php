@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Tests;
 
-use Dainsys\Timy\App\Role;
+use Dainsys\Timy\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SuperAdminTest extends TestCase

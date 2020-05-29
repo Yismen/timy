@@ -3,7 +3,7 @@
     "description": "Time tracker module based on Laravel",
     "type": "library",
     "require": {
-        "php" : ">=7.0",
+        "php": ">=7.0",
         "laravel/framework": "^7.0"
     },
     "license": "MIT",
@@ -16,11 +16,10 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Dainsys\\Timy\\": "src/",
-            "Dainsys\\Timy\\App\\": "src/app/"
+            "Dainsys\\Timy\\": "src/"
         }
     },
-    "autoload-dev":  {
+    "autoload-dev": {
         "psr-4": {
             "Dainsys\\Timy\\Tests\\": "tests/"
         }

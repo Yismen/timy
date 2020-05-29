@@ -1,14 +1,14 @@
 <?php
 
-namespace Dainsys\Timy\App;
+namespace Dainsys\Timy;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Disposition extends Model
+class Role extends Model
 {
-    protected $table = 'timy_dispositions';
+    protected $table = 'timy_roles';
 
-    protected $fillable = ['name', 'payable', 'invoiceable'];
+    protected $fillable = ['name'];
     /**
      * Name Accesor
      *
@@ -19,6 +19,7 @@ class Disposition extends Model
     {
         return ucwords(trim($name));
     }
+
     /**
      * Name Mutator
      *
@@ -34,8 +35,8 @@ class Disposition extends Model
      *
      * @return Relationship
      */
-    public function timers()
+    public function users()
     {
-        return $this->hasMany(Timer::class);
+        return $this->hasMany(config('timy.models.user'), 'timy_role_id');
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Dainsys\Timy;
 
-use Dainsys\Timy\App\Role;
-use Dainsys\Timy\App\Timer;
+use Dainsys\Timy\Role;
+use Dainsys\Timy\Timer;
 
 trait Timeable
 {
