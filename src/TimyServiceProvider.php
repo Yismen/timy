@@ -20,7 +20,7 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/../components' => base_path('resources/js/components'),
         ], 'timy-components');
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
 
