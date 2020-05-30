@@ -9,9 +9,9 @@ class SuperAdminController extends BaseController
 {
     public function index()
     {
-        if (Gate::denies(config('timy.super_admin.role'))) {
-            abort(403);
-        }
+        // if (Gate::denies(config('timy.super_admin.role'))) {
+        //     abort(403);
+        // }
 
         return response()->json([
             'data' => [

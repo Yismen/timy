@@ -18,6 +18,15 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/../components' => base_path('resources/js/components'),
         ], 'timy-components');
 
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/dainsys/timy')
+        ], 'timy-views');
+
+        $this->publishes([
+            __DIR__ . '/../public/vendor/timy' => public_path('vendor/dainsys/timy'),
+        ], 'timy-public');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
@@ -25,6 +34,8 @@ class TimyServiceProvider extends ServiceProvider
         $this->app->bind('TimyUser', config('timy.models.user'));
 
         SecureGates::boot();
+
+        require_once(__DIR__ . '/../helpers/helpers.php');
     }
 
     public function register()
