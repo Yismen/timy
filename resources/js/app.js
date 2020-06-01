@@ -19,7 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('timy-dropdown', require('./components/Timy/DispositionDropdownList.vue').default);
+Vue.component('timy-timers-control', require('./components/Timy/TimersControl.vue').default);
 Vue.component('timy-user-dashbord', require('./components/Timy/UserDashboard.vue').default);
 Vue.component('timy-super-admin-dashbord', require('./components/Timy/SuperAdminDashboard.vue').default);
 

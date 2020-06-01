@@ -2,6 +2,12 @@
 
 return [
     /**
+     * Indicate if the web routes will be activated. Set it to false 
+     * if you are planning to use your own routes and compile the 
+     * components withing your front end.
+     */
+    'with_web_routes' => true,
+    /**
          * Here you can specify a list of middleware to apply to 
          * all routes. use "," or "|" to separate the list.
          */
@@ -18,6 +24,16 @@ return [
         'role' => 'timy_super_admin',
     ],
     /**
+     * Timy models
+     */
+    'models' => [
+        /**
+         * User model. Replace this model by your eloquen User model 'App\Model' and add
+         * use the Dainsys\Timy\Timeable trait.
+         */
+        'user' => App\User::class,
+    ],
+    /**
      * Seeder
      */
     'initial_dispositions' => [
@@ -30,15 +46,5 @@ return [
         ['name' => 'Backoffice', 'payable' => 1, 'invoiceable' => 1],
         ['name' => 'Break', 'payable' => 1, 'invoiceable' => 0],
         ['name' => 'Lunch', 'payable' => 0, 'invoiceable' => 0],
-    ],
-    /**
-     * Timy models
-     */
-    'models' => [
-        /**
-         * User model. Replace this model by your eloquen User model 'App\Model' and add
-         * use the Dainsys\Timy\Timeable trait.
-         */
-        'user' => App\User::class,
     ]
 ];
