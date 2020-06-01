@@ -18,4 +18,5 @@ Route::middleware($apiMiddlewares)
 
         Route::get('super_admin', '\Dainsys\Timy\Controllers\Api\SuperAdminController@index')->name('timy_super_admin');
         Route::post('assign/{user}/{role}', '\Dainsys\Timy\Controllers\Api\SuperAdminController@assign')->name('timy_assign_user_role');
+        Route::delete('unassign/{user}', '\Dainsys\Timy\Controllers\Api\SuperAdminController@unAssign')->name('timy_unassign_user_role');
     });

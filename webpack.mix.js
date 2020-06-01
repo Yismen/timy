@@ -12,4 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/vendor/timy/js')
-    .sass('resources/sass/app.scss', 'public/vendor/timy/css');
+    .sass('resources/sass/app.scss', 'public/vendor/timy/css')
+    .copy('public/vendor/timy/js/app.js', '../../public/vendor/dainsys/timy/js')
+    .copy('public/vendor/timy/css/app.css', '../../public/vendor/dainsys/timy/css');

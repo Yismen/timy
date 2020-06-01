@@ -83,6 +83,34 @@ class SuperAdminTest extends TestCase
             ]);
     }
 
+    /** @test */
+    public function unauthorized_users_should_be_able_to_unassign_users()
+    {
+        $user = factory(config('timy.models.user'))->create();
+        $role = factory(Role::class)->create();
+
+        $this->actingAs($user)
+            ->delete(route('timy_unassign_user_role', $user->id))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function a_user_can_be_unassigned()
+    {
+        $user = factory(config('timy.models.user'))->create();
+        $role = factory(Role::class)->create();
+
+        $this->actingAs($this->superAdmin())
+            ->delete(route('timy_unassign_user_role', $user->id))
+            ->assertJson([
+                'data' => [
+                    'name' => $user->name,
+                    'timy_role_id' => null,
+                    'timy_role' => null
+                ]
+            ]);
+    }
+
     protected function superAdmin()
     {
         return factory(config('timy.models.user'))->create(['email' => config('timy.super_admin.email')]);

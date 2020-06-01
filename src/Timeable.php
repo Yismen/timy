@@ -33,6 +33,12 @@ trait Timeable
         $this->save();
     }
 
+    public function removeTimyRole()
+    {
+        $this->timy_role_id = null;
+        $this->save();
+    }
+
     public function startTimer($disposition_id)
     {
         $this->timers()->create([

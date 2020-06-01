@@ -9,9 +9,9 @@ class SuperAdminController extends BaseController
 {
     public function index()
     {
-        // if (Gate::denies(config('timy.super_admin.role'))) {
-        //     abort(403);
-        // }
+        if (Gate::denies(config('timy.super_admin.role'))) {
+            abort(403);
+        }
 
         return response()->json([
             'data' => [
@@ -30,6 +30,21 @@ class SuperAdminController extends BaseController
         $user = resolve('TimyUser')->findOrFail($user);
 
         $user->assigTimyRole($role);
+
+        return response()->json([
+            'data' => $user->load('timy_role')
+        ]);
+    }
+
+    public function unAssign($user) 
+    {
+        if (Gate::denies(config('timy.super_admin.role'))) {
+            return abort(403);
+        }
+
+        $user = resolve('TimyUser')->findOrFail($user);
+
+        $user->removeTimyRole();
 
         return response()->json([
             'data' => $user->load('timy_role')

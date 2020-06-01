@@ -3,7 +3,45 @@
         <div class="loading" v-if="loading">Loading...</div>
 
         <div class="" v-else>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, adipisci id. Temporibus, provident laudantium voluptate nostrum quae, aspernatur id maxime omnis perferendis rem deleniti eveniet, molestias iusto nulla atque soluta.
+            <div class="card mb-2">
+             <div class="card-body p-0">               
+                <h4 class="card-title m-0 p-3 border-bottom">
+                    Unassigned Users:
+                    <span class="badge badge-pill" :class="[unassigned.length > 0 ? 'bg-primary  text-white' : 'bg-light text-muted']">
+                        {{ unassigned.length }}
+                    </span>
+                </h4>   
+                <div class="card-text p-3 bg-light ">
+                   <draggable :sort="false" v-model="unassigned" class="draggable" @remove="dataDropped"  group="users" id="unassigned">
+                        <div v-for="user in unassigned" :key="user.id"  :id="user.id">
+                            {{ user.name }}
+                        </div>
+                    </draggable>
+               </div>
+             </div>
+           </div>
+
+            <div class="row">
+                <div class="col-sm-6" v-for="role in roles" :key="role.id">
+                    <div class="card mb-2">
+                        <div class="card-body p-0">
+                            <h4 class="card-title m-0 p-3 border-bottom">
+                                {{ role.name }}: 
+                                <span class="badge badge-pill" :class="[role.users.length > 0 ? 'bg-primary  text-white' : 'bg-light text-muted']">
+                                    {{ role.users.length }}
+                                </span>
+                            </h4>
+                            <div class="card-text p-3 bg-light">
+                                <draggable :sort="false" v-model="role.users" class="draggable"  @remove="dataDropped" group="users" :id="role.id">
+                                    <div v-for="user in role.users" :key="user.id" :id="user.id">
+                                        {{ user.name }}
+                                    </div>
+                                </draggable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
         </div>
         <!-- Dashboard -->
     </div>
@@ -11,6 +49,7 @@
 
 <script>
 import {TIMY_DROPDOWN_CONFIG} from './config'
+import draggable from 'vuedraggable'
 
 export default {
     data() {
@@ -29,12 +68,42 @@ export default {
         setTimeout(() => {
             axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/super_admin`)
                 .then(({data}) => {
-                    this.roles = data.roles
-                    this.unassigned = data.unassigned
+                    console.log(data)
+                    this.roles = data.data.roles
+                    this.unassigned = data.data.unassigned
                 })
                 .finally(() => this.loading = false)
         }, 2000)
     },
+
+    methods: {
+        dataDropped(item) {
+            let userId = item.item.attributes.id.value
+            let roleId = item.to.attributes.id.value
+
+            if (roleId == 'unassigned') {
+                this.deleteAsignation(userId)
+            }
+
+            if (userId > 0 && roleId > 0) {
+                this.completeAssignation(userId, roleId)
+            }
+        },
+
+        completeAssignation(userId, roleId) {
+            axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/assign/${userId}/${roleId}`)
+                .then(({data}) => {})
+        },
+
+        deleteAsignation(userId) {
+            axios.delete(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/unassign/${userId}`)
+                .then(({data}) => {})
+        }
+    },
+
+    components: {
+        draggable
+    }
 }
 </script>
 
@@ -45,5 +114,8 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .draggable {
+        cursor: move;
     }
 </style>
