@@ -26,8 +26,8 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/../public/vendor/timy' => public_path('vendor/dainsys/timy'),
         ], 'timy-public');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
 

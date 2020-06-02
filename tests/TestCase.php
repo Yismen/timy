@@ -22,13 +22,15 @@ class TestCase extends OrchestraTestCase
     public function setUp(): void
     {
         parent::setUp();
+
         $this->withFactories(database_path('/factories'));
         $this->loadLaravelMigrations();
         $this->artisan('migrate');
-
+        
         $this->user = factory(config('timy.models.user'))->create();
-
+        
         Route::get('/login')->name('login');
+        Route::post('/logout')->name('logout');
     }
 
     /**

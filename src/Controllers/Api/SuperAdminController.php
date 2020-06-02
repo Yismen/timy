@@ -29,7 +29,7 @@ class SuperAdminController extends BaseController
 
         $user = resolve('TimyUser')->findOrFail($user);
 
-        $user->assigTimyRole($role);
+        $user->assignTimyRole($role);
 
         return response()->json([
             'data' => $user->load('timy_role')

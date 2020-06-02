@@ -19,9 +19,10 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('timy-timers-control', require('./components/Timy/TimersControl.vue').default);
-Vue.component('timy-user-dashbord', require('./components/Timy/UserDashboard.vue').default);
-Vue.component('timy-super-admin-dashbord', require('./components/Timy/SuperAdminDashboard.vue').default);
+Vue.component('timy-timers-control', require('./components/Timy/ControlTimers.vue').default);
+Vue.component('timy-user-dashbord', require('./components/Timy/DashboardUser.vue').default);
+Vue.component('timy-admin-dashbord', require('./components/Timy/DashboardAdmin.vue').default);
+Vue.component('timy-super-admin-dashbord', require('./components/Timy/DashboardSuperAdmin.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

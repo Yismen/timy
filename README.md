@@ -33,9 +33,12 @@ Add time tracker functionality to Laravel and Vue apps.
 ### If you are using the vue components shipped with the package:
 - Make sure config key `with_web_routes` is set to `TRUE`.
 - Publish the components by running the command `php artisan vendor:publish --tag=timy-components`  
-- Register your components previous to creating the vue instance:  
-`Vue.component('timy-timers-control', require('./components/Timy/TimersControl.vue').default);`     
-`Vue.component('timy-user-dashbord', require('./components/Timy/UserDashboard.vue').default);`  
+- Register your components previous to creating the vue instance:    
+
+`Vue.component('timy-timers-control', require('./components/Timy/ControlTimers.vue').default);`  
+`Vue.component('timy-user-dashbord', require('./components/Timy/DashboardUser.vue').default);`  
+`Vue.component('timy-admin-dashbord', require('./components/Timy/DashboardAdmin.vue').default);`  
+`Vue.component('timy-super-admin-dashbord', require('./components/Timy/DashboardSuperAdmin.vue').default);`  
 - Next install the following dependencies:
     - `npm install vue@^2.* axios@0.* vuedraggable@2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* --save-dev && npm run production`.   
 - Drop the `<TimyTimersControl />` in your nav-bar or any other blade partial that only shows under auth and is visible when user refresh the page.  
@@ -55,21 +58,9 @@ Add time tracker functionality to Laravel and Vue apps.
 - If a user change the Dispositions dropdown (Vue component) a new timer is created, closing all previous.
 - When migrations run, some Disposition records are created by default. you can change this option in the config file.
 
-#TODO
-[x] Routes should not be API  
-[x] It should include DB Seeders with the initial dispositions.  
-[x] Add roles module
-    [x] Super admin should:
-        [x] Assign roles
+#TODO 
+[] Add roles module
     [] Admin
-        [] See admin dashboard
-        [] Update timers dispositions
-        [] Logout users out
-    [x] User
-        [x] See own dashboard
-[] Add admin module  
-[x] Improve documentation for installation  
-[x] Improve documentation for ussage  
-[] Isolate CSS classes  
-[x] Public it's own css and javascript so the user is not forced to install all npm dependencies  
-[x] A user may need to have timy_user role to use the package.  
+        [] See users profiles
+        [] Run reports
+[] Isolate CSS classes   

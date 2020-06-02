@@ -16,7 +16,6 @@ class Timer extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new MineScope());
 
         static::creating(function ($model) {
             $model->mine()->running()->each(function ($timer) {

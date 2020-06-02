@@ -71,6 +71,9 @@ export default {
             this.hours_today.hours = Number(this.hours_today_initial.hours) + Number(hours)
             this.hours_payrolltd.hours = this.hours_payrolltd_initial.hours + hours
         }) // updateOpenTimers method
+        eventBus.$on('timer-closed', async (timer) => {
+            console.log(timer);            
+        }) // updateOpenTimers method
         /**
          * Set up a timeout to give the Dropdown component the time to render and create a new timer. 
          * Trying to ensure the last timer is also fetched by the UserTimesTable component. 

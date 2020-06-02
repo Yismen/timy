@@ -4,6 +4,7 @@ namespace Dainsys\Timy\Controllers\Api;
 
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
+use Illuminate\Support\Facades\Gate;
 
 class TimerController extends BaseController
 {
@@ -44,7 +45,17 @@ class TimerController extends BaseController
 
         TimerResource::withoutWrapping();
 
-        return response()->json(['data' => new TimerResource($timer)]);
+        return response()->json(['data' => TimerResource::make($timer)]);
+    }
+
+    public function destroy(Timer $timer)
+    {
+        $timer->stop();
+
+        TimerResource::withoutWrapping();
+
+        return response()->json(['data' => TimerResource::make($timer)]);
+        
     }
 
     protected function closeAll()

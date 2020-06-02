@@ -2,7 +2,6 @@
 
 namespace Dainsys\Timy\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TimerResource extends JsonResource

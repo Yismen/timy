@@ -19,7 +19,7 @@ trait Timeable
 
     public function hasTimyRole($role)
     {
-        return optional($this->timy_role)->name == $role;
+        return strtolower($role) == strtolower(optional($this->timy_role)->name);
     }
 
     public function isTimySuperAdmin()
@@ -27,7 +27,7 @@ trait Timeable
         return $this->timy_role && $this->timy_role->name == config('timy.roles.super_admin');
     }
 
-    public function assigTimyRole(Role $role)
+    public function assignTimyRole(Role $role)
     {
         $this->timy_role_id = $role->id;
         $this->save();
@@ -39,12 +39,14 @@ trait Timeable
         $this->save();
     }
 
-    public function startTimer($disposition_id)
+    public function startTimer(int $disposition_id)
     {
-        $this->timers()->create([
+        $timer = $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
             'started_at' => now(),
         ]);
+        
+        return $timer;
     }
 }

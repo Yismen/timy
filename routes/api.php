@@ -14,9 +14,12 @@ Route::middleware($apiMiddlewares)
 
         Route::apiResource('dispositions', '\Dainsys\Timy\Controllers\Api\DispositionController')->names('timy_dispositions');
         Route::apiResource('timers', '\Dainsys\Timy\Controllers\Api\TimerController')->names('timy_timers');
-        Route::get('ping', '\Dainsys\Timy\Controllers\Api\TimerController@ping');
+        Route::get('ping', '\Dainsys\Timy\Controllers\Api\TimerController@ping')->name('timy_ping');
 
         Route::get('super_admin', '\Dainsys\Timy\Controllers\Api\SuperAdminController@index')->name('timy_super_admin');
         Route::post('assign/{user}/{role}', '\Dainsys\Timy\Controllers\Api\SuperAdminController@assign')->name('timy_assign_user_role');
         Route::delete('unassign/{user}', '\Dainsys\Timy\Controllers\Api\SuperAdminController@unAssign')->name('timy_unassign_user_role');
+
+        Route::get('admin', '\Dainsys\Timy\Controllers\Api\AdminController@index')->name('timy_admin');
+        Route::post('admin/create_timer_forced/{user}/{disposition}', '\Dainsys\Timy\Controllers\Api\AdminController@store')->name('timy_admin.create_timer_forced');
     });

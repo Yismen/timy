@@ -158,6 +158,21 @@ class TimyTimerTests extends TestCase
     }
 
     /** @test */
+    public function it_closes_a_single_timer()
+    {
+        $this->actingAs($this->user);
+        $timer = factory(Timer::class)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+
+        $this->delete(route('timy_timers.destroy', $timer->id))
+            ->assertJson([
+                'data' => [
+                    'id' => $timer->id
+                ]
+            ]);
+        $this->assertCount(0, Timer::running()->get());
+    }
+
+    /** @test */
     public function it_retunrs_last_running_timer()
     {
         $this->actingAs($this->user);
@@ -329,11 +344,11 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_checks_if_user_is_authenticated()
     {
-        $this->get('timy/ping')
+        $this->get(route('timy_ping'))
             ->assertRedirect(route('login'));
 
         $this->actingAs($this->user);
-        $this->get('timy/ping')
+        $this->get(route('timy_ping'))
             ->assertOk();
     }
 }

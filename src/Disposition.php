@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Disposition extends Model
@@ -37,5 +38,10 @@ class Disposition extends Model
     public function timers()
     {
         return $this->hasMany(Timer::class);
+    }
+
+    public function getOpenTimersAttribute()
+    {
+        return $this->timers()->running();
     }
 }

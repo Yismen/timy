@@ -68,7 +68,6 @@ export default {
         setTimeout(() => {
             axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/super_admin`)
                 .then(({data}) => {
-                    console.log(data)
                     this.roles = data.data.roles
                     this.unassigned = data.data.unassigned
                 })
