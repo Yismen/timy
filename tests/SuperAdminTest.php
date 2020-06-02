@@ -11,15 +11,6 @@ class SuperAdminTest extends TestCase
 
     public $user;
 
-    /**
-     * Executed before each test.
-     */
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /** @test */
     public function guest_are_unauthorized()
     {
@@ -113,6 +104,6 @@ class SuperAdminTest extends TestCase
 
     protected function superAdmin()
     {
-        return factory(config('timy.models.user'))->create(['email' => config('timy.super_admin.email')]);
+        return factory(config('timy.models.user'))->create(['email' => config('timy.super_admin_email')]);
     }
 }

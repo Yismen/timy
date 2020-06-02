@@ -2,8 +2,8 @@
 
 return [
     /**
-     * Indicate if the web routes will be activated. Set it to false 
-     * if you are planning to use your own routes and compile the 
+         * Indicate if the web routes will be activated. Set it to false 
+         * if you are planning to use your own routes and compile the 
      * components withing your front end.
      */
     'with_web_routes' => true,
@@ -12,17 +12,22 @@ return [
          * all routes. use "," or "|" to separate the list.
          */
     'midlewares' => [
-        'api' => 'web|auth',
+        'api' => 'web|auth', // 'api'
         'web' => 'web|auth',
+    ],
+    /**
+     * List of expected roles
+     */
+    'roles' => [
+        'super_admin' => 'timy-super-admin',
+        'admin' => 'timy-admin',
+        'user' => 'timy-user',
     ],
     /**
      * The email of the user who can access the super admin 
      * pannel, in which roles are not in places.
      */
-    'super_admin' => [
-        'email' => env('TIMY_SUPER_USER_EMAIL', null),
-        'role' => 'timy_super_admin',
-    ],
+    'super_admin_email' => env('TIMY_SUPER_USER_EMAIL', null),
     /**
      * Timy models
      */

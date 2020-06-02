@@ -12,9 +12,9 @@ class DashboardController extends BaseController
     }
     public function superAdmin()
     {
-        // if (Gate::denies(config('timy.super_admin.role'))) {
-        //     abort(403, 'Unauthorized');
-        // }
+        if (Gate::denies(config('timy.roles.super_admin'))) {
+            abort(403, 'Unauthorized');
+        }
 
         return view('timy::super-admin-dashboard');
     }

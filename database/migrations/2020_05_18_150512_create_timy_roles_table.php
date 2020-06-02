@@ -32,8 +32,8 @@ class CreateTimyRolesTable extends Migration
         }
 
         Role::insert([
-            ['name' => 'Admin'],
-            ['name' => 'User'],
+            ['name' => config('timy.roles.admin')],
+            ['name' => config('timy.roles.user')],
         ]);
     }
 

@@ -71,5 +71,5 @@ Add time tracker functionality to Laravel and Vue apps.
 [x] Improve documentation for installation  
 [x] Improve documentation for ussage  
 [] Isolate CSS classes  
-[] Public it's own css and javascript so the user is not forced to install all npm dependencies  
-[] A user may need to have timy_user role to use the package.  
+[x] Public it's own css and javascript so the user is not forced to install all npm dependencies  
+[x] A user may need to have timy_user role to use the package.  

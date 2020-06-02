@@ -9,7 +9,7 @@ class SuperAdminController extends BaseController
 {
     public function index()
     {
-        if (Gate::denies(config('timy.super_admin.role'))) {
+        if (Gate::denies(config('timy.roles.super_admin'))) {
             abort(403);
         }
 
@@ -23,7 +23,7 @@ class SuperAdminController extends BaseController
 
     public function assign($user, Role $role)
     {
-        if (Gate::denies(config('timy.super_admin.role'))) {
+        if (Gate::denies(config('timy.roles.super_admin'))) {
             return abort(403);
         }
 
@@ -36,9 +36,9 @@ class SuperAdminController extends BaseController
         ]);
     }
 
-    public function unAssign($user) 
+    public function unAssign($user)
     {
-        if (Gate::denies(config('timy.super_admin.role'))) {
+        if (Gate::denies(config('timy.roles.super_admin'))) {
             return abort(403);
         }
 

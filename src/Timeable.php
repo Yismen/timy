@@ -19,12 +19,12 @@ trait Timeable
 
     public function hasTimyRole($role)
     {
-        return $this->timy_role->name == $role;
+        return optional($this->timy_role)->name == $role;
     }
 
     public function isTimySuperAdmin()
     {
-        return $this->timy_role && $this->timy_role->name == config('timy.super_admin.role');
+        return $this->timy_role && $this->timy_role->name == config('timy.roles.super_admin');
     }
 
     public function assigTimyRole(Role $role)
