@@ -3,19 +3,13 @@
 namespace Dainsys\Timy\Tests;
 
 use Dainsys\Timy\TimyServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Illuminate\Support\Facades\Route;
+use Laravel\Ui\UiServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
-    /**
-     * The log directory path.
-     *
-     * @var string
-     */
-
-    public $user;
-
     /**
      * Executed before each test.
      */
@@ -26,11 +20,8 @@ class TestCase extends OrchestraTestCase
         $this->withFactories(database_path('/factories'));
         $this->loadLaravelMigrations();
         $this->artisan('migrate');
-        
-        $this->user = factory(config('timy.models.user'))->create();
-        
-        Route::get('/login')->name('login');
-        Route::post('/logout')->name('logout');
+
+        Auth::routes();
     }
 
     /**
@@ -49,6 +40,14 @@ class TestCase extends OrchestraTestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [TimyServiceProvider::class];
+        return [
+            UiServiceProvider::class,
+            TimyServiceProvider::class
+        ];
+    }
+
+    protected function user($attributes = [])
+    {
+        return factory(config('timy.models.user'))->create($attributes);
     }
 }

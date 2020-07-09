@@ -12,7 +12,7 @@
     "devDependencies": {
         "axios": "^0.19",
         "chart.js": "^2.9.3",
-        "cross-env": "^7.0",
+        "cross-env": "^7.0.2",
         "js-cookie": "^2.2.1",
         "laravel-mix": "^5.0.1",
         "moment": "^2.26.0",
@@ -23,5 +23,9 @@
         "vue-chartjs": "^3.5.0",
         "vue-template-compiler": "^2.6.10",
         "vuedraggable": "^2.23.2"
+    },
+    "dependencies": {
+        "laravel-echo": "^1.8.0",
+        "pusher-js": "^6.0.3"
     }
 }

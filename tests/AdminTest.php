@@ -33,16 +33,16 @@ class SuperAdminTest extends TestCase
     public function admin_users_can_see_dashboard()
     {
         $this->withoutExceptionHandling();
-        $this->actingAs($this->user);
+        $this->actingAs($this->user());
         $timers = TimerResource::collection(factory(Timer::class, 5)->create());
-        
+
         $this->actingAs($this->adminUser())
             ->get(route('timy_admin'))
             ->assertOk()
             ->assertJson([
                 'data' => [
                     'dispositions' => Disposition::all()->toArray(),
-                    'running_timers' => [], 
+                    'running_timers' => [],
                 ]
             ]);
     }
@@ -69,7 +69,7 @@ class SuperAdminTest extends TestCase
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'user_id' => $user->id, 
+                    'user_id' => $user->id,
                     'disposition_id' => $disposition->id
                 ]
             ]);

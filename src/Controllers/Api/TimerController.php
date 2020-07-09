@@ -2,6 +2,9 @@
 
 namespace Dainsys\Timy\Controllers\Api;
 
+use Dainsys\Timy\Events\TimerCreated;
+use Dainsys\Timy\Events\TimerCreatedAdmin;
+use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\Gate;
@@ -30,6 +33,9 @@ class TimerController extends BaseController
             array_merge(request()->all(), ['started_at' => now()])
         );
 
+        event(new TimerCreated(auth()->user(), $timer));
+        event(new TimerCreatedAdmin(auth()->user(), $timer));
+
         TimerResource::withoutWrapping();
 
         return response()->json(['data' => new TimerResource($timer)]);
@@ -43,6 +49,9 @@ class TimerController extends BaseController
 
         $timer->update(request()->all());
 
+        event(new TimerCreated(auth()->user(), $timer));
+        event(new TimerCreatedAdmin(auth()->user(), $timer));
+
         TimerResource::withoutWrapping();
 
         return response()->json(['data' => TimerResource::make($timer)]);
@@ -52,10 +61,11 @@ class TimerController extends BaseController
     {
         $timer->stop();
 
+        event(new TimerStopped(auth()->user(), $timer));
+
         TimerResource::withoutWrapping();
 
         return response()->json(['data' => TimerResource::make($timer)]);
-        
     }
 
     protected function closeAll()

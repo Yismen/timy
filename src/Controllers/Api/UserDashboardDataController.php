@@ -11,7 +11,8 @@ class UserDashboardDataController extends BaseController
     public function index(UserDataRepository $repo)
     {
         return response()->json([
-            'data' => $repo->toArray()
+            'data' => $repo->toArray(),
+            'user' => auth()->user()
         ]);
     }
 }

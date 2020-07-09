@@ -20,7 +20,7 @@ class TimyDispositionTests extends TestCase
         factory(Disposition::class, 10)->create();
         $initial = config('timy.initial_dispositions');
 
-        $this->actingAs($this->user)->get(route('timy_dispositions.index'))
+        $this->actingAs($this->user())->get(route('timy_dispositions.index'))
             ->assertOk()
             ->assertJson([
                 'data' => []
@@ -33,7 +33,7 @@ class TimyDispositionTests extends TestCase
     {
         $disposition = factory(Disposition::class)->create();
 
-        $this->actingAs($this->user)->get(route('timy_dispositions.show', $disposition->id))
+        $this->actingAs($this->user())->get(route('timy_dispositions.show', $disposition->id))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -49,7 +49,7 @@ class TimyDispositionTests extends TestCase
     {
         $disposition = factory(Disposition::class)->make()->toArray();
 
-        $this->actingAs($this->user)->post(route('timy_dispositions.store'), $disposition)
+        $this->actingAs($this->user())->post(route('timy_dispositions.store'), $disposition)
             ->assertOk()
             ->assertJson([
                 'data' => $disposition
@@ -63,7 +63,7 @@ class TimyDispositionTests extends TestCase
     {
         $disposition = factory(Disposition::class)->create();
 
-        $this->actingAs($this->user)->put(route('timy_dispositions.update', $disposition->id), [
+        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition->id), [
             'name' => 'Updated Name'
         ])
             ->assertOk()
@@ -83,7 +83,7 @@ class TimyDispositionTests extends TestCase
     /** @test */
     public function name_is_required_to_create_a_disposition()
     {
-        $this->actingAs($this->user)->post(route('timy_dispositions.store'), ['name' => null])
+        $this->actingAs($this->user())->post(route('timy_dispositions.store'), ['name' => null])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -92,7 +92,7 @@ class TimyDispositionTests extends TestCase
     {
         $disposition = factory(Disposition::class)->create();
 
-        $this->actingAs($this->user)->put(route('timy_dispositions.update', $disposition->id), ['name' => null])
+        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition->id), ['name' => null])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -101,7 +101,7 @@ class TimyDispositionTests extends TestCase
     {
         factory(Disposition::class)->create(['name' => 'same name']);
 
-        $this->actingAs($this->user)->post(route('timy_dispositions.store'), ['name' => 'same name'])
+        $this->actingAs($this->user())->post(route('timy_dispositions.store'), ['name' => 'same name'])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -112,10 +112,10 @@ class TimyDispositionTests extends TestCase
         $disposition2 = factory(Disposition::class)->create();
 
         // Try to update disposition 2 using same name as disposition 1 should fail validation
-        $this->actingAs($this->user)->put(route('timy_dispositions.update', $disposition2->id), ['name' => strtolower($disposition->name)])
+        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition2->id), ['name' => strtolower($disposition->name)])
             ->assertSessionHasErrors(['name']);
 
-        $this->actingAs($this->user)->put(route('timy_dispositions.update', $disposition->id), ['name' => strtolower($disposition->name)])
+        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition->id), ['name' => strtolower($disposition->name)])
             ->assertSessionDoesntHaveErrors(['name']);
     }
 }

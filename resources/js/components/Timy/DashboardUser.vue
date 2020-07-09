@@ -58,7 +58,8 @@ export default {
             hours_last_date: 0,
             hours_last_payroll: 0,
             hours_daily: 0,
-            hours_by_payrolls: 0
+            hours_by_payrolls: 0,
+            user: null,
         }
     },
 
@@ -72,7 +73,10 @@ export default {
             this.hours_payrolltd.hours = this.hours_payrolltd_initial.hours + hours
         }) // updateOpenTimers method
         eventBus.$on('timer-closed', async (timer) => {
-            console.log(timer);            
+            
+        }) // updateOpenTimers method
+        eventBus.$on('timer-created', async (timer) => {
+            
         }) // updateOpenTimers method
         /**
          * Set up a timeout to give the Dropdown component the time to render and create a new timer. 
@@ -88,6 +92,9 @@ export default {
                     this.hours_last_date = data.data.hours_last_date
                     this.hours_daily = data.data.hours_daily
                     this.hours_by_payrolls = data.data.hours_by_payrolls
+                    this.user = data.user
+
+                    return data
                 })
                 .finally(() => this.loading = false)
         }, 2000)

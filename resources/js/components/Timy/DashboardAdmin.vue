@@ -65,16 +65,25 @@ export default {
         }
     },
 
-    mounted() {
-            setTimeout(() => {
-                axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/admin`)
-                    .then(({data}) => {
-                        this.dispositions = data.data.dispositions
-                        this.running_timers = data.data.running_timers
-                        this.users = data.data.users
-                    })
-                    .finally(() => this.loading = false)
-            }, 3000)
+    mounted() {  
+        setTimeout(() => {
+            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/admin`)
+                .then(({data}) => {
+                    this.dispositions = data.data.dispositions
+                    this.running_timers = data.data.running_timers
+                    this.users = data.data.users
+                })
+                .then(() => {
+                    let vm = this
+                    window.Echo.private(`Timy.Admin`)
+                        .listen('TimerCreatedAdmin', function(response) {
+                            let index = vm.running_timers.findIndex(item => item.user_id === response.user.id)
+                            vm.$set(vm.running_timers, index, response.timer)
+                        });
+                })
+                .finally(() => this.loading = false)
+        }, 3000)
+        
     },
 
     methods: {

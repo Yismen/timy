@@ -10,6 +10,25 @@ class TimyServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this
+            ->registerPublishables()
+            ->loadComponents();
+
+        $this->app->bind('TimyUser', config('timy.models.user'));
+
+        SecureGates::boot();
+    }
+
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/timy.php',
+            'timy'
+        );
+    }
+
+    private function registerPublishables()
+    {
         $this->publishes([
             __DIR__ . '/../config/timy.php' => config_path('timy.php')
         ], 'timy-config');
@@ -26,23 +45,17 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/../public/vendor/timy' => public_path('vendor/dainsys/timy'),
         ], 'timy-public');
 
+        return $this;
+    }
+
+    protected function loadComponents()
+    {
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
-
-        $this->app->bind('TimyUser', config('timy.models.user'));
-
-        SecureGates::boot();
-
         require_once(__DIR__ . '/../helpers/helpers.php');
-    }
 
-    public function register()
-    {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../config/timy.php',
-            'timy'
-        );
+        return $this;
     }
 }

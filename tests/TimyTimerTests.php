@@ -19,18 +19,18 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function user_can_only_see_own_timers()
     {
-        $this->actingAs($this->user);
-        $this->user2 = factory(config('timy.models.user'))->create();
-
-        factory(Timer::class, 5)->create(['user_id' => $this->user->id]);
-        factory(Timer::class, 5)->create(['user_id' => $this->user2->id]);
-
+        $user = $this->user();
+        $user2 = $this->user();
+        $this->actingAs($user);
+        factory(Timer::class, 5)->create(['user_id' => $user->id]);
+        factory(Timer::class, 5)->create(['user_id' => $user2->id]);
+        $this->withoutExceptionHandling();
         $this->get(route('timy_timers.index'))
             ->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'user_id' => $this->user->id
+                        'user_id' => $user->id
                     ]
                 ],
                 'meta' => [],
@@ -39,7 +39,7 @@ class TimyTimerTests extends TestCase
             ->assertJsonMissing([
                 'data' => [
                     [
-                        'user_id' => $this->user2->id
+                        'user_id' => $user2->id
                     ]
                 ]
             ]);
@@ -48,8 +48,9 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function user_can_see_a_single_timers()
     {
-        $this->actingAs($this->user);
-        $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
+        $user = $this->user();
+        $this->actingAs($user);
+        $timer = factory(Timer::class)->create(['user_id' => $user->id]);
 
         $this->get(route('timy_timers.show', $timer->path))
             ->assertOk()
@@ -64,11 +65,12 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function a_timer_can_be_created()
     {
-        $this->actingAs($this->user);
+        $user = $this->user();
+        $this->actingAs($user);
 
         $timer = factory(Timer::class)->make([
-            'user_id' => $this->user->id,
-            'name' => $this->user->name,
+            'user_id' => $user->id,
+            'name' => $user->name,
             'started_at' => now()->subDays(8)
         ])->toArray();
         $parsed_date = Carbon::parse($timer['started_at'])->format('Y-m-d H:i:s');
@@ -95,21 +97,23 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function a_timer_can_have_only_one_timer_running()
     {
-        $this->actingAs($this->user);
-        factory(Timer::class, 5)->create(['user_id' => $this->user->id, 'finished_at' => null]);
-        $timer = factory(Timer::class)->make(['user_id' => $this->user->id, 'finished_at' => null])->toArray();
+        $user = $this->user();
+        $this->actingAs($user);
+        factory(Timer::class, 5)->create(['user_id' => $user->id, 'finished_at' => null]);
+        $timer = factory(Timer::class)->make(['user_id' => $user->id, 'finished_at' => null])->toArray();
 
         $this->post(route('timy_timers.store'), $timer);
 
-        $this->assertCount(6, $this->user->timers()->get());
-        $this->assertCount(1, $this->user->timers()->running()->get());
+        $this->assertCount(6, $user->timers()->get());
+        $this->assertCount(1, $user->timers()->running()->get());
     }
 
     /** @test */
     public function a_timer_can_be_updated()
     {
-        $this->actingAs($this->user);
-        $timer = factory(Timer::class)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+        $user = $this->user();
+        $this->actingAs($user);
+        $timer = factory(Timer::class)->create(['user_id' => $user->id, 'finished_at' => null]);
 
         $this->put(route('timy_timers.update', $timer->path), [
             'finished_at' => now()
@@ -129,7 +133,8 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function disposition_id_is_exists_to_create_a_timer()
     {
-        $this->actingAs($this->user);
+        $user = $this->user();
+        $this->actingAs($user);
 
         $this->post(route('timy_timers.store'), ['disposition_id' => null])
             ->assertSessionHasErrors(['disposition_id']);
@@ -138,8 +143,9 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function name_is_required_to_update_a_timer()
     {
-        $this->actingAs($this->user);
-        $timer = factory(Timer::class)->create(['user_id' => $this->user->id]);
+        $user = $this->user();
+        $this->actingAs($user);
+        $timer = factory(Timer::class)->create(['user_id' => $user->id]);
 
         $this->put(route('timy_timers.update', $timer->path), ['disposition_id' => null])
             ->assertSessionHasErrors(['disposition_id']);
@@ -148,20 +154,22 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_closes_all_running_timers()
     {
-        $this->actingAs($this->user);
-        factory(Timer::class, 10)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+        $user = $this->user();
+        $this->actingAs($user);
+        factory(Timer::class, 10)->create(['user_id' => $user->id, 'finished_at' => null]);
 
         $this->post(route('timy_timers.close_all'));
 
-        $this->assertCount(10, $this->user->timers()->get());
-        $this->assertCount(0, $this->user->timers()->running()->get());
+        $this->assertCount(10, $user->timers()->get());
+        $this->assertCount(0, $user->timers()->running()->get());
     }
 
     /** @test */
     public function it_closes_a_single_timer()
     {
-        $this->actingAs($this->user);
-        $timer = factory(Timer::class)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+        $user = $this->user();
+        $this->actingAs($user);
+        $timer = factory(Timer::class)->create(['user_id' => $user->id, 'finished_at' => null]);
 
         $this->delete(route('timy_timers.destroy', $timer->id))
             ->assertJson([
@@ -175,24 +183,24 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_retunrs_last_running_timer()
     {
-        $this->actingAs($this->user);
-        factory(Timer::class, 10)->create(['user_id' => $this->user->id, 'finished_at' => null]);
+        $user = $this->user();
+        $this->actingAs($user);
+        factory(Timer::class, 10)->create(['user_id' => $user->id, 'finished_at' => null]);
 
         $this->get(route('timy_timers.running'))
-            ->assertJson(['data' => $this->user->timers()->running()->first()->toArray()]);
+            ->assertJson(['data' => $user->timers()->running()->first()->toArray()]);
 
-        $this->assertCount(10, $this->user->timers()->get());
-        $this->assertCount(1, $this->user->timers()->running()->get());
+        $this->assertCount(10, $user->timers()->get());
+        $this->assertCount(1, $user->timers()->running()->get());
     }
 
     /** @test */
     public function it_returns_user_payable_hours_today()
     {
-
-        $this->withoutExceptionHandling();
-        $this->actingAs($this->user);
-        $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 1])); // Create 1 payable for today
-        $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 0]), 1, now()); // Create 1 non payable for today
+        $user = $this->user();
+        $this->actingAs($user);
+        $this->createRangeOfTimers($user, factory(Disposition::class)->create(['payable' => 1])); // Create 1 payable for today
+        $this->createRangeOfTimers($user, factory(Disposition::class)->create(['payable' => 0]), 1, now()); // Create 1 non payable for today
 
         $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
@@ -209,14 +217,15 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_returns_user_hours_last_date()
     {
-        $this->actingAs($this->user);
+        $user = $this->user();
+        $this->actingAs($user);
         $payable = factory(Disposition::class)->create(['payable' => 1]);
         $non_payable = factory(Disposition::class)->create(['payable' => 0]);
 
-        $this->createRangeOfTimers($non_payable); // Create 1 non payable for today
-        $this->createRangeOfTimers($payable); // Create 1 payable for today
-        $this->createRangeOfTimers($non_payable, 0, now()->subDays(2)); // Create 1 non payable for today
-        $this->createRangeOfTimers($payable, 0, now()->subDays(2)); // Create 1 payable for today
+        $this->createRangeOfTimers($user, $non_payable); // Create 1 non payable for today
+        $this->createRangeOfTimers($user, $payable); // Create 1 payable for today
+        $this->createRangeOfTimers($user, $non_payable, 0, now()->subDays(2)); // Create 1 non payable for today
+        $this->createRangeOfTimers($user, $payable, 0, now()->subDays(2)); // Create 1 payable for today
 
         $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
@@ -233,9 +242,10 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_returns_user_hours_payrolltd()
     {
-        $this->actingAs($this->user);
+        $user = $this->user();
+        $this->actingAs($user);
         $date = now();
-        $this->createTimersForPayroll($date);
+        $this->createTimersForPayroll($user, $date);
 
         $starting_date = $date->day <= 15 ? $date->copy()->startOfMonth() : Carbon::create($date->year, $date->month, 16);
         $ending_date = $date->day > 15 ? $date->copy()->endOfMonth() : Carbon::create($date->year, $date->month, 15);
@@ -256,9 +266,10 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_returns_user_hours_last_payroll()
     {
-        $this->actingAs($this->user);
+        $user = $this->user();
+        $this->actingAs($user);
         $date = now()->subDays(15);
-        $this->createTimersForPayroll($date);
+        $this->createTimersForPayroll($user, $date);
 
         $starting_date = $date->day <= 15 ? $date->copy()->startOfMonth() : Carbon::create($date->year, $date->month, 16);
         $ending_date = $date->day > 15 ? $date->copy()->endOfMonth() : Carbon::create($date->year, $date->month, 15);
@@ -278,8 +289,9 @@ class TimyTimerTests extends TestCase
     /** @test */
     public function it_returns_user_hours_last_12_days()
     {
-        $this->actingAs($this->user);
-        $this->createRangeOfTimers(factory(Disposition::class)->create(['payable' => 1]), 20); // Create 10 records for last 10 days
+        $user = $this->user();
+        $this->actingAs($user);
+        $this->createRangeOfTimers($user, factory(Disposition::class)->create(['payable' => 1]), 20); // Create 10 records for last 10 days
 
         $this->get(route('timy_timers.user_dashboard'))
             ->assertOk()
@@ -291,7 +303,7 @@ class TimyTimerTests extends TestCase
             ]);
     }
 
-    protected function createRangeOfTimers(Disposition $disposition, int $many_days = 0, Carbon $to_date = null)
+    protected function createRangeOfTimers($user, Disposition $disposition, int $many_days = 0, Carbon $to_date = null)
     {
         $many_days = $many_days == 0 ? $many_days : $many_days - 1;
         $to_date = $to_date ?: now();
@@ -300,7 +312,7 @@ class TimyTimerTests extends TestCase
 
         foreach ($since->range($to_date) as $date) {
             $timers[] = factory(Timer::class)->create([
-                'user_id' => $this->user->id,
+                'user_id' => $user->id,
                 'disposition_id' => $disposition->id,
                 'started_at' => $date->copy(),
                 'finished_at' => $date->copy()->addHours(8)
@@ -310,31 +322,31 @@ class TimyTimerTests extends TestCase
         return $timers;
     }
 
-    protected function createTimersForPayroll(Carbon $date)
+    protected function createTimersForPayroll($user, Carbon $date)
     {
         $disposition = factory(Disposition::class)->create(['payable' => 1]);
 
         factory(Timer::class)->create([
-            'user_id' => $this->user->id,
+            'user_id' => $user->id,
             'disposition_id' => $disposition->id,
             'started_at' => $date->copy()->startOfMonth(),
             'finished_at' => $date->copy()->startOfMonth()->addHours(8)
         ]);
         factory(Timer::class)->create([
-            'user_id' => $this->user->id,
+            'user_id' => $user->id,
             'disposition_id' => $disposition->id,
             'started_at' => Carbon::create($date->year, $date->month, '15'),
             'finished_at' => Carbon::create($date->year, $date->month, '15')->addHours(8)
         ]);
         // last payroll (quincena)
         factory(Timer::class)->create([
-            'user_id' => $this->user->id,
+            'user_id' => $user->id,
             'disposition_id' => $disposition->id,
             'started_at' => Carbon::create($date->year, $date->month, '16'),
             'finished_at' => Carbon::create($date->year, $date->month, '16')->addHours(8)
         ]);
         factory(Timer::class)->create([
-            'user_id' => $this->user->id,
+            'user_id' => $user->id,
             'disposition_id' => $disposition->id,
             'started_at' => $date->copy()->endOfMonth(),
             'finished_at' => $date->copy()->endOfMonth()->addHours(8)
@@ -347,7 +359,7 @@ class TimyTimerTests extends TestCase
         $this->get(route('timy_ping'))
             ->assertRedirect(route('login'));
 
-        $this->actingAs($this->user);
+        $this->actingAs($this->user());
         $this->get(route('timy_ping'))
             ->assertOk();
     }

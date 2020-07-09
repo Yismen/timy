@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Controllers\Api;
 
 use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\Gate;
@@ -39,6 +40,8 @@ class AdminController extends BaseController
 
         $user = resolve('TimyUser')->findOrFail($user);
         $timer = $user->startTimer($disposition->id);
+
+        event(new TimerCreated($user, $timer));
         
         return response()->json([
             'data' => TimerResource::make($timer)

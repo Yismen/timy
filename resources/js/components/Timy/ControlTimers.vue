@@ -52,7 +52,7 @@ export default {
         this.watchForWindowUnloadEvent()
         this.getCurrentlyOpenTimerOrCreateANewOne()
         this.fetchDispositions()
-        this.setupTimerToReloadWindow()
+        this.setupTimerToReloadWindow()    
     },
 
     methods: {
@@ -63,7 +63,23 @@ export default {
                     this.current = this.getCurrentDispositionId(data.data)
                 })
                 .then(() => {
+                    let vm = this
                     axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`, {disposition_id: this.current})
+                        .then(({data}) => {                            
+                            window.Echo.private(`Timy.User.${data.data.user_id}`)
+                                .listen('TimerCreated', function(response) {
+                                    vm.current = vm.getCurrentDispositionId(response.timer)
+                                    eventBus.$emit('timer-created', response.timer)
+                                    
+                                    Cookies.set(
+                                        TIMY_DROPDOWN_CONFIG.cookie_prefix, 
+                                         response.timer.disposition_id, 
+                                        {expires: 0.5} // 0.5 days is 12 hours
+                                    )
+
+                                    alert("Your timer disposition was changed remotely by an Admin User!")
+                                });
+                        })
                         
                 })
                 .finally(() => this.loading = false)
