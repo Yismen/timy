@@ -12,7 +12,8 @@ Add user's time tracker functionality to Laravel 7, VueJs 2 and Bootstrap 4.
 - Next you may want to run migrations with command `php artisan migrate`. 
 - Add the `use Dainsys\Timy\Timeable` trait to your `User` model. 
 - Next, make sure to follow the `laravel/ui` installation guide from https://laravel.com/docs/7.x/authentication
-The package has it's own views and Vue components and it should work out of the box.
+- Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `app.config` file.
+- The package has it's own views and Vue components and it should work out of the box.
 * Add links to the following end points: 
 - Users: URL=`/timy/user`, NAME=`user_dashboard`, GATEWAY(blade @can directive)=`timy-user`
 - Admin Users: URL=`/timy/admin`, NAME=`admin_dashboard`, GATEWAY(blade @can directive)=`timy-admin`
@@ -21,10 +22,9 @@ The package has it's own views and Vue components and it should work out of the 
 - Crete a route and return a view that includes the `<TimyUserDashboard />` component so the user can see its own stats.  
 - Create a route and return a view where a user with role `timy-admin` can manage all aspects of the packages and include in it the `<TimyAdminDashboard />` component.  
 - Create a route and return a view where a user with role `timy-admin` can manage all aspects of the packages and include in it the `<TimySuperAdminDashboard />` component. Define the email of the super admin in tye config file.
-- Next define the following variables in your .env file:
+- Next, define the Super User in you .env file by providing its email in the variable `TIMY_SUPER_USER_EMAIL=` . This user will have plenty control of the app.
+- Next get your Pusher's credentials from https://dashboard.pusher.com/apps and use them to define the following variables in your .env file:
 ````javascript
-TIMY_SUPER_USER_EMAIL=
-
 BROADCAST_DRIVER=pusher
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
