@@ -8,9 +8,7 @@ Add user's time tracker functionality to Laravel 7, VueJs 2 and Bootstrap 4.
         'providers' => [
             Dainsys\Timy\TimyServiceProvider::class,
         ]
-    ```
-- Next you may want to publish the config file: `php artisan vendor:publish --tag=timy-config` to change default configuration. Pay attention to the option of creating default dispositions. 
-- Next provide the super user email in the `config/timy.php` file for key `super_admin => email`. It is a better practice to set `TIMY_SUPER_USER_EMAIL` variable in you .env with the super user email for security. 
+    ``` 
 - Next you may want to run migrations with command `php artisan migrate`. 
 - Add the `use Dainsys\Timy\Timeable` trait to your `User` model. 
 - Next, make sure to follow the `laravel/ui` installation guide from https://laravel.com/docs/7.x/authentication
@@ -36,6 +34,7 @@ PUSHER_APP_CLUSTER=
 MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}
 ````
+- Next you may want to publish the config file: `php artisan vendor:publish --tag=timy-config` to change default configuration. Pay attention to the option of creating default dispositions.
 #### If you are using package routes and it's front-end views: 
 - Next run `php artisan vendor:publish --tag=timy-public` to publish the frontend assets.
 - Super admin can visit route `/timy/super_admin` to manage Roles. This route is protected.
