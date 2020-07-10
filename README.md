@@ -15,7 +15,6 @@ Add user's time tracker functionality to Laravel 7, VueJs 2 and Bootstrap 4.
 - Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `app.config` file.
 - The package has it's own views and Vue components and it should work out of the box.
 - Next run `php artisan vendor:publish --tag=timy-public` to publish the frontend assets.
-- Next add the scripts in your `layouts` file: `<script src="{{ timy_assets('js/app.js') }}" defer></script>`
 - Include the timy menu in your nav-bar after you check of logged in users: `@include('timy::_timy-menu')` 
 - Next, define the Super User in you .env file by providing its email in the variable `TIMY_SUPER_USER_EMAIL=` . This user will have plenty control of the app.
 - Next get your Pusher's credentials from https://dashboard.pusher.com/apps and use them to define the following variables in your .env file:
