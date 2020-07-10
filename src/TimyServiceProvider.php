@@ -34,7 +34,7 @@ class TimyServiceProvider extends ServiceProvider
         ], 'timy-config');
 
         $this->publishes([
-            __DIR__ . '/../components' => base_path('resources/js/components'),
+            __DIR__ . '/../resources/js/components' => resource_path('js/components'),
         ], 'timy-components');
 
         $this->publishes([
