@@ -30,27 +30,21 @@ MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}
 ````
 - Next you may want to publish the config file: `php artisan vendor:publish --tag=timy-config` to change default configuration. Pay attention to the option of creating default dispositions.
-#### If you are using package routes and it's front-end views: 
-- Super admin can visit route `/timy/super_admin` to manage Roles. This route is protected.
-- Admin users (manage dispositions, user status, timers, reports, etc.) can visit `/timy/admin`.
-- Users should be using route `/timy/admin` to track their hours.
-### If you are using the vue components shipped with the package:
-- Publish the components by running the command `php artisan vendor:publish --tag=timy-components`  
+### To use the control component in your own views:
+- Publish the vue components by running the command `php artisan vendor:publish --tag=timy-components`
 - Register your components previous to creating the vue instance:  
-`Vue.component('timy-timers-control', require('./components/Timy/ControlTimers.vue').default);`  
-`Vue.component('timy-user-dashbord', require('./components/Timy/DashboardUser.vue').default);`  
-`Vue.component('timy-admin-dashbord', require('./components/Timy/DashboardAdmin.vue').default);`  
-`Vue.component('timy-super-admin-dashbord', require('./components/Timy/DashboardSuperAdmin.vue').default);`  
-- Next install the following dependencies:
-    - `npm install vue@^2.* cross-env@7.0 axios@0.* vuedraggable@2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* laravel-echo@1.* pusher-js@6.* --save-dev && npm run production`.   
-    
-* Add links to the following end points: 
+````javascript
+Vue.component('timy-timers-control', require('./components/Timy/ControlTimers.vue').default);  
+Vue.component('timy-user-dashbord', require('./components/Timy/DashboardUser.vue').default);  
+Vue.component('timy-admin-dashbord', require('./components/Timy/DashboardAdmin.vue').default);  
+Vue.component('timy-super-admin-dashbord', require('./components/Timy/DashboardSuperAdmin.vue').default);  
+````
+- Next install the following dependencies and compile for production:
+    - `npm install vue@^2.* cross-env@7.0 axios@0.* vuedraggable@2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* laravel-echo@1.* pusher-js@6.* --save-dev && npm run production`. 
+#### UI Routes: 
 - Users: URL=`/timy/user`, NAME=`user_dashboard`, GATEWAY(blade @can directive)=`timy-user`
 - Admin Users: URL=`/timy/admin`, NAME=`admin_dashboard`, GATEWAY(blade @can directive)=`timy-admin`
 - Super Admin User: URL=`/timy/super_admin`, NAME=`supepr_admin_dashboard`, GATEWAY(blade @can directive)=`timy-super-admin`
-- Crete a route and return a view that includes the `<TimyUserDashboard />` component so the user can see its own stats.  
-- Create a route and return a view where a user with role `timy-admin` can manage all aspects of the packages and include in it the `<TimyAdminDashboard />` component.  
-- Create a route and return a view where a user with role `timy-admin` can manage all aspects of the packages and include in it the `<TimySuperAdminDashboard />` component. Define the email of the super admin in tye config file.
 ## Features
 - Authenticated users is required for the package to work. We leverage that on `laravel/ui` package. 
 - Users and admin shoud have valid roles assigned to them. 
