@@ -38,7 +38,7 @@ Vue.component('timy-admin-dashbord', require('./components/Timy/DashboardAdmin.v
 Vue.component('timy-super-admin-dashbord', require('./components/Timy/DashboardSuperAdmin.vue').default);  
 ````
 - Next install the following dependencies and compile for production:
-    - `npm install vue@^2.* cross-env@7.0 axios@0.* vuedraggable@2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* laravel-echo@1.* pusher-js@6.* --save-dev && npm run production
+    - `npm install vue@^2.* cross-env@7 axios@0.* vuedraggable@2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* laravel-echo@1.* pusher-js@6.* --save-dev && npm run production
 - Include the timy menu in your main nav-bar after you check for logged in users: `@include('timy::_timy-menu')` 
 - Make sure the `laravel-echo` block in the `resources\js\bootstrap.js` is present and uncommented:
 ````javascript
