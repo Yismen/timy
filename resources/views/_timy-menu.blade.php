@@ -16,5 +16,7 @@
     </div>
 </li>
 <li class="nav-item">
-    <timy-timers-control></timy-timers-control>
+    @can('timy-user')
+        <timy-timers-control></timy-timers-control>
+    @endcan
 </li>
