@@ -80,7 +80,7 @@ export default {
                                     alert("Your timer disposition was changed remotely by an Admin User!")
                                 });
                         })
-                        
+                        .catch(({response}) => alert(`${response.data.exception}. ${response.data.message}`))        
                 })
                 .finally(() => this.loading = false)
         },
@@ -148,6 +148,7 @@ export default {
                         {expires: 0.5} // 0.5 days is 12 hours
                     )
                 })
+                .catch(({response}) => alert(`${response.data.exception}. ${response.data.message}`))
                 .finally(() => this.loading = false)
         }
     }

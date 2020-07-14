@@ -2,15 +2,26 @@
 
 return [
     /**
-         * Indicate if the web routes will be activated. Set it to false 
-         * if you are planning to use your own routes and compile the 
+     * When 'with_shift' is set to true, users will not be able to start timers outside that range. 
+     * Define the start and end of the shifts. Make sure to provide valid time representing 
+     * the start and ending of your shifts.
+     * To disable the shift functionality just set the 'with_shift' to false.
+     */
+    'shift' => [
+        'with_shift' => true,
+        'starts_at' => '07:00',
+        'ends_at' => '18:00'
+    ],
+    /**
+     * Indicate if the web routes will be activated. Set it to false 
+     * if you are planning to use your own routes and compile the 
      * components withing your front end.
      */
     'with_web_routes' => true,
     /**
-         * Here you can specify a list of middleware to apply to 
-         * all routes. use "," or "|" to separate the list.
-         */
+     * Here you can specify a list of middleware to apply to 
+     * all routes. use "," or "|" to separate the list.
+     */
     'midlewares' => [
         'api' => 'web|auth', // 'api'
         'web' => 'web|auth',
@@ -39,7 +50,7 @@ return [
         'user' => App\User::class,
     ],
     /**
-     * Seeder
+     * Default seeder. When the table is migrated, these dispositions will be inserted.
      */
     'initial_dispositions' => [
         ['name' => 'On Hold', 'payable' => 0, 'invoiceable' => 0],

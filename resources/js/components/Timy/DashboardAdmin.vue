@@ -3,7 +3,7 @@
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else>
             <h5>Running Timers</h5>
-            <table class="table table-hover bg-white table-responsive">
+            <table class="table table-hover bg-white">
                 <thead class="thead-inverse">
                     <tr>
                         <th>User</th>

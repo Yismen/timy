@@ -2,6 +2,8 @@
 
 namespace Dainsys\Timy;
 
+use Carbon\Carbon;
+use Dainsys\Timy\Exceptions\TimerNotCreatedException;
 use Dainsys\Timy\Role;
 use Dainsys\Timy\Timer;
 
@@ -41,12 +43,30 @@ trait Timeable
 
     public function startTimer(int $disposition_id)
     {
-        $timer = $this->timers()->create([
+        $now = now();
+        
+        $this->protectAgainstTimersOutsideShift($now);
+        
+        return $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
-            'started_at' => now(),
+            'started_at' => $now,
         ]);
+    }
+
+    public function protectAgainstTimersOutsideShift(Carbon $now)
+    {
+        $current = $now->copy()->format('H:i');
         
-        return $timer;
+        if (config('timy.shift.with_shift') == true) {
+            $starts = config('timy.shift.starts_at');
+            $ends = config('timy.shift.ends_at');
+            if ($current < $starts || $current > $ends) {
+                throw new TimerNotCreatedException(
+                    "Shift is not running. Our shifts run {$starts} to {$ends}. You can contact your supervisor for more details"
+                    , 423
+                );
+            }
+        }
     }
 }

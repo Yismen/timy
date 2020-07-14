@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="row">
-            <div class="col-sm-12 col-lg-7">
-                <timy-admin-dashboard class="w-100"></timy-admin-dashboard>
-            </div>
-            <div class="col-sm-12 col-lg-5">
-                <h4>Download Hours</h4>
+        <div class="col-sm-12 col-lg-7">
+            <timy-admin-dashboard class="w-100"></timy-admin-dashboard>
+        </div>
+        <div class="col-sm-12 col-lg-5">
+            <h4>Download Hours</h4>
+            <div class="card p-3">
                 <x-dc-form route="{{ route('timy_hours_download') }}">
                     <div class="row">
                         <div class="col-sm-6">

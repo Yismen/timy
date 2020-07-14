@@ -7,10 +7,21 @@ use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class TimerController extends BaseController
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+    
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         return TimerResource::collection(
@@ -29,12 +40,10 @@ class TimerController extends BaseController
             'disposition_id' => 'exists:timy_dispositions,id'
         ]);
 
-        $timer = auth()->user()->timers()->create(
-            array_merge(request()->all(), ['started_at' => now()])
-        );
+        $timer = $this->user->startTimer(request('disposition_id'));
 
-        event(new TimerCreated(auth()->user(), $timer));
-        event(new TimerCreatedAdmin(auth()->user(), $timer));
+        event(new TimerCreated($this->user, $timer));
+        event(new TimerCreatedAdmin($this->user, $timer));
 
         TimerResource::withoutWrapping();
 
@@ -49,8 +58,8 @@ class TimerController extends BaseController
 
         $timer->update(request()->all());
 
-        event(new TimerCreated(auth()->user(), $timer));
-        event(new TimerCreatedAdmin(auth()->user(), $timer));
+        event(new TimerCreated($this->user, $timer));
+        event(new TimerCreatedAdmin($this->user, $timer));
 
         TimerResource::withoutWrapping();
 
@@ -61,7 +70,7 @@ class TimerController extends BaseController
     {
         $timer->stop();
 
-        event(new TimerStopped(auth()->user(), $timer));
+        event(new TimerStopped($this->user, $timer));
 
         TimerResource::withoutWrapping();
 
@@ -70,17 +79,17 @@ class TimerController extends BaseController
 
     protected function closeAll()
     {
-        auth()->user()->timers()->running()->each(function ($timer) {
+        $this->user->timers()->running()->each(function ($timer) {
             $timer->stop();
         });
 
-        return response()->json(['data' => auth()->user()->timers()->running()->get()]);
+        return response()->json(['data' => $this->user->timers()->running()->get()]);
     }
 
     public function running()
     {
         return response()->json([
-            'data' => auth()->user()->timers()->running()->first()
+            'data' => $this->user->timers()->running()->first()
         ]);
     }
 
