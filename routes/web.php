@@ -6,8 +6,12 @@ $webMiddlewares = preg_split("/[,|]+/", config('timy.midlewares.web'));
 
 Route::middleware($apiMiddlewares)
     ->prefix('timy')
+    ->namespace('\Dainsys\Timy\Controllers')
     ->group(function () {
-        Route::get('user', '\Dainsys\Timy\Controllers\DashboardController@user')->name('user_dashboard');
-        Route::get('admin', '\Dainsys\Timy\Controllers\DashboardController@admin')->name('admin_dashboard');
-        Route::get('super_admin', '\Dainsys\Timy\Controllers\DashboardController@superAdmin')->name('super_admin_dashboard');
+        Route::get('user', 'DashboardController@user')->name('user_dashboard');
+        Route::get('admin', 'DashboardController@admin')->name('admin_dashboard');
+        Route::post('admin/hours/download', 'DashboardController@hours')->name('timy_hours_download');
+        Route::get('super_admin', 'DashboardController@superAdmin')->name('super_admin_dashboard');
+        Route::resource('disposition', 'DispositionController')->names('timy_web_disposition')
+            ->except('create', 'show', 'index', 'show');
     });

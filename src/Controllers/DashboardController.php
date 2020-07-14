@@ -2,10 +2,26 @@
 
 namespace Dainsys\Timy\Controllers;
 
+use Carbon\Carbon;
+use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Rules\DateRangeInDays;
+use Dainsys\Timy\Exports\HoursExport;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends BaseController
 {
+    protected $fileName;
+
+    public function __construct()
+    {
+        $this->fileName  = 'timy_hours_'
+            . Carbon::parse(request('date_from'))->format('Ymd')
+            . '_'
+            . Carbon::parse(request('date_to'))->format('Ymd')
+            . '.xls';
+    }
+
     public function user()
     {
         if (Gate::denies(config('timy.roles.user'))) {
@@ -20,7 +36,9 @@ class DashboardController extends BaseController
             abort(403, 'Unauthorized');
         }
 
-        return view('timy::super-admin-dashboard');
+        $dispositions = Disposition::orderBy('name')->get();
+
+        return view('timy::super-admin-dashboard', compact('dispositions'));
     }
     public function admin()
     {
@@ -29,5 +47,34 @@ class DashboardController extends BaseController
         }
 
         return view('timy::admin-dashboard');
+    }
+
+    public function hours()
+    {
+        if (Gate::denies(config('timy.roles.admin'))) {
+            abort(403, 'Unauthorized');
+        }
+
+        $this->validateRequest();
+
+        return Excel::download(
+            new HoursExport(
+                request('date_from'),
+                request('date_to')
+            ),
+            $this->fileName
+        );
+    }
+
+    public function validateRequest()
+    {
+        return $this->validate(request(), [
+            'date_from' => 'required|date',
+            'date_to' => [
+                'required',
+                'date',
+                new DateRangeInDays(31)
+            ]
+        ]);
     }
 }

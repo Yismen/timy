@@ -1,27 +1,27 @@
 <template>
     <div class="__dashboard">
         <div class="loading" v-if="loading">Loading...</div>
-
-        <div class="" v-else>
-            <div class="card mb-2">
-             <div class="card-body p-0">               
-                <h4 class="card-title m-0 p-3 border-bottom">
-                    Unassigned Users:
-                    <span class="badge badge-pill" :class="[unassigned.length > 0 ? 'bg-primary  text-white' : 'bg-light text-muted']">
-                        {{ unassigned.length }}
-                    </span>
-                </h4>   
-                <div class="card-text p-3 bg-light ">
-                   <draggable :sort="false" v-model="unassigned" class="draggable" @remove="dataDropped"  group="users" id="unassigned">
-                        <div v-for="user in unassigned" :key="user.id"  :id="user.id">
-                            {{ user.name }}
-                        </div>
-                    </draggable>
-               </div>
-             </div>
-           </div>
-
+        <div class="" v-else>    
             <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="card mb-2">
+                        <div class="card-body p-0">               
+                            <h4 class="card-title m-0 p-3 border-bottom">
+                                Unassigned Users:
+                                <span class="badge badge-pill" :class="[unassigned.length > 0 ? 'bg-danger  text-white' : 'bg-light text-muted']">
+                                    {{ unassigned.length }}
+                                </span>
+                            </h4>   
+                            <div class="card-text bg-light ">
+                            <draggable :sort="false" v-model="unassigned" class="draggable" @remove="dataDropped"  group="users" id="unassigned">
+                                <div v-for="user in unassigned" :key="user.id"  :id="user.id" class="bg-white border">
+                                    {{ user.name }}
+                                </div>
+                            </draggable>
+                        </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-6" v-for="role in roles" :key="role.id">
                     <div class="card mb-2">
                         <div class="card-body p-0">
@@ -31,9 +31,9 @@
                                     {{ role.users.length }}
                                 </span>
                             </h4>
-                            <div class="card-text p-3 bg-light">
+                            <div class="card-text bg-light">
                                 <draggable :sort="false" v-model="role.users" class="draggable"  @remove="dataDropped" group="users" :id="role.id">
-                                    <div v-for="user in role.users" :key="user.id" :id="user.id">
+                                    <div v-for="user in role.users" :key="user.id" :id="user.id" class="bg-white border">
                                         {{ user.name }}
                                     </div>
                                 </draggable>

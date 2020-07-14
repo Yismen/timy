@@ -6,20 +6,21 @@ $apiMiddlewares = preg_split("/[,|]+/", config('timy.midlewares.api'));
 
 Route::middleware($apiMiddlewares)
     ->prefix('timy/api')
+    ->namespace('\Dainsys\Timy\Controllers\Api')
     ->group(function () {
-        Route::get('timers/user_dashboard', '\Dainsys\Timy\Controllers\Api\UserDashboardDataController@index')->name('timy_timers.user_dashboard');
+        Route::get('timers/user_dashboard', 'UserDashboardDataController@index')->name('timy_timers.user_dashboard');
 
-        Route::get('timers/running', '\Dainsys\Timy\Controllers\Api\TimerController@running')->name('timy_timers.running');
-        Route::post('timers/close_all', '\Dainsys\Timy\Controllers\Api\TimerController@closeAll')->name('timy_timers.close_all');
+        Route::get('timers/running', 'TimerController@running')->name('timy_timers.running');
+        Route::post('timers/close_all', 'TimerController@closeAll')->name('timy_timers.close_all');
 
-        Route::apiResource('dispositions', '\Dainsys\Timy\Controllers\Api\DispositionController')->names('timy_dispositions');
-        Route::apiResource('timers', '\Dainsys\Timy\Controllers\Api\TimerController')->names('timy_timers');
-        Route::get('ping', '\Dainsys\Timy\Controllers\Api\TimerController@ping')->name('timy_ping');
+        Route::apiResource('dispositions', 'DispositionController')->names('timy_dispositions');
+        Route::apiResource('timers', 'TimerController')->names('timy_timers');
+        Route::get('ping', 'TimerController@ping')->name('timy_ping');
 
-        Route::get('super_admin', '\Dainsys\Timy\Controllers\Api\SuperAdminController@index')->name('timy_super_admin');
-        Route::post('assign/{user}/{role}', '\Dainsys\Timy\Controllers\Api\SuperAdminController@assign')->name('timy_assign_user_role');
-        Route::delete('unassign/{user}', '\Dainsys\Timy\Controllers\Api\SuperAdminController@unAssign')->name('timy_unassign_user_role');
+        Route::get('super_admin', 'SuperAdminController@index')->name('timy_super_admin');
+        Route::post('assign/{user}/{role}', 'SuperAdminController@assign')->name('timy_assign_user_role');
+        Route::delete('unassign/{user}', 'SuperAdminController@unAssign')->name('timy_unassign_user_role');
 
-        Route::get('admin', '\Dainsys\Timy\Controllers\Api\AdminController@index')->name('timy_admin');
-        Route::post('admin/create_timer_forced/{user}/{disposition}', '\Dainsys\Timy\Controllers\Api\AdminController@store')->name('timy_admin.create_timer_forced');
+        Route::get('admin', 'AdminController@index')->name('timy_admin');
+        Route::post('admin/create_timer_forced/{user}/{disposition}', 'AdminController@store')->name('timy_admin.create_timer_forced');
     });

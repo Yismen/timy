@@ -2,7 +2,7 @@
     <div class="__TimyAdmin">
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else>
-                <h5>Running Timers</h5>
+            <h5>Running Timers</h5>
             <table class="table table-hover bg-white table-responsive">
                 <thead class="thead-inverse">
                     <tr>

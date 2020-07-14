@@ -28,7 +28,6 @@ class SuperAdminController extends BaseController
         }
 
         $user = resolve('TimyUser')->findOrFail($user);
-
         $user->assignTimyRole($role);
 
         return response()->json([
