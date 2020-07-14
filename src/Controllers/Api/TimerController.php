@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Controllers\Api;
 
+use App\User;
 use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Events\TimerStopped;
@@ -69,8 +70,9 @@ class TimerController extends BaseController
     public function destroy(Timer $timer)
     {
         $timer->stop();
+        $user = User::find($timer->user_id);
 
-        event(new TimerStopped($this->user, $timer));
+        event(new TimerStopped($user, $timer));
 
         TimerResource::withoutWrapping();
 

@@ -76,9 +76,13 @@ export default {
                 .then(() => {
                     let vm = this
                     window.Echo.private(`Timy.Admin`)
-                        .listen('TimerCreatedAdmin', function(response) {
+                        .listen('.Dainsys\\Timy\\Events\\TimerCreatedAdmin', function(response) {
                             let index = vm.running_timers.findIndex(item => item.user_id === response.user.id)
-                            vm.$set(vm.running_timers, index, response.timer)
+                            if(index >= 0) {
+                                vm.$set(vm.running_timers, index, response.timer)
+                            } else {
+                                vm.running_timers.push(response.timer)
+                            }
                         });
                 })
                 .finally(() => this.loading = false)

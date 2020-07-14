@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center pt-2">
         <div class="col-sm-12 col-md-8">
             <timy-super-admin-dashboard></timy-super-admin-dashboard>
         </div>

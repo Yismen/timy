@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-sm-12 col-lg-7">
+    <div class="row justify-content-center pt-4">
+        <div class="col-sm-12 col-lg-7 ">
             <timy-admin-dashboard class="w-100"></timy-admin-dashboard>
         </div>
         <div class="col-sm-12 col-lg-5">

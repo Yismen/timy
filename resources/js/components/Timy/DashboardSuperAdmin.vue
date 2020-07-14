@@ -14,7 +14,7 @@
                             </h4>   
                             <div class="card-text bg-light ">
                             <draggable :sort="false" v-model="unassigned" class="draggable" @remove="dataDropped"  group="users" id="unassigned">
-                                <div v-for="user in unassigned" :key="user.id"  :id="user.id" class="bg-white border">
+                                <div v-for="user in unassigned" :key="user.id"  :id="user.id" class="bg-light border">
                                     {{ user.name }}
                                 </div>
                             </draggable>
@@ -33,7 +33,7 @@
                             </h4>
                             <div class="card-text bg-light">
                                 <draggable :sort="false" v-model="role.users" class="draggable"  @remove="dataDropped" group="users" :id="role.id">
-                                    <div v-for="user in role.users" :key="user.id" :id="user.id" class="bg-white border">
+                                    <div v-for="user in role.users" :key="user.id" :id="user.id" class="bg-light border">
                                         {{ user.name }}
                                     </div>
                                 </draggable>

@@ -35,6 +35,6 @@ class TimerStopped implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.User.' . $this->user->id);
+        return new PrivateChannel('Timy.User.' . $this->user->id);
     }
 }

@@ -67,6 +67,18 @@ export default {
             this.now = moment() // reset timer
             this.timers.unshift(timer)
         })
+
+        
+        eventBus.$on('timer-stopped', async (timer) => {
+            await this.timers.forEach(timer => {
+                if (timer.finished_at == null) {
+                    timer.finished_at = moment().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss')
+                }
+            })
+            
+            this.now = moment() // reset timer
+            // this.timers.unshift(timer)
+        }) // updateOpenTimers method
     },
 
     methods: {
