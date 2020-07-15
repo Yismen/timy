@@ -18,7 +18,7 @@ class TimerController extends BaseController
     {
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
-    
+
             return $next($request);
         });
     }
@@ -26,7 +26,10 @@ class TimerController extends BaseController
     public function index()
     {
         return TimerResource::collection(
-            Timer::latest()->with(['disposition', 'user'])->paginate(20)
+            Timer::latest()
+                ->with(['disposition', 'user'])
+                ->mine()
+                ->paginate(20)
         );
     }
 
