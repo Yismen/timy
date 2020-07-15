@@ -17,13 +17,13 @@ class AdminController extends BaseController
         }
 
         $timers = Timer::with(['user', 'disposition'])->running()->orderBy('disposition_id')
-        ->get();
+            ->get();
         TimerResource::withoutWrapping();
 
         return response()->json([
             'data' => [
                 'dispositions' => Disposition::get(),
-                'running_timers' => TimerResource::collection( $timers),
+                'running_timers' => TimerResource::collection($timers),
             ]
         ]);
     }
@@ -39,10 +39,13 @@ class AdminController extends BaseController
         ]);
 
         $user = resolve('TimyUser')->findOrFail($user);
+
+        $user->stopRunningTimers();
+
         $timer = $user->startTimer($disposition->id);
 
         event(new TimerCreated($user, $timer));
-        
+
         return response()->json([
             'data' => TimerResource::make($timer)
         ]);

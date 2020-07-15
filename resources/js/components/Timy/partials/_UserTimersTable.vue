@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Pagination :links="links" :meta="meta" @pagination-updated="getTimers" />
+        <Pagination :links="links" :meta="meta" @pagination-updated="fetchTimers" />
         <table class="table table-striped table-inverse table-responsive table-light">
             <thead class="thead-inverse">
                 <tr>
@@ -27,7 +27,7 @@
                 </tr>
             </tbody>
         </table>
-        <Pagination :links="links" :meta="meta" @pagination-updated="getTimers" />
+        <Pagination :links="links" :meta="meta" @pagination-updated="fetchTimers" />
     </div>
 </template>
 
@@ -48,37 +48,9 @@ export default {
     },
 
     mounted() {
-        /**
-         * Update the timers list.
-         */
-        this.getTimers()
-        /** 
-         * Sibling components communication implementation. A better implementation 
-         * would be Vuex or any Web-Sockets such as Puhser, but we are using 
-         * this aproach to reduce dependencies.
-         */
-        eventBus.$on('timer-created', async (timer) => {
-            await this.timers.forEach(timer => {
-                if (timer.finished_at == null) {
-                    timer.finished_at = moment().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss')
-                }
-            })
-            
-            this.now = moment() // reset timer
-            this.timers.unshift(timer)
-        })
-
+        this.fetchTimers()
+        this.registerSiblinsEventListeners()
         
-        eventBus.$on('timer-stopped', async (timer) => {
-            await this.timers.forEach(timer => {
-                if (timer.finished_at == null) {
-                    timer.finished_at = moment().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss')
-                }
-            })
-            
-            this.now = moment() // reset timer
-            // this.timers.unshift(timer)
-        }) // updateOpenTimers method
     },
 
     methods: {
@@ -88,7 +60,7 @@ export default {
          * is cleared to kill timer refresh. Then a new timer is set to automatically 
          * update all open timers visible in the table.
          */
-        getTimers(url = null) {            
+        fetchTimers(url = null) {            
             url = url ?? `${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`
             
             axios.get(url)
@@ -136,7 +108,39 @@ export default {
                 return 'text-danger'
             }
             return 'text-success'
-        }        
+        },
+        
+        closeAllOpenTimers() {
+            this.timers.forEach(timer => {
+                if (timer.finished_at == null) {
+                    timer.finished_at = moment().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss')
+                }
+            })
+        },
+
+        registerSiblinsEventListeners() {
+            /** 
+             * Sibling components communication implementation. A better implementation 
+             * would be Vuex or any Web-Sockets such as Puhser, but we are using 
+             * this aproach to reduce dependencies.
+             */
+            eventBus.$on('timer-created', async (timer) => {
+                await this.timers.forEach(timer => {
+                    if (timer.finished_at == null) {
+                        timer.finished_at = moment().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss')
+                    }
+                })
+                
+                this.now = moment() // reset timer
+                this.timers.unshift(timer)
+            })      
+
+            eventBus.$on('timer-stopped', async (timer) => {
+                await this.closeAllOpenTimers()                
+                this.now = moment() // reset timer
+                    // this.timers.unshift(timer)
+            }) // updateOpenTimers method
+        }
     },
     
     components: {Pagination}

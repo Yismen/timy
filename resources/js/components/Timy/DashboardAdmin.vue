@@ -86,27 +86,18 @@ export default {
                         });
                 })
                 .finally(() => this.loading = false)
-        }, 3000)
+        }, 1500)
         
     },
 
     methods: {
         async updateTimer(timer, index, event) {
             this.loading = true            
-            await this.completeClose(timer, index)
 
             axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/admin/create_timer_forced/${timer.user_id}/${event.target.value}`)
                 .then(({data}) => {
-                    this.running_timers.splice(index, 0, data.data)
+                    this.running_timers.splice(index, 1, data.data)
                     return data.data
-                })
-                .then(response => {                    
-                    Cookies.set(
-                        TIMY_DROPDOWN_CONFIG.cookie_prefix, 
-                        response.disposition_id, 
-                        {expires: 0.5} // 0.5 days is 12 hours
-                    )
-                    return response
                 })
                 .finally(response => this.loading = false)
         },

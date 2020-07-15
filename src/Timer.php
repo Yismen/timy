@@ -14,18 +14,6 @@ class Timer extends Model
 
     protected $appends = ['path'];
 
-    protected static function booted()
-    {
-
-        static::creating(function ($model) {
-            $model->mine()->running()->each(function ($timer) {
-                $timer->stop();
-            });
-
-            $model->name = auth()->user()->name;
-        });
-    }
-
     public function getPathAttribute()
     {
         return $this->id;

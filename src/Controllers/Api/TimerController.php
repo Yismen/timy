@@ -43,15 +43,22 @@ class TimerController extends BaseController
         $this->validate(request(), [
             'disposition_id' => 'exists:timy_dispositions,id'
         ]);
+        try {
+            $this->user->stopRunningTimers();
+            $timer = $this->user->startTimer(request('disposition_id'));
 
-        $timer = $this->user->startTimer(request('disposition_id'));
+            event(new TimerCreated($this->user, $timer));
+            event(new TimerCreatedAdmin($this->user, $timer));
 
-        event(new TimerCreated($this->user, $timer));
-        event(new TimerCreatedAdmin($this->user, $timer));
+            TimerResource::withoutWrapping();
 
-        TimerResource::withoutWrapping();
-
-        return response()->json(['data' => new TimerResource($timer)]);
+            return response()->json(['data' => new TimerResource($timer)]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+                'exception' => get_class($th)
+            ], $th->getCode());
+        }
     }
 
     public function update(Timer $timer)

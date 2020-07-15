@@ -36,6 +36,12 @@ export default {
         }
     },
 
+    mounted() {
+        this.setWindowUnloadEvent()
+        this.getCurrentlyOpenTimerOrCreateANewOne()       
+        this.pingUserAuthentication()               
+    },
+
     computed: {
         currentDisposition() {
             return this.dispositions.filter(disposition => {
@@ -48,55 +54,28 @@ export default {
         }
     },
 
-    mounted() {
-        this.watchForWindowUnloadEvent()
-        this.getCurrentlyOpenTimerOrCreateANewOne()
-        this.fetchDispositions()
-        this.setupTimerToReloadWindow()       
-
-        
-    },
-
     methods: {
         getCurrentlyOpenTimerOrCreateANewOne() {
             this.loading = true
             axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/running`)
                 .then(({data}) => {    
                     this.current = this.getCurrentDispositionId(data.data)
+                    return data.data
                 })
-                .then(() => {
+                .then(response =>  {
+                    this.fetchDispositionsList()
+                    return response
+                })
+                .then(response => {
                     let vm = this
                     axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`, {disposition_id: this.current})
                         .then(({data}) => {                            
-                            window.Echo.private(`Timy.User.${data.data.user_id}`)
-                                .listen('.Dainsys\\Timy\\Events\\TimerCreated', function(response) {
-                                    vm.current = vm.getCurrentDispositionId(response.timer)
-                                    eventBus.$emit('timer-created', response.timer)
-                                    
-                                    Cookies.set(
-                                        TIMY_DROPDOWN_CONFIG.cookie_prefix, 
-                                         response.timer.disposition_id, 
-                                        {expires: 0.5} // 0.5 days is 12 hours
-                                    )
-
-                                    alert("Your timer disposition was changed remotely by an Admin User!")
-                                })
-                                .listen('.Dainsys\\Timy\\Events\\TimerStopped', function(response) {
-                                    vm.current = TIMY_DROPDOWN_CONFIG.default_disposition_id
-                                    eventBus.$emit('timer-stopped', response.timer)
-                                    
-                                    Cookies.set(
-                                        TIMY_DROPDOWN_CONFIG.cookie_prefix, 
-                                         vm.current, 
-                                        {expires: 0.5} // 0.5 days is 12 hours
-                                    )
-
-                                    alert("Admin has terminated your session. Good By!")
-                                });
+                            vm.setSoketListeners(data.data.user_id)
                             return data
                         })
-                        .catch(({response}) => alert(`${response.data.exception}. ${response.data.message}`))        
+                        .catch(({response}) => alert(response.data.message)) // Shift closed  
                 })
+                .catch(error => console.log(error, error.data))
                 .finally(() => this.loading = false)
         },
 
@@ -117,7 +96,7 @@ export default {
             return TIMY_DROPDOWN_CONFIG.default_disposition_id
         },
 
-        setupTimerToReloadWindow() {
+        pingUserAuthentication() {
             // Check if backend session is alive
             setInterval(() => {
                 axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/ping`)
@@ -131,7 +110,7 @@ export default {
             }
         },
 
-        watchForWindowUnloadEvent() {
+        setWindowUnloadEvent() {
             /**
              * Bootup a watched for when the window is closed and close all active timers.
              */
@@ -141,7 +120,7 @@ export default {
             }
         },
 
-        fetchDispositions() {          
+        fetchDispositionsList() {          
             this.loading = true
             axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/dispositions`)
                 .then(({data}) => this.dispositions = data.data)
@@ -157,15 +136,42 @@ export default {
                     return data.data
                 })
                 .then(response => {
-                    Cookies.set(
-                        TIMY_DROPDOWN_CONFIG.cookie_prefix, 
-                        response.disposition_id, 
-                        {expires: 0.5} // 0.5 days is 12 hours
-                    )
+                    this.setCookie(response.disposition_id)
+                    return response
                 })
-                .catch(({response}) => alert(`${response.data.exception}. ${response.data.message}`))
                 .finally(() => this.loading = false)
-        }
+        },
+
+        setCookie(cookie_id, expires = 0.5, prefix = null) {
+            prefix = prefix == null ? TIMY_DROPDOWN_CONFIG.cookie_prefix : prefix
+            Cookies.set(
+                prefix, 
+                cookie_id, 
+                {expires: expires} // 0.5 days is 12 hours
+            )
+        },
+
+        setSoketListeners(user_id = 0) {
+            let vm = this
+            window.Echo.private(`Timy.User.${user_id}`)
+                .listen('.Dainsys\\Timy\\Events\\TimerCreated', function(response) {
+                    vm.current = vm.getCurrentDispositionId(response.timer)
+                    eventBus.$emit('timer-created', response.timer)                                    
+                    vm.setCookie(response.timer.disposition_id)
+                    alert("Your timer disposition was changed remotely by an Admin User!")
+                })
+                .listen('.Dainsys\\Timy\\Events\\TimerStopped', function(response) {
+                    vm.current = TIMY_DROPDOWN_CONFIG.default_disposition_id
+                    vm.setCookie(TIMY_DROPDOWN_CONFIG.default_disposition_id)
+                    eventBus.$emit('timer-stopped', response.timer)
+                    alert("Admin has terminated your session. Good By!")
+                })
+                .listen('.Dainsys\\Timy\\Events\\ShiftClosed', function(response) {
+                    vm.current = TIMY_DROPDOWN_CONFIG.default_disposition_id
+                    vm.setCookie(TIMY_DROPDOWN_CONFIG.default_disposition_id)
+                    alert("Sorry! Production shift is closed. You will not be able to register timers outside our working hours.")
+                });
+        },
     }
 }
 </script>
