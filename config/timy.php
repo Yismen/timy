@@ -10,7 +10,7 @@ return [
     'shift' => [
         'with_shift' => true,
         'starts_at' => '07:45',
-        'ends_at' => '10:00'
+        'ends_at' => '17:00'
     ],
     /**
      * Indicate if the web routes will be activated. Set it to false 
