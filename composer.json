@@ -34,5 +34,10 @@
                 "Dainsys\\Timy\\TimyServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "post-package-update": [
+            "@php artisan vendor:publish --tag=timy-components --force"
+        ]
     }
 }

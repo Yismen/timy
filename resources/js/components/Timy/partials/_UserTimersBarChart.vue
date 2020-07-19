@@ -1,13 +1,13 @@
 <template>    
     <div class="card">
         <div class="card-body">
-            <BarChart :chart-data="datacollection" :options="options" :styles="myStyles" />
+            <LineChart :chart-data="datacollection" :options="options" :styles="myStyles" />
         </div>
     </div>
 </template>
 
 <script>
-import BarChart from '../charts/BarChart'
+import LineChart from '../charts/LineChart'
 
 export default {
     data() {
@@ -15,7 +15,7 @@ export default {
             datacollection: {},
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
             },
             myStyles: {
                 height: '200px',
@@ -68,7 +68,7 @@ export default {
         }
     },
 
-    components: {BarChart}
+    components: {LineChart}
 }
 </script>
 

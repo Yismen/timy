@@ -85,6 +85,7 @@ export default {
                             }
                         });
                 })
+                .catch(({response}) => alert(response.data.message)) 
                 .finally(() => this.loading = false)
         }, 1500)
         
@@ -99,6 +100,7 @@ export default {
                     this.running_timers.splice(index, 1, data.data)
                     return data.data
                 })
+                .catch(({response}) => alert(response.data.message)) 
                 .finally(response => this.loading = false)
         },
 

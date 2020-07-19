@@ -44,9 +44,7 @@ trait Timeable
 
     public function stopRunningTimers()
     {
-        $this->timers()->running()->get()->each(function ($timer) {
-            $timer->stop();
-        });
+        $this->timers()->running()->get()->each->stop();
     }
 
     public function startTimer(int $disposition_id)
@@ -58,22 +56,20 @@ trait Timeable
         return $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
-            'started_at' => $now,
+            'started_at' => now(),
         ]);
     }
 
     public function protectAgainstTimersOutsideShift(Carbon $now)
     {
         $current = $now->copy()->format('H:i');
+        $day = $now->copy()->format('D');
         $starts = config('timy.shift.starts_at');
         $ends = config('timy.shift.ends_at');
+        $workingDays = config('timy.shift.working_days', []);
         if (config('timy.shift.with_shift') == true) {
-            if ($current < $starts || $current > $ends) {
-                event(new ShiftClosed(auth()->user()));
-                throw new TimerNotCreatedException(
-                    "Timy Loging Time not started. Our shifts run {$starts} to {$ends}. You can contact your supervisor for more details",
-                    423
-                );
+            if ($current < $starts || $current > $ends || !in_array($day, $workingDays)) {
+                throw new TimerNotCreatedException("Timer not registered. Our shift runs from {$starts} to {$ends} on days " . join(", ", $workingDays) . ". You can contact your supervisor for more details", 423);
             }
         }
     }

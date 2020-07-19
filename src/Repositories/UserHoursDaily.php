@@ -11,7 +11,7 @@ class UserHoursDaily extends UserHours
     public static function get(int $many = 0)
     {
         return self::query()
-            ->take(12)
+            ->take(15)
             ->get()
             ->reverse();
     }

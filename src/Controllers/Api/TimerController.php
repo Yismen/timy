@@ -52,8 +52,9 @@ class TimerController extends BaseController
 
             TimerResource::withoutWrapping();
 
-            return response()->json(['data' => new TimerResource($timer)]);
+            return response()->json(['data' => new TimerResource($timer)], 200);
         } catch (\Throwable $th) {
+            // report($th);
             return response()->json([
                 'message' => $th->getMessage(),
                 'exception' => get_class($th)
@@ -74,7 +75,7 @@ class TimerController extends BaseController
 
         TimerResource::withoutWrapping();
 
-        return response()->json(['data' => TimerResource::make($timer)]);
+        return response()->json(['data' => TimerResource::make($timer)], 200);
     }
 
     public function destroy(Timer $timer)
@@ -86,14 +87,12 @@ class TimerController extends BaseController
 
         TimerResource::withoutWrapping();
 
-        return response()->json(['data' => TimerResource::make($timer)]);
+        return response()->json(['data' => TimerResource::make($timer)], 200);
     }
 
     protected function closeAll()
     {
-        $this->user->timers()->running()->each(function ($timer) {
-            $timer->stop();
-        });
+        $this->user->stopRunningTimers();
 
         return response()->json(['data' => $this->user->timers()->running()->get()]);
     }
