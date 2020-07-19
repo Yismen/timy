@@ -2,16 +2,12 @@
 
 namespace Dainsys\Timy;
 
-use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
 
 class TimyServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Broadcast::routes();
-        require_once(__DIR__ . '/../routes/channels.php');
-
         $this
             ->registerPublishables()
             ->loadComponents();
@@ -52,7 +48,7 @@ class TimyServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
-        require_once(__DIR__ . '/../helpers/helpers.php');
+        require(__DIR__ . '/../helpers/helpers.php');
 
         return $this;
     }

@@ -13,6 +13,15 @@ Add user's time tracker functionality to Laravel 7, VueJs 2 and Bootstrap 4.
 - Add the `use Dainsys\Timy\Timeable` trait to your `User` model. 
 - Next, make sure to follow the `laravel/ui` installation guide from https://laravel.com/docs/7.x/authentication
 - Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `app.config` file.
+- Next paste the following routes in your `routes\channels.php` file:
+````javascript
+Broadcast::channel('Timy.User.{id}', function ($user, $id) {
+    return (int) $user->id == (int) $id;
+});
+Broadcast::channel('Timy.Admin', function ($user) {
+    return Gate::allows(config('timy.roles.admin'));
+});
+````
 - The package has it's own views and Vue components and it should work out of the box. Just visit any of its routes (Please see UI Routes section below).
 - Next, define the Super User in you .env file by providing its email in the variable `TIMY_SUPER_USER_EMAIL=` . This user will have plenty control of the app.
 - Next get your Pusher's credentials from https://dashboard.pusher.com/apps and use them to define the following variables in your .env file:
