@@ -70,7 +70,5 @@ class Timer extends Model
         $this->update([
             'finished_at' => now()
         ]);
-
-        return $this;
     }
 }

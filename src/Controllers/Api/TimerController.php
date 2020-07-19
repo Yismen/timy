@@ -33,10 +33,10 @@ class TimerController extends BaseController
         );
     }
 
-    public function show(Timer $timer)
-    {
-        return response()->json(['data' => $timer]);
-    }
+    // public function show(Timer $timer)
+    // {
+    //     return response()->json(['data' => $timer]);
+    // }
 
     protected function store()
     {
@@ -54,7 +54,6 @@ class TimerController extends BaseController
 
             return response()->json(['data' => new TimerResource($timer)], 200);
         } catch (\Throwable $th) {
-            // report($th);
             return response()->json([
                 'message' => $th->getMessage(),
                 'exception' => get_class($th)
@@ -62,39 +61,41 @@ class TimerController extends BaseController
         }
     }
 
-    public function update(Timer $timer)
-    {
-        $this->validate(request(), [
-            'disposition_id' => 'exists:timy_dispositions,id'
-        ]);
+    // public function update(Timer $timer)
+    // {
+    //     $this->validate(request(), [
+    //         'disposition_id' => 'exists:timy_dispositions,id'
+    //     ]);
 
-        $timer->update(request()->all());
+    //     $timer->update(request()->all());
 
-        event(new TimerCreated($this->user, $timer));
-        event(new TimerCreatedAdmin($this->user, $timer));
+    //     event(new TimerCreated($this->user, $timer));
+    //     event(new TimerCreatedAdmin($this->user, $timer));
 
-        TimerResource::withoutWrapping();
+    //     TimerResource::withoutWrapping();
 
-        return response()->json(['data' => TimerResource::make($timer)], 200);
-    }
+    //     return response()->json(['data' => TimerResource::make($timer)], 200);
+    // }
 
-    public function destroy(Timer $timer)
-    {
-        $timer->stop();
-        $user = User::find($timer->user_id);
+    // public function destroy(Timer $timer)
+    // {
+    //     $timer->stop();
+    //     $user = User::find($timer->user_id);
 
-        event(new TimerStopped($user, $timer));
+    //     event(new TimerStopped($user, $timer));
 
-        TimerResource::withoutWrapping();
+    //     TimerResource::withoutWrapping();
 
-        return response()->json(['data' => TimerResource::make($timer)], 200);
-    }
+    //     return response()->json(['data' => TimerResource::make($timer)], 200);
+    // }
 
     protected function closeAll()
     {
         $this->user->stopRunningTimers();
 
-        return response()->json(['data' => $this->user->timers()->running()->get()]);
+        return response()->json([
+            'data' => $this->user->timers()->running()->get()
+        ]);
     }
 
     public function running()

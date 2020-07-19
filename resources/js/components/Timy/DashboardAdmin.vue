@@ -118,6 +118,7 @@ export default {
                         return data.data
                     })
                     .then(response => eventBus.$emit('timer-closed', response))
+                    .catch(({response}) => alert(response.data.message)) 
         },
 
         seeUserProfile(user_id) {

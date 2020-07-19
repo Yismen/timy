@@ -82,6 +82,7 @@ export default {
 
                     return data
                 })
+                .catch(({response}) => alert(response.data.message)) 
                 .finally(() => this.loading = false)
         }, 2000)
     },

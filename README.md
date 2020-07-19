@@ -24,7 +24,7 @@ PUSHER_APP_SECRET=
 PUSHER_APP_CLUSTER=
 
 MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
-MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ````
 - Publish the vue components by running the command `php artisan vendor:publish --tag=timy-components --force`
 - Next, Register your components previous to creating the vue instance:  
@@ -49,6 +49,15 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
+````
+- Optionally, you may want to add the following scripts in your main `composer.json` file:
+````javascript
+"scripts": {
+    "post-package-update": [
+        "@php artisan vendor:publish --tag=timy-components --force",
+        "npm run production"
+    ],
+}
 ````
 - Next you may want to publish the config file: `php artisan vendor:publish --tag=timy-config` to change default configuration. Pay attention to the option of creating default dispositions.
 #### UI Routes: 

@@ -71,6 +71,7 @@ export default {
                     this.roles = data.data.roles
                     this.unassigned = data.data.unassigned
                 })
+                .catch(({response}) => alert(response.data.message)) 
                 .finally(() => this.loading = false)
         }, 2000)
     },
@@ -92,11 +93,13 @@ export default {
         completeAssignation(userId, roleId) {
             axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/assign/${userId}/${roleId}`)
                 .then(({data}) => {})
+                .catch(({response}) => alert(response.data.message)) 
         },
 
         deleteAsignation(userId) {
             axios.delete(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/unassign/${userId}`)
                 .then(({data}) => {})
+                .catch(({response}) => alert(response.data.message)) 
         }
     },
 

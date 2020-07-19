@@ -75,7 +75,7 @@ export default {
                         })
                         .catch(({response}) => alert(response.data.message))  
                 })
-                .catch(error => console.log(error, error.data))
+                .catch(({response}) => alert(response.data.message)) 
                 .finally(() => this.loading = false)
         },
 
@@ -114,6 +114,7 @@ export default {
             let vm = this
             axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/close_all`)
                 .then(() => eventBus.$emit('all-timers-closed'))
+                .catch(({response}) => alert(response.data.message)) 
                 .finally(() => {return true})
         },
 
