@@ -53,7 +53,7 @@ window.Echo = new Echo({
 - Optionally, you may want to add the following scripts in your main `composer.json` file:
 ````javascript
 "scripts": {
-    "post-package-update": [
+    "post-autoload-dump": [
         "@php artisan vendor:publish --tag=timy-components --force",
         "npm run production"
     ],
