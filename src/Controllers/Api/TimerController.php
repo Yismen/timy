@@ -77,17 +77,17 @@ class TimerController extends BaseController
     //     return response()->json(['data' => TimerResource::make($timer)], 200);
     // }
 
-    // public function destroy(Timer $timer)
-    // {
-    //     $timer->stop();
-    //     $user = User::find($timer->user_id);
+    public function destroy(Timer $timer)
+    {
+        $timer->stop();
+        $user = User::find($timer->user_id);
 
-    //     event(new TimerStopped($user, $timer));
+        event(new TimerStopped($user, $timer));
 
-    //     TimerResource::withoutWrapping();
+        TimerResource::withoutWrapping();
 
-    //     return response()->json(['data' => TimerResource::make($timer)], 200);
-    // }
+        return response()->json(['data' => TimerResource::make($timer)], 200);
+    }
 
     protected function closeAll()
     {
