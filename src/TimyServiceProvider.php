@@ -41,10 +41,6 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views' => resource_path('views/vendor/dainsys/timy')
         ], 'timy-views');
 
-        $this->publishes([
-            __DIR__ . '/../public/vendor/timy' => public_path('vendor/dainsys/timy'),
-        ], 'timy-public');
-
         return $this;
     }
 

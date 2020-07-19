@@ -25,12 +25,6 @@
                     border-color="rgba(63, 81, 181, 1)" 
                     background-color="rgba(63, 81, 181, 0.25)" />
                 </div>
-                <div class="col-12">
-                   <TimersBarChart :chart-data="hours_by_payrolls" 
-                    chart-title="Hours By Payroll" 
-                    border-color="rgba(46,125,50 ,1)" 
-                    background-color="rgba(46,125,50 ,.25)" />
-                </div>
             </div>
             <div class="row">
                 <div class="col-auto col-sm-12">
@@ -58,7 +52,6 @@ export default {
             hours_last_date: 0,
             hours_last_payroll: 0,
             hours_daily: 0,
-            hours_by_payrolls: 0,
             user: null,
         }
     },
@@ -85,7 +78,6 @@ export default {
                     this.hours_payrolltd_initial = {...data.data.hours_payrolltd}
                     this.hours_last_date = data.data.hours_last_date
                     this.hours_daily = data.data.hours_daily
-                    this.hours_by_payrolls = data.data.hours_by_payrolls
                     this.user = data.user
 
                     return data

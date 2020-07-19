@@ -25,9 +25,11 @@ class TimerResource extends JsonResource
             'finished_at' => optional($this->finished_at)->format('Y-M-d H:i:s'),
             'is_payable' => optional($this->disposition)->payable,
             'is_invoiceable' => optional($this->disposition)->invoiceable,
-            'total_hours' => $this->started_at->floatDiffInHours($this->finished_at),
-            'payable_hours' => (bool) optional($this->disposition)->payable == true ? $this->started_at->floatDiffInHours($this->finished_at) : 0,
-            'invoiceable_hours' => (bool) optional($this->disposition)->invoiceable == true ? $this->started_at->floatDiffInHours($this->finished_at) : 0,
+            'total_hours' => !$this->finished_at ? 0 : $this->started_at->floatDiffInHours($this->finished_at),
+            'payable_hours' => (bool) optional($this->disposition)->payable == true && $this->finished_at
+                ? $this->started_at->floatDiffInHours($this->finished_at) : 0,
+            'invoiceable_hours' => (bool) optional($this->disposition)->invoiceable == true && $this->finished_at
+                ? $this->started_at->floatDiffInHours($this->finished_at) : 0,
         ];
     }
 }

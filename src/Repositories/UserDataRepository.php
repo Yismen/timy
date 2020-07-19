@@ -15,7 +15,6 @@ class UserDataRepository
             'hours_payrolltd' => UserHoursPayrollTD::get(),
             'hours_last_payroll' => UserHoursLastPayroll::get(),
             'hours_daily' => UserTimerResource::collection(UserHoursDaily::get()),
-            'hours_by_payrolls' => UserTimerResource::collection(UserHoursByPayroll::get()),
         ];
     }
 }

@@ -44,9 +44,7 @@ trait Timeable
 
     public function stopRunningTimers()
     {
-        $this->timers()->running()->get()->each(function ($timer) {
-            $timer->stop();
-        });
+        $this->timers()->running()->get()->each->stop();
     }
 
     public function startTimer(int $disposition_id)
@@ -58,7 +56,7 @@ trait Timeable
         return $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
-            'started_at' => $now,
+            'started_at' => now(),
         ]);
     }
 

@@ -91,9 +91,7 @@ class TimerController extends BaseController
 
     protected function closeAll()
     {
-        $this->user->timers()->running()->each(function ($timer) {
-            $timer->stop();
-        });
+        $this->user->stopRunningTimers();
 
         return response()->json(['data' => $this->user->timers()->running()->get()]);
     }

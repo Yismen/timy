@@ -37,7 +37,7 @@ export default {
     },
 
     mounted() {
-        this.setWindowUnloadEvent()
+        window.onbeforeunload = this.setWindowUnloadEvent()
         this.getCurrentlyOpenTimerOrCreateANewOne()       
         this.pingUserAuthentication()               
     },
@@ -69,11 +69,11 @@ export default {
                 .then(response => {
                     let vm = this
                     axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`, {disposition_id: this.current})
-                        .then(({data}) => {                            
+                        .then(({data}) => {                  
                             vm.setSoketListeners(data.data.user_id)
                             return data
                         })
-                        .catch(({response}) => alert(response.data.message)) // Shift closed  
+                        .catch(response => console.log({...response}))  
                 })
                 .catch(error => console.log(error, error.data))
                 .finally(() => this.loading = false)
@@ -111,13 +111,10 @@ export default {
         },
 
         setWindowUnloadEvent() {
-            /**
-             * Bootup a watched for when the window is closed and close all active timers.
-             */
-            window.onbeforeunload = function() {
-                axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/close_all`)
-                    .then(() => eventBus.$emit('all-timers-closed'))
-            }
+            let vm = this
+            axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/close_all`)
+                .then(() => eventBus.$emit('all-timers-closed'))
+                .finally(() => {return true})
         },
 
         fetchDispositionsList() {          
@@ -139,7 +136,10 @@ export default {
                     this.setCookie(response.disposition_id)
                     return response
                 })
-                .finally(() => this.loading = false)
+                .finally(() => {
+                    this.loading = false
+                    return true
+                })
         },
 
         setCookie(cookie_id, expires = 0.5, prefix = null) {
