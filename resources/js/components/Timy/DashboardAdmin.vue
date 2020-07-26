@@ -2,7 +2,7 @@
     <div class="__TimyAdmin">
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else>
-            <h5>Running Timers</h5>
+            <h5>Open Timers</h5>
             <table class="table table-hover bg-white">
                 <thead class="thead-inverse">
                     <tr>
@@ -14,11 +14,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(timer, index) in running_timers" :key="timer.id">
-                            <td scope="row">
-                                <a href="#" @click.prevent="seeUserProfile(timer.user_id)">
-                                    {{ timer.name }} 
-                                </a>
-                            </td>
+                            <td scope="row"> {{ timer.name }} </td>
                             <td>{{ timer.started_at }}</td>
                             <td>{{ timer.disposition }}</td>
                             <td>
@@ -29,7 +25,7 @@
                                     <select 
                                         class="form-control custom-select" 
                                         name="" id="dispositionId"
-                                        :class="[!! timer.is_payable ? 'bg-white' : 'bg-warning']"
+                                        :class="[!! timer.is_payable ? 'bg-white' : 'bg-danger text-white']"
                                         @change.prevent="updateTimer(timer, index, $event)"
                                     >
                                         <option 
@@ -37,7 +33,7 @@
                                             :key="disposition.id"
                                             :value="disposition.id"
                                             :selected="disposition.id == timer.disposition_id"
-                                            :class="[!!disposition.payable ? 'bg-white' : 'bg-warning']"
+                                            :class="[!!disposition.payable ? 'bg-white' : 'bg-danger text-white']"
                                         >
                                             {{ disposition.name }}
                                         </option>
@@ -119,10 +115,6 @@ export default {
                     })
                     .then(response => eventBus.$emit('timer-closed', response))
                     .catch(({response}) => alert(response.data.message)) 
-        },
-
-        seeUserProfile(user_id) {
-            console.log(user_id)
         }
     }
 }
