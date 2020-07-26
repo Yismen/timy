@@ -30,7 +30,7 @@
                        <div class="card-body">
                         <h5>@lang('PTD')</h5>
                         <h1 class="text-center font-weight-bold" title="{{ $data['hours_payrolltd']->date ?? null }}">
-                            {{ number_format($data['hours_payrolltd']->hours ?? 0, 2) }}
+                            {{ number_format($data['hours_payrolltd']['hours'] ?? 0, 2) }}
                          </h1>
                        </div>
                    </div>
@@ -41,7 +41,7 @@
                     <div class="card-body">
                      <h5>@lang('Last P.')</h5>
                      <h1 class="text-center font-weight-bold" title="{{ $data['hours_last_payroll']->date ?? null }}">
-                         {{ number_format($data['hours_last_payroll']->hours ?? 0, 2) }}
+                         {{ number_format($data['hours_last_payroll']['hours'] ?? 0, 2) }}
                       </h1>
                     </div>
                 </div>

@@ -47,9 +47,9 @@ export default {
             loading: true,
             hours_today: 0,
             hours_today_initial: 0,
+            hours_last_date: 0,
             hours_payrolltd: 0,
             hours_payrolltd_initial: 0,
-            hours_last_date: 0,
             hours_last_payroll: 0,
             hours_daily: 0,
             user: null,
@@ -77,6 +77,7 @@ export default {
                     this.hours_payrolltd = data.data.hours_payrolltd
                     this.hours_payrolltd_initial = {...data.data.hours_payrolltd}
                     this.hours_last_date = data.data.hours_last_date
+                    this.hours_last_payroll = data.data.hours_last_payroll
                     this.hours_daily = data.data.hours_daily
                     this.user = data.user
 
@@ -101,6 +102,7 @@ export default {
         },
 
         hoursLastPayroll() {
+            console.log(this.hours_last_payroll)
             return this.hours_last_payroll ? Number(this.hours_last_payroll.hours).toFixed(2):  0
         }
     },

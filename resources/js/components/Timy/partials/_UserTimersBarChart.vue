@@ -16,6 +16,12 @@ export default {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                hover: {
+                    intersect: true,
+                },
+                tootips: {
+                    mode: 'dataset'
+                }
             },
             myStyles: {
                 height: '200px',

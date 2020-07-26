@@ -25,7 +25,7 @@
                                     <select 
                                         class="form-control custom-select" 
                                         name="" id="dispositionId"
-                                        :class="[!! timer.is_payable ? 'bg-white' : 'bg-danger text-white']"
+                                        :class="[!! timer.is_payable ? 'bg-white text-dark' : 'bg-danger text-white']"
                                         @change.prevent="updateTimer(timer, index, $event)"
                                     >
                                         <option 
@@ -33,7 +33,7 @@
                                             :key="disposition.id"
                                             :value="disposition.id"
                                             :selected="disposition.id == timer.disposition_id"
-                                            :class="[!!disposition.payable ? 'bg-white' : 'bg-danger text-white']"
+                                            :class="[!!disposition.payable ? 'bg-white text-dark' : 'bg-danger text-white']"
                                         >
                                             {{ disposition.name }}
                                         </option>

@@ -26,7 +26,7 @@ class TimerController extends BaseController
     public function index()
     {
         return TimerResource::collection(
-            Timer::latest()
+            Timer::orderBy('started_at', 'desc')
                 ->with(['disposition', 'user'])
                 ->mine()
                 ->paginate(20)
