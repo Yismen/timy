@@ -54,28 +54,13 @@ class TimerController extends BaseController
 
             return response()->json(['data' => new TimerResource($timer)], 200);
         } catch (\Throwable $th) {
+            $code = (int) $th->getCode();
             return response()->json([
                 'message' => $th->getMessage(),
                 'exception' => get_class($th)
-            ], $th->getCode() > 0 ?: 423);
+            ], $code > 0 ? $code : 500);
         }
     }
-
-    // public function update(Timer $timer)
-    // {
-    //     $this->validate(request(), [
-    //         'disposition_id' => 'exists:timy_dispositions,id'
-    //     ]);
-
-    //     $timer->update(request()->all());
-
-    //     event(new TimerCreated($this->user, $timer));
-    //     event(new TimerCreatedAdmin($this->user, $timer));
-
-    //     TimerResource::withoutWrapping();
-
-    //     return response()->json(['data' => TimerResource::make($timer)], 200);
-    // }
 
     public function destroy(Timer $timer)
     {
