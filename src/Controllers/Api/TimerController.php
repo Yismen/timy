@@ -57,7 +57,7 @@ class TimerController extends BaseController
             return response()->json([
                 'message' => $th->getMessage(),
                 'exception' => get_class($th)
-            ], $th->getCode());
+            ], $th->getCode() > 0 ?: 423);
         }
     }
 

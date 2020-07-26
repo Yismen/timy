@@ -2,18 +2,19 @@
 
 namespace Dainsys\Timy\Repositories;
 
+use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 abstract class UserHours
 {
-    abstract static function get(int $many = 0);
+    abstract static function get(User $user, int $many = 0);
 
-    protected static function query()
+    protected static function query($user)
     {
         $self = new static();
 
-        return auth()->user()->timers()
+        return $user->timers()
             ->selectRaw($self->getRawQuery())
             ->payable()
             ->groupBy('date')

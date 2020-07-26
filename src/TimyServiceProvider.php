@@ -39,11 +39,16 @@ class TimyServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views' => resource_path('views/vendor/dainsys/timy')
         ], 'timy-views');
 
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/timy'),
+        ]);
+
         return $this;
     }
 
     protected function loadComponents()
     {
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'timy');
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');

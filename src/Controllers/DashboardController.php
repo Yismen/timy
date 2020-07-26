@@ -2,10 +2,12 @@
 
 namespace Dainsys\Timy\Controllers;
 
+use App\User;
 use Carbon\Carbon;
 use Dainsys\Timy\Disposition;
 use Dainsys\Timy\Rules\DateRangeInDays;
 use Dainsys\Timy\Exports\HoursExport;
+use Dainsys\Timy\Repositories\UserDataRepository;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -46,7 +48,9 @@ class DashboardController extends BaseController
             abort(403, 'Unauthorized');
         }
 
-        return view('timy::admin-dashboard');
+        return view('timy::admin-dashboard', [
+            'users' => User::orderBy('name')->get()->split(2),
+        ]);
     }
 
     public function hours()
@@ -64,6 +68,18 @@ class DashboardController extends BaseController
             ),
             $this->fileName
         );
+    }
+
+    public function profile(User $user)
+    {
+        if (Gate::denies(config('timy.roles.admin'))) {
+            abort(403, 'Unauthorized');
+        }
+
+        return  view('timy::user-profile', [
+            'user' => $user,
+            'data' => UserDataRepository::toArray($user)
+        ]);
     }
 
     public function validateRequest()

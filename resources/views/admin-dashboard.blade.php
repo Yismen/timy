@@ -7,31 +7,31 @@
             <timy-admin-dashboard class="w-100"></timy-admin-dashboard>
         </div>
         <div class="col-sm-12 col-lg-5">
-            <h4>Download Hours</h4>
-            <div class="card p-3">
-                <x-dc-form route="{{ route('timy_hours_download') }}">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <x-dc-input-field 
-                                type="date"
-                                field-value="{{ old('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
-                                field-name="date_from"
-                                label-name="From:"
-                            />
-                        </div>
-                        <div class="col-sm-6">
-                            <x-dc-input-field 
-                                type="date"
-                                field-value="{{ old('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
-                                field-name="date_to"
-                                label-name="{{ __('To') }}:"
-                            />
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">{{ __('Download') }}</button>
-                </x-dc-form>
+            <div class="mb-3">
+                @include('timy::_download-hours')
+            </div>
+            <div>
+                @include('timy::_user-hours-details')
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+<script>
+    function fetchUserHours() {        
+        
+        let event = window.event
+        let href = event.target.href
+        let profileEl = document.getElementById('profile-content')
+        event.preventDefault()
+
+        profileEl.innerHTML = '<h1 class="p-5">Loading...</h1>'
+
+       $('#userIdProfile').modal()
+
+        fetch(href)
+            .then(response => response.text())
+            .then(html => profileEl.innerHTML = html)
+    }
+</script>

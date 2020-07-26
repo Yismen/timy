@@ -8,10 +8,10 @@ use Dainsys\Timy\Repositories\UserDataRepository;
 
 class UserDashboardDataController extends BaseController
 {
-    public function index(UserDataRepository $repo)
+    public function index()
     {
         return response()->json([
-            'data' => $repo->toArray(),
+            'data' => UserDataRepository::toArray(auth()->user()),
             'user' => auth()->user()
         ]);
     }

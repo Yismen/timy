@@ -2,10 +2,12 @@
 
 namespace Dainsys\Timy\Controllers\Api;
 
+use App\User;
 use Dainsys\Timy\Disposition;
 use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 
 class AdminController extends BaseController
@@ -22,7 +24,7 @@ class AdminController extends BaseController
 
         return response()->json([
             'data' => [
-                'dispositions' => Disposition::get(),
+                'dispositions' => Disposition::orderBy('name')->get(),
                 'running_timers' => TimerResource::collection($timers),
             ]
         ]);
