@@ -50,7 +50,8 @@ class DashboardController extends BaseController
 
         return view('timy::admin-dashboard', [
             'users' => User::whereHas('timy_role', function($query){ 
-                    $query->where('name', config('timy.roles.user')); 
+                    $query->where('name', config('timy.roles.user'))
+                            ->orWhere('name', config('timy.roles.admin')); 
                 })
                 ->get()
                 ->split(2),
