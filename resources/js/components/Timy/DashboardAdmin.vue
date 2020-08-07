@@ -91,7 +91,7 @@ export default {
         async updateTimer(timer, index, event) {
             this.loading = true            
 
-            axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/admin/create_timer_forced/${timer.user_id}/${event.target.value}`)
+            axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/admin/update_user_timer/${timer.user_id}/${event.target.value}`)
                 .then(({data}) => {
                     this.running_timers.splice(index, 1, data.data)
                     return data.data

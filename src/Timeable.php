@@ -47,12 +47,23 @@ trait Timeable
         $this->timers()->running()->get()->each->stop();
     }
 
-    public function startTimer(int $disposition_id)
+    public function startTimer(int $disposition_id, $options = null)
     {
+        if ($options && !is_array($options)) {
+            abort(500, "Options must be an array or null!");
+        }
+
         $now = now();
 
-        $this->protectAgainstTimersOutsideShift($now);
+        if (is_array($options) && !array_key_exists('forced', $options)) {
+            $this->protectAgainstTimersOutsideShift($now);
+        }
 
+        return $this->getTimerStarted($disposition_id, $now);
+    }
+
+    protected function getTimerStarted($disposition_id, $now)
+    {
         return $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
@@ -60,7 +71,7 @@ trait Timeable
         ]);
     }
 
-    public function protectAgainstTimersOutsideShift(Carbon $now)
+    protected function protectAgainstTimersOutsideShift(Carbon $now)
     {
         $current = $now->copy()->format('H:i');
         $day = $now->copy()->format('D');

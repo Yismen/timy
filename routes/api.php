@@ -22,5 +22,6 @@ Route::middleware($apiMiddlewares)
         Route::delete('unassign/{user}', 'SuperAdminController@unAssign')->name('timy_unassign_user_role');
 
         Route::get('admin', 'AdminController@index')->name('timy_admin');
-        Route::post('admin/create_timer_forced/{user}/{disposition}', 'AdminController@store')->name('timy_admin.create_timer_forced');
+        Route::post('admin/update_user_timer/{user}/{disposition}', 'AdminController@store')->name('timy_admin.create_timer_forced');
+        Route::post('super_admin/create_forced_timer/{user}/{disposition}', 'SuperAdminController@createForcedTimer')->name('timy_super_admin.create_forced_timer');
     });
