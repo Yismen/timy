@@ -55,7 +55,7 @@ trait Timeable
 
         $now = now();
 
-        if (is_array($options) && !array_key_exists('forced', $options)) {
+        if (!is_array($options)  || !array_key_exists('forced', $options)) {
             $this->protectAgainstTimersOutsideShift($now);
         }
 
