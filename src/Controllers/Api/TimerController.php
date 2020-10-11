@@ -56,6 +56,7 @@ class TimerController extends BaseController
         } catch (\Throwable $th) {
             $code = (int) $th->getCode();
             return response()->json([
+                'user' => $this->user,
                 'message' => $th->getMessage(),
                 'exception' => get_class($th)
             ], $code > 0 ? $code : 500);
