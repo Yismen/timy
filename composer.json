@@ -39,5 +39,8 @@
         "post-package-update": [
             "@php artisan vendor:publish --tag=timy-components --force"
         ]
+    },
+    "require-dev": {
+        "orchestra/testbench": "5.x-dev"
     }
 }
