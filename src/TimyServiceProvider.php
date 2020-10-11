@@ -8,7 +8,6 @@ class TimyServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        dd('asdadf');
         $this
             ->registerPublishables()
             ->loadComponents();
