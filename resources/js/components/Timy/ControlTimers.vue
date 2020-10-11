@@ -67,15 +67,15 @@ export default {
                     return response
                 })
                 .then(response => {
-                    let vm = this
+                    let vm = this     
                     axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`, {disposition_id: this.current})
-                        .then(({data}) => {                  
+                        .then(({data}) => {          
                             vm.setSoketListeners(data.data.user_id)
                             return data
                         })
-                        .catch(({response}) => alert(response.data.message))  
+                        .catch(({response}) => this.errorHappened(response.data))  
                 })
-                .catch(({response}) => alert(response.data.message)) 
+                .catch(({response}) => this.errorHappened(response.data)) 
                 .finally(() => this.loading = false)
         },
 
@@ -114,7 +114,7 @@ export default {
             let vm = this
             axios.post(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/close_all`)
                 .then(() => eventBus.$emit('all-timers-closed'))
-                .catch(({response}) => alert(response.data.message)) 
+                .catch(({response}) => this.errorHappened(response.data)) 
                 .finally(() => {return true})
         },
 
@@ -137,6 +137,7 @@ export default {
                     this.setCookie(response.disposition_id)
                     return response
                 })
+                .catch(({response}) => this.errorHappened(response.data)) 
                 .finally(() => {
                     this.loading = false
                     return true
@@ -150,6 +151,12 @@ export default {
                 cookie_id, 
                 {expires: expires} // 0.5 days is 12 hours
             )
+        },
+
+        errorHappened(responseData) {
+            this.setSoketListeners(responseData.user.id)
+            alert(responseData.message)
+            this.current = TIMY_DROPDOWN_CONFIG.default_disposition_id
         },
 
         setSoketListeners(user_id = 0) {
