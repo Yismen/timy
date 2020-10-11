@@ -21,6 +21,16 @@ class User extends Authenticatable
 }
 ````
 > This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication
+* Starting on version 2, this packaged switched to `laravel/livewire`. Make sure you update your layout view:
+````javascript
+    @livewireStyles
+</head>
+<body>
+    ...
+    @livewireScripts
+</body>
+</html>
+````
 * Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `app.config` file.
 * Next paste the following routes in your `routes\channels.php` file:
 ````javascript
