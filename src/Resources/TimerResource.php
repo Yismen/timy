@@ -17,6 +17,7 @@ class TimerResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'user_created_at' => $this->user->created_at->format('Y-m-d'),
             'name' => optional($this->user)->name,
             'path' => $this->path,
             'disposition_id' => optional($this->disposition)->id,

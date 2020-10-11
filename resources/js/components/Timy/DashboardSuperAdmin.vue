@@ -3,46 +3,8 @@
         <div class="loading" v-if="loading">Loading...</div>
         <div class="" v-else>    
             <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <div class="card mb-2">
-                        <div class="card-body p-0">               
-                            <h4 class="card-title m-0 p-3 border-bottom">
-                                Unassigned Users:
-                                <span class="badge badge-pill" :class="[unassigned.length > 0 ? 'bg-danger  text-white' : 'bg-light text-muted']">
-                                    {{ unassigned.length }}
-                                </span>
-                            </h4>   
-                            <div class="card-text bg-light ">
-                                <draggable :sort="false" v-model="unassigned" class="draggable" @remove="dataDropped"  group="users" id="unassigned">
-                                    <div v-for="user in unassigned" :key="user.id"  :id="user.id" class="bg-light border">
-                                        {{ user.name }}
-                                    </div>
-                                </draggable>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6" v-for="role in roles" :key="role.id">
-                    <div class="card mb-2">
-                        <div class="card-body p-0">
-                            <h4 class="card-title m-0 p-3 border-bottom">
-                                {{ role.name }}: 
-                                <span class="badge badge-pill" :class="[role.users.length > 0 ? 'bg-primary  text-white' : 'bg-light text-muted']">
-                                    {{ role.users.length }}
-                                </span>
-                            </h4>
-                            <div class="card-text bg-light">
-                                <draggable :sort="false" v-model="role.users" class="draggable"  @remove="dataDropped" group="users" :id="role.id">
-                                    <div v-for="user in role.users" :key="user.id" :id="user.id" class="bg-light border">
-                                        {{ user.name }}
-                                    </div>
-                                </draggable>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-sm-6">
+                <div class="col-lg-6 mb-2">
                     <div class="card">
                         <div class="card-header bg-danger text-white">
                             <h4>Create Forced Timers</h4>
@@ -71,6 +33,47 @@
                                     </h5>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /. forced timers -->
+                <div class="col-lg-6">
+                    <div>
+                        <div class="card mb-2">
+                            <div class="card-body p-0">               
+                                <h4 class="card-title m-0 p-3 border-bottom">
+                                    Unassigned Users:
+                                    <span class="badge badge-pill" :class="[unassigned.length > 0 ? 'bg-danger  text-white' : 'bg-light text-muted']">
+                                        {{ unassigned.length }}
+                                    </span>
+                                </h4>   
+                                <div class="card-text bg-light ">
+                                    <draggable :sort="false" v-model="unassigned" class="draggable" @remove="dataDropped"  group="users" id="unassigned">
+                                        <div v-for="user in unassigned" :key="user.id"  :id="user.id" class="px-2 bg-light border">
+                                            {{ user.name }}
+                                        </div>
+                                    </draggable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-for="role in roles" :key="role.id">
+                        <div class="card mb-2">
+                            <div class="card-body p-0">
+                                <h4 class="card-title m-0 p-3 border-bottom">
+                                    {{ role.name }}: 
+                                    <span class="badge badge-pill" :class="[role.users.length > 0 ? 'bg-primary  text-white' : 'bg-light text-muted']">
+                                        {{ role.users.length }}
+                                    </span>
+                                </h4>
+                                <div class="">
+                                    <draggable :sort="false" v-model="role.users" class="draggable"  @remove="dataDropped" group="users" :id="role.id">
+                                        <div v-for="user in role.users" :key="user.id" :id="user.id" class="px-2 bg-info text-light border">
+                                            {{ user.name }}
+                                        </div>
+                                    </draggable>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

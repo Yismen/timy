@@ -3,10 +3,11 @@
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else>
             <h5>Open Timers</h5>
-            <table class="table table-hover bg-white">
+            <table class="table table-hover bg-white m-0 table-sm">
                 <thead class="thead-inverse">
                     <tr>
                         <th>User</th>
+                        <th>Group SD</th>
                         <th>Started At</th>
                         <th>Disposition</th>
                         <th colspan="2">Actions</th>
@@ -14,13 +15,14 @@
                     </thead>
                     <tbody>
                         <tr v-for="(timer, index) in running_timers" :key="timer.id">
-                            <td scope="row"> {{ timer.name }} </td>
-                            <td>{{ timer.started_at }}</td>
-                            <td>{{ timer.disposition }}</td>
-                            <td>
+                            <td class="p-1" scope="row"> {{ timer.name }} </td>
+                            <td class="p-1">{{ timer.user_created_at }}</td>
+                            <td class="p-1">{{ timer.started_at }}</td>
+                            <td class="p-1">{{ timer.disposition }}</td>
+                            <td class="p-1">
                                 <button class="btn btn-xs btn-danger" title="Close Timer" @click.prevent="closeTimer(timer, index)">X</button>
                             </td>
-                            <td>
+                            <td class="p-1">
                                 <div class="form-group">
                                     <select 
                                         class="form-control custom-select" 
