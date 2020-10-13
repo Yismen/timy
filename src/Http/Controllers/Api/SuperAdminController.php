@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Controllers\Api;
+namespace Dainsys\Timy\Http\Controllers\Api;
 
 use App\User;
 use Dainsys\Timy\Disposition;

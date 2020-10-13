@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Controllers\Api;
+namespace Dainsys\Timy\Http\Controllers\Api;
 
 use App\User;
 use Dainsys\Timy\Disposition;
@@ -39,17 +39,15 @@ class AdminController extends BaseController
         $this->validate(request(), [
             'user' => 'exists:users,id',
         ]);
-
+        
         $user = resolve('TimyUser')->findOrFail($user);
 
-        $user->stopRunningTimers();
-
         $timer = $user->startTimer($disposition->id);
-
+        
         event(new TimerCreated($user, $timer));
-
+        
         return response()->json([
-            'data' => TimerResource::make($timer)
+            'data' => $timer
         ]);
     }
 }

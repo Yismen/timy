@@ -17,6 +17,7 @@
 </li>
 <li class="nav-item">
     @can('timy-user')
-        <timy-timers-control></timy-timers-control>
+        @livewire('timy::timer-control')
+        {{-- <timy-timers-control></timy-timers-control> --}}
     @endcan
 </li>

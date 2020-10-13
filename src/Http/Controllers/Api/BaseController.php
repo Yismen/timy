@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Controllers;
+namespace Dainsys\Timy\Http\Controllers\Api;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

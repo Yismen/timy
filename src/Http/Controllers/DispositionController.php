@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Controllers;
+namespace Dainsys\Timy\Http\Controllers;
 
 use Dainsys\Timy\Disposition;
 use Illuminate\Http\Request;

@@ -2,7 +2,9 @@
 
 namespace Dainsys\Timy;
 
+use Dainsys\Timy\Http\Livewire\TimerControl;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class TimyServiceProvider extends ServiceProvider
 {
@@ -10,7 +12,8 @@ class TimyServiceProvider extends ServiceProvider
     {
         $this
             ->registerPublishables()
-            ->loadComponents();
+            ->loadComponents()
+            ->registerLivewireComponents();
 
         $this->app->bind('TimyUser', config('timy.models.user'));
 
@@ -54,6 +57,13 @@ class TimyServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
         require(__DIR__ . '/../helpers/helpers.php');
+
+        return $this;
+    }
+
+    protected function registerLivewireComponents()
+    {
+        Livewire::component('timy::timer-control', TimerControl::class);
 
         return $this;
     }

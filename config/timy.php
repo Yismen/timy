@@ -2,8 +2,13 @@
 
 return [
     /**
-         * When 'with_shift' is set to true, users will not be able to start timers outside that range. 
-         * Define the start and end of the shifts. Make sure to provide valid time representing 
+     * The id of the disposition to which the controller will default when no other is set. Usually it is an 
+     * initla state, not payable or invoiceable disposition.
+     */
+    'default_disposition_id' => 1,
+    /**
+     * When 'with_shift' is set to true, users will not be able to start timers outside that range. 
+     * Define the start and end of the shifts. Make sure to provide valid time representing 
      * the start and ending of your shifts.
      * To disable the shift functionality just set the 'with_shift' to false.
      */

@@ -6,7 +6,7 @@ $webMiddlewares = preg_split("/[,|]+/", config('timy.midlewares.web'));
 
 Route::middleware($apiMiddlewares)
     ->prefix('timy')
-    ->namespace('\Dainsys\Timy\Controllers')
+    ->namespace('\Dainsys\Timy\Http\Controllers')
     ->group(function () {
         Route::get('user', 'DashboardController@user')->name('user_dashboard');
         Route::get('admin', 'DashboardController@admin')->name('admin_dashboard');

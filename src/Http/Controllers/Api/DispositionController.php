@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Controllers\Api;
+namespace Dainsys\Timy\Http\Controllers\Api;
 
 use Dainsys\Timy\Disposition;
 use Illuminate\Validation\Rule;

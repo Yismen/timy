@@ -4,9 +4,13 @@ namespace Dainsys\Timy;
 
 use Carbon\Carbon;
 use Dainsys\Timy\Events\ShiftClosed;
+use Dainsys\Timy\Events\TimerCreated;
+use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Exceptions\TimerNotCreatedException;
+use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Role;
 use Dainsys\Timy\Timer;
+use Illuminate\Support\Facades\Cache;
 
 trait Timeable
 {
@@ -49,6 +53,8 @@ trait Timeable
 
     public function startTimer(int $disposition_id, $options = null)
     {
+        $this->stopRunningTimers();
+
         if ($options && !is_array($options)) {
             abort(500, "Options must be an array or null!");
         }
@@ -64,11 +70,24 @@ trait Timeable
 
     protected function getTimerStarted($disposition_id, $now)
     {
-        return $this->timers()->create([
+        $cache_key = 'timy-user-last-disposition-' . $this->id;
+        Cache::forget($cache_key);
+
+        Cache::rememberForever($cache_key, function () use ($disposition_id) {
+            return $disposition_id;
+        });
+
+        $timer = $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
             'started_at' => $now,
         ]);
+        
+            
+        event(new TimerCreated($this, $timer));
+        event(new TimerCreatedAdmin($this, $timer));
+
+        return TimerResource::make($timer)->jsonSerialize();
     }
 
     protected function protectAgainstTimersOutsideShift(Carbon $now)
