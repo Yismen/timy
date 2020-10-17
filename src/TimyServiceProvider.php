@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy;
 
+use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -64,6 +65,7 @@ class TimyServiceProvider extends ServiceProvider
     protected function registerLivewireComponents()
     {
         Livewire::component('timy::timer-control', TimerControl::class);
+        Livewire::component('timy::open-timers-monitor', OpenTimersMonitor::class);
 
         return $this;
     }

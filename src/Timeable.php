@@ -49,6 +49,9 @@ trait Timeable
     public function stopRunningTimers()
     {
         $this->timers()->running()->get()->each->stop();
+
+        $cache_key = 'timy-user-last-disposition-' . $this->id;
+        Cache::forget($cache_key);
     }
 
     public function startTimer(int $disposition_id, $options = null)
@@ -71,7 +74,6 @@ trait Timeable
     protected function getTimerStarted($disposition_id, $now)
     {
         $cache_key = 'timy-user-last-disposition-' . $this->id;
-        Cache::forget($cache_key);
 
         Cache::rememberForever($cache_key, function () use ($disposition_id) {
             return $disposition_id;

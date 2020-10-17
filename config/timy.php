@@ -13,7 +13,7 @@ return [
      * To disable the shift functionality just set the 'with_shift' to false.
      */
     'shift' => [
-        'with_shift' => true,
+        'with_shift' => false,
         'starts_at' => '07:45',
         'ends_at' => '17:15',
         'working_days' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']

@@ -9,68 +9,92 @@ use Livewire\Component;
 
 class TimerControl extends Component
 {
-    public $current_disposition_id;
+    public $exception;
+
+    public $pushed = "Initial";
 
     public $dispositions = [];
 
     public $selectedDisposition;
 
     public $running = [];
-    
+
     public $user;
 
     public function mount()
     {
-        $this->current_disposition_id = $this->getCurrentDispositionId();
-
         $this->user = auth()->user();
-        
-        if ($timer = $this->user->timers()->running()->first()) {
-            $this->running = TimerResource::make($timer)->jsonSerialize();
-        } else {
-            $this->running = $this->user->startTimer($this->current_disposition_id);
-        }
+        $runningTimer = $this->user->timers()->running()->first();
 
-        $this->dispositions = DispositionsRepository::all();
+        if ($runningTimer) {
+            $this->selectedDisposition = $runningTimer->disposition_id;
+            $this->running = TimerResource::make($runningTimer)->jsonSerialize();
+        } else {
+            $this->selectedDisposition = $this->getCurrentDispositionId();
+            $this->createNewTimerForUser($this->selectedDisposition);
+        }
     }
 
     public function render()
     {
+        $this->dispositions = DispositionsRepository::all();
+
         return view('timy::livewire.timer-control');
     }
 
     public function getListeners()
     {
         return [
-            'echo-private:Timy.User.'. $this->user->id . ',TimerCreated' => 'timerUpdatedRemotedly',
+            "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerCreated" => 'timerUpdatedRemotedly',
+            "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerStopped" => 'timerStoppedRemotedly',
         ];
     }
 
-
     public function updateUserDisposition()
     {
-        try {
-            $this->running  = $this->user->startTimer($this->selectedDisposition);
-        } catch (\Throwable $th) {
-            $code = (int) $th->getCode();
-            return response()->json([
-                'user' => $this->user,
-                'message' => $th->getMessage(),
-                'exception' => get_class($th)
-            ], $code > 0 ? $code : 500);
-        }
+        $this->createNewTimerForUser($this->selectedDisposition);
     }
 
-    public function timerUpdatedRemotedly()
+    public function timerUpdatedRemotedly($payload)
     {
-        dd("asdfasdf");
+        $this->running = $payload['timer'];
+        $this->selectedDisposition = $this->running['disposition_id'];
+    }
+
+    public function timerStoppedRemotedly($payload)
+    {
+        $this->running = $payload['timer'];
+        $this->selectedDisposition = $this->getCurrentDispositionId();
     }
 
     protected function getCurrentDispositionId()
     {
-        return $this->running ?
-            $this->running->disposition_id :
-            Cache::get('timy-user-last-disposition-' . auth()->id(), config('timy.default_disposition_id'));
+        return Cache::get('timy-user-last-disposition-' . auth()->id(), config('timy.default_disposition_id'));
     }
-    
+
+    protected function createNewTimerForUser($dispositionId)
+    {
+        try {
+            $timer =  $this->user->startTimer($dispositionId);
+            $this->running = $timer;
+        } catch (\Throwable $th) {
+            $this->exception = $th->getMessage();
+            $this->running = [
+                "id" => '',
+                "user_id" => '',
+                "user_created_at" => '',
+                "name" => '',
+                "path" => '',
+                "disposition_id" => '',
+                "disposition" => '',
+                "started_at" => '',
+                "finished_at" => '',
+                "is_payable" => '',
+                "is_invoiceable" => '',
+                "total_hours" => '',
+                "payable_hours" => '',
+                "invoiceable_hours" => '',
+            ];
+        }
+    }
 }

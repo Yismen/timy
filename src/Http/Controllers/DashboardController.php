@@ -48,7 +48,7 @@ class DashboardController extends BaseController
             abort(403, 'Unauthorized');
         }
 
-        return view('timy::admin-dashboard', [
+        return view('timy::dashboards.admin', [
             'users' => User::orderBy('name')
                 ->whereHas('timy_role', function ($query) {
                     $query->where('name', config('timy.roles.user'))

@@ -7,7 +7,7 @@
                         type="date"
                         field-value="{{ old('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
                         field-name="date_from"
-                        label-name="{{ __('From') }}:"
+                        label-name="{{ __('timy::titles.from') }}:"
                     />
                 </div>
                 <div class="col-sm-6">
@@ -15,7 +15,7 @@
                         type="date"
                         field-value="{{ old('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
                         field-name="date_to"
-                        label-name="{{ __('To') }}:"
+                        label-name="{{ __('timy::titles.to') }}:"
                     />
                 </div>
             </div>

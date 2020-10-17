@@ -22,10 +22,10 @@ class TimerStopped implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($user, $timer)
+    public function __construct($user, $timer = null)
     {
         $this->user = $user;
-        $this->timer = TimerResource::make($timer);
+        $this->timer = $timer ? TimerResource::make($timer) : $timer;
     }
 
     /**

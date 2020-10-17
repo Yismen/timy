@@ -1,19 +1,19 @@
-<div class="form-group">
-    <select 
-        class="custom-select {{ $running['is_payable'] ? 'bg-success text-white' : 'bg-danger text-white' }}"
-        wire:model='selectedDisposition'
-        wire:change='updateUserDisposition'
-    >
-    @foreach ($dispositions as $disposition)
-        <option
-            value="{{ $disposition->id }}"
-            @if ($disposition->id === $current_disposition_id)
-                selected
-            @endif
-            class="{{ $disposition->payable ? 'bg-success text-white' : 'bg-danger text-white' }}"
+
+    <div class="">
+        <select 
+            class="custom-select {{ isset($running['is_payable']) && $running['is_payable'] == 1 ? 'bg-success text-light' : 'bg-danger text-light' }}"
+            wire:model='selectedDisposition'
+            {{-- wire:ignore --}}
+            wire:change.prevent='updateUserDisposition'
+            name="selectedDisposition"
+            id="selectedDisposition"
         >
-            {{ $disposition->name }}{{ $disposition->payable ? ' - $$' : '' }}
-        </option>
-    @endforeach
-    </select>
-</div>
+        @foreach ($this->dispositions as $disposition)
+            <option value="{{ $disposition->id }}"
+                class="{{ $disposition->payable ? 'bg-success text-light' : 'bg-danger text-light' }}"
+            >
+                {{ $disposition->name }}{{ $disposition->payable ? ' - $$' : '' }}
+            </option>
+        @endforeach
+        </select>
+    </div>

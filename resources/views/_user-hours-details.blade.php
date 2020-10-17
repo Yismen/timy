@@ -1,4 +1,4 @@
-<h4>@lang('timy::titles.user_details')</h4>
+<h4>{{ __('timy::titles.user_details') }}</h4>
     <div class="card p-3">
         <div class="row">
             @foreach ($users as $chunk)
