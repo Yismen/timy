@@ -3,7 +3,6 @@
         <select 
             class="custom-select {{ isset($running['is_payable']) && $running['is_payable'] == 1 ? 'bg-success text-light' : 'bg-danger text-light' }}"
             wire:model='selectedDisposition'
-            {{-- wire:ignore --}}
             wire:change.prevent='updateUserDisposition'
             name="selectedDisposition"
             id="selectedDisposition"

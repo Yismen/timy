@@ -44,6 +44,7 @@
                     @endforeach
                 </tbody>
         </table>
+
         @if (count($selected))
             <div class="form-group position-fixed bg-secondary text-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; width: 240px;">
                 <label for="changeDispo" class="position-relative w-100">{{ __('timy::titles.change_selected') }}: 
