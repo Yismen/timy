@@ -69,19 +69,19 @@ class TimerController extends BaseController
         $user = User::find($timer->user_id);
 
         event(new TimerStopped($user, $timer));
+        event(new TimerCreatedAdmin($this->user, $timer));
 
         TimerResource::withoutWrapping();
 
         return response()->json(['data' => TimerResource::make($timer)], 200);
     }
 
-    protected function closeAll()
+    protected function userDisconnected()
     {
         $this->user->stopRunningTimers();
 
-        return response()->json([
-            'data' => $this->user->timers()->running()->get()
-        ]);
+        event(new TimerStopped($this->user));
+        event(new TimerCreatedAdmin($this->user));
     }
 
     public function running()

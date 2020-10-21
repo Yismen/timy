@@ -38,6 +38,7 @@ class OpenTimersMonitor extends Component
     {
         return [
             "echo-private:Timy.Admin,\\Dainsys\\Timy\\Events\\TimerCreatedAdmin" => 'userChangedTimer',
+            "echo-presence:Timy.Presence,leaving" => 'userDisconnected',
         ];
     }
 
@@ -98,8 +99,15 @@ class OpenTimersMonitor extends Component
         return TimerResource::collection(
             Timer::with(['user', 'disposition'])
                 ->running()
+                ->orderBy('disposition_id')
                 ->orderBy('name')
                 ->get()
         )->jsonSerialize();
+    }
+
+    public function userDisconnected($users)
+    {
+        dump($users);
+        // resolve('TimyUser')->find($user['id'])->stopRunningTimers();
     }
 }

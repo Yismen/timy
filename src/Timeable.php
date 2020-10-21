@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Cache;
 
 trait Timeable
 {
+    protected $cache_key = 'timy-user-last-disposition-';
+
     public function timers()
     {
         return $this->hasMany(Timer::class);
@@ -50,7 +52,7 @@ trait Timeable
     {
         $this->timers()->running()->get()->each->stop();
 
-        $cache_key = 'timy-user-last-disposition-' . $this->id;
+        $cache_key = $this->cache_key . $this->id;
         Cache::forget($cache_key);
     }
 
@@ -73,19 +75,21 @@ trait Timeable
 
     protected function getTimerStarted($disposition_id, $now)
     {
-        $cache_key = 'timy-user-last-disposition-' . $this->id;
+        $cache_key = $this->cache_key . $this->id;
+        Cache::forget($cache_key);
 
         Cache::rememberForever($cache_key, function () use ($disposition_id) {
-            return $disposition_id;
+            return "$disposition_id";
         });
 
         $timer = $this->timers()->create([
             'name' => $this->name,
             'disposition_id' => $disposition_id,
             'started_at' => $now,
+            'ip_address' => request()->ip()
         ]);
-        
-            
+
+
         event(new TimerCreated($this, $timer));
         event(new TimerCreatedAdmin($this, $timer));
 
@@ -104,7 +108,7 @@ trait Timeable
         if ($shift['with_shift'] == true) {
             if ($current < $starts || $current > $ends || !in_array($day, $workingDays)) {
                 throw new TimerNotCreatedException(
-                    "Timer not registered. Our shift runs from {$starts} to {$ends} on days " . join(", ", $workingDays) . ". You can contact your supervisor for more details",
+                    trans('timy::titles.out_of_shift'),
                     423
                 );
             }

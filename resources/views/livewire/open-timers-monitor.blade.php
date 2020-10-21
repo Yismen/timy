@@ -1,13 +1,19 @@
+
 <div class="position-relative">
+    TODO: <br />
+- Add more user information, such as shift <br />
+- Query by user with open timers rather than timers open, so we can sort by name <br />
+- Move Hours Details to a wire component <br />
+- Complete Translation <br />
     <h4>
         {{ __('timy::titles.open_timers_header') }}
-        <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer'>
+        <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer' wire:loading>
             {{ __('timy::titles.refresh') }}
         </a>
     </h4>
     @if (!$timers || count($timers) == 0)
-        <div class="alert alert-warning" role="alert">
-            <strong>{{ __('timy::titles.no_timers_running') }}</strong>
+        <div class="alert alert-warning p-4 border mt-3 border-secondary" role="alert">
+            <h3><strong>{{ __('timy::titles.no_timers_running') }}</strong></h3>
         </div>
     @else
         <table class="table table-hover bg-white m-0 table-sm">
@@ -46,7 +52,7 @@
         </table>
 
         @if (count($selected))
-            <div class="form-group position-fixed bg-secondary text-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; width: 240px;">
+            <div class="form-group position-sticky bg-secondary text-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; width: 240px;">
                 <label for="changeDispo" class="position-relative w-100">{{ __('timy::titles.change_selected') }}: 
                     <span class="badge badge-pill badge-info text-light">{{ count($selected) }}</span>
                     <a href="#" class="btn btn-sm btn-danger float-right" 

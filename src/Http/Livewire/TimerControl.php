@@ -30,7 +30,7 @@ class TimerControl extends Component
             $this->selectedDisposition = $runningTimer->disposition_id;
             $this->running = TimerResource::make($runningTimer)->jsonSerialize();
         } else {
-            $this->selectedDisposition = $this->getCurrentDispositionId();
+            $this->selectedDisposition = $this->selectedDisposition == null ? $this->getCurrentDispositionId() : $this->selectedDisposition;
             $this->createNewTimerForUser($this->selectedDisposition);
         }
     }
@@ -59,12 +59,16 @@ class TimerControl extends Component
     {
         $this->running = $payload['timer'];
         $this->selectedDisposition = $this->running['disposition_id'];
+
+        $this->dispatchBrowserEvent('timyShowAlert', ['message' => trans('timy::titles.updated_remotedly')]);
     }
 
     public function timerStoppedRemotedly($payload)
     {
         $this->running = $payload['timer'];
         $this->selectedDisposition = $this->getCurrentDispositionId();
+
+        $this->dispatchBrowserEvent('timyShowAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
     }
 
     protected function getCurrentDispositionId()
@@ -79,6 +83,8 @@ class TimerControl extends Component
             $this->running = $timer;
         } catch (\Throwable $th) {
             $this->exception = $th->getMessage();
+
+            $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
             $this->running = [
                 "id" => '',
                 "user_id" => '',

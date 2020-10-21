@@ -1,4 +1,7 @@
-<div class="">
+<div class="">    
+    TODO: <br />
+    Cache: {{ Cache::get('timy-user-last-disposition-' . auth()->id()) }}
+- Create a command to check if the ip is active and the user is authenticated <br />
     <select 
         class="custom-select {{ isset($running['is_payable']) && $running['is_payable'] == 1 ? 'bg-success text-light' : 'bg-danger text-light' }}"
         wire:model='selectedDisposition'
@@ -14,12 +17,13 @@
         </option>
     @endforeach
     </select>
-
-    {{-- @livewire('timy::modal-component') --}}
 </div>
 
 @push('scripts')
-    <script>
+    <script>        
+        window.addEventListener('timyShowAlert', event => {
+            alert(event.detail.message)
+        })
         
         setInterval(() => {
             fetch("{{ route('timy_ping_user') }}")
