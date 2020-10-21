@@ -8,7 +8,7 @@ class Timer extends Model
 {
     protected $table = 'timy_timers';
 
-    protected $fillable = ['user_id', 'disposition_id', 'name', 'started_at', 'finished_at'];
+    protected $fillable = ['user_id', 'disposition_id', 'name', 'started_at', 'finished_at', 'ip_address'];
 
     protected $dates = ['started_at', 'finished_at'];
 
