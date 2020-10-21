@@ -2,8 +2,10 @@
 
 return [
     /**
-     * The id of the disposition to which the controller will default when no other is set. Usually it is an 
-     * initla state, not payable or invoiceable disposition.
+         * The id of the disposition to which the controller will default when no other is set. Usually it is an 
+
+         * initla state, not payable or invoiceable disposition.
+
      */
     'default_disposition_id' => 1,
     /**
@@ -18,6 +20,14 @@ return [
         'ends_at' => '17:15',
         'working_days' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     ],
+    /**
+     * Default layout to extend in production.
+     */
+    'layout' => 'layouts.app',
+    /**
+     * Scripts Stack.
+     */
+    'scripts_stack' => 'scripts',
     /**
      * Indicate if the web routes will be activated. Set it to false 
      * if you are planning to use your own routes and compile the 

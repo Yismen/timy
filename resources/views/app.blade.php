@@ -1,1 +1,1 @@
-@extends(config('app.env') == "package_development" ? 'timy::local-layout' : 'layouts.app')
+@extends(config('app.env') == "package_development" ? 'timy::local-layout' : config('timy.layout'))
