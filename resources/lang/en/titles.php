@@ -8,7 +8,10 @@ return [
     'close_timer' => 'Close Timer',
     'disposition' => 'Disposition',
     'finished_at' => 'Finished At',
+    'role_management_title' => 'Roles Management',
     'from' => 'From',
+    'unasigned' => 'Unassigned',
+    'remove_assignment' => 'Remove Role',
     'hours_download' => 'Download Hours',
     'menu_title' => 'Timy Dashboards',
     'no_timers_running' => 'No Timers Running At This Moment. Nobody Logged In Apparently!',
@@ -31,5 +34,6 @@ return [
     'updated_remotedly' => 'Timer updated remotedly. Most likely your supervisor updated your timer',
     'user_details' => 'User Details',
     'user_group' => 'User Group',
+    'update' => 'Update',
     'user' => 'User',
 ];
