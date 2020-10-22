@@ -53,7 +53,7 @@ trait Timeable
         $this->timers()->running()->get()->each->stop();
 
         $cache_key = $this->cache_key . $this->id;
-        Cache::forget($cache_key);
+        // Cache::forget($cache_key);
     }
 
     public function startTimer(int $disposition_id, $options = null)

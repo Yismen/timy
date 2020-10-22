@@ -12,7 +12,7 @@ class Timer extends Model
 
     protected $dates = ['started_at', 'finished_at'];
 
-    protected $appends = ['path'];
+    protected $appends = ['path', 'total_hours', 'payable_hours', 'is_payable'];
 
     public function getPathAttribute()
     {
@@ -70,5 +70,26 @@ class Timer extends Model
         $this->update([
             'finished_at' => now()
         ]);
+    }
+
+    public function getTotalHoursAttribute()
+    {
+        return !$this->finished_at ? 0 : $this->started_at->floatDiffInHours($this->finished_at);
+    }
+
+    public function getPayableHoursAttribute()
+    {
+        return optional($this->disposition)->payable == true && $this->finished_at
+            ? $this->started_at->floatDiffInHours($this->finished_at) : 0;
+    }
+
+    public function getNameAttribute()
+    {
+        return optional($this->user)->name;
+    }
+
+    public function getIsPayableAttribute()
+    {
+        return optional($this->disposition)->payable;
     }
 }

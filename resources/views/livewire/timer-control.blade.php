@@ -1,7 +1,7 @@
 <div class="">    
     TODO: <br />
-    Cache: {{ Cache::get('timy-user-last-disposition-' . auth()->id()) }}
 - Create a command to check if the ip is active and the user is authenticated <br />
+- Resolver intermitencia al refrescar. Esta que una vez lo crea y otra elige el anterior. <br />
     <select 
         class="custom-select {{ isset($running['is_payable']) && $running['is_payable'] == 1 ? 'bg-success text-light' : 'bg-danger text-light' }}"
         wire:model='selectedDisposition'

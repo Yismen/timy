@@ -25,7 +25,6 @@ class TimerControl extends Component
     {
         $this->user = auth()->user();
         $runningTimer = $this->user->timers()->running()->first();
-
         if ($runningTimer) {
             $this->selectedDisposition = $runningTimer->disposition_id;
             $this->running = TimerResource::make($runningTimer)->jsonSerialize();
@@ -79,8 +78,7 @@ class TimerControl extends Component
     protected function createNewTimerForUser($dispositionId)
     {
         try {
-            $timer =  $this->user->startTimer($dispositionId);
-            $this->running = $timer;
+            $this->running =  $this->user->startTimer($dispositionId);
         } catch (\Throwable $th) {
             $this->exception = $th->getMessage();
 

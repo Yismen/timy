@@ -2,8 +2,10 @@
 
 namespace Dainsys\Timy;
 
+use Dainsys\Timy\Http\Livewire\InfoBox;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\TimerControl;
+use Dainsys\Timy\Http\Livewire\TimersTable;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -66,6 +68,8 @@ class TimyServiceProvider extends ServiceProvider
     {
         Livewire::component('timy::timer-control', TimerControl::class);
         Livewire::component('timy::open-timers-monitor', OpenTimersMonitor::class);
+        Livewire::component('timy::info-box', InfoBox::class);
+        Livewire::component('timy::timers-table', TimersTable::class);
 
         return $this;
     }
