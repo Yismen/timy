@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy;
 
+use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\InfoBox;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
@@ -72,6 +73,7 @@ class TimyServiceProvider extends ServiceProvider
         Livewire::component('timy::info-box', InfoBox::class);
         Livewire::component('timy::timers-table', TimersTable::class);
         Livewire::component('timy::role-management', RolesManagement::class);
+        Livewire::component('timy::forced-timer-management', ForcedTimerManagement::class);
 
         return $this;
     }

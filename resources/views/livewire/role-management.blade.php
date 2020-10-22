@@ -1,4 +1,4 @@
-<div class="position-relative">
+<div class="position-relative text-primary">
     <div class="card">
         <div class="card-header bg-white">
             <h4>{{ __('timy::titles.role_management_title') }}</h4>
@@ -16,7 +16,7 @@
             <div class="card-body p-0">
                 <ul class="list-group">
                     @foreach ($unassigned as $user)
-                        @include('timy::livewire._user-checkbox')
+                        @include('timy::livewire._user-checkbox', ['with_timers' => false])
                     @endforeach
                 </ul>
             </div>
@@ -33,7 +33,7 @@
             </div>
             <div class="card-body p-0">
                 @foreach ($role->users as $user)
-                    @include('timy::livewire._user-checkbox')
+                    @include('timy::livewire._user-checkbox', ['with_timers' => false])
                 @endforeach
             </div>
         </div>

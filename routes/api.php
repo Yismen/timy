@@ -13,9 +13,9 @@ Route::middleware($apiMiddlewares)
 
         Route::apiResource('dispositions', 'DispositionController')->names('timy_dispositions');
 
-        Route::get('super_admin', 'SuperAdminController@index')->name('timy_super_admin');
-        Route::post('assign/{user}/{role}', 'SuperAdminController@assign')->name('timy_assign_user_role');
-        Route::delete('unassign/{user}', 'SuperAdminController@unAssign')->name('timy_unassign_user_role');
+        // Route::get('super_admin', 'SuperAdminController@index')->name('timy_super_admin');
+        // Route::post('assign/{user}/{role}', 'SuperAdminController@assign')->name('timy_assign_user_role');
+        // Route::delete('unassign/{user}', 'SuperAdminController@unAssign')->name('timy_unassign_user_role');
 
         // Route::get('timers/running', 'TimerController@running')->name('timy_timers.running');
         // Route::post('timers/close_all', 'TimerController@closeAll')->name('timy_timers.close_all');

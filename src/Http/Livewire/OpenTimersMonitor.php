@@ -66,6 +66,7 @@ class OpenTimersMonitor extends Component
             try {
                 resolve('TimyUser')::whereIn('id', $this->selected)->get()
                     ->each->startTimer($this->selected_to_change);
+
                 $this->resetSelectors();
 
                 $this->timers = $this->getOpenTimers();

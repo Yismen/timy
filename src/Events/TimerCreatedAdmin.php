@@ -29,7 +29,7 @@ class TimerCreatedAdmin implements ShouldBroadcast
         $this->user = $user;
         $this->timer = $timer ? TimerResource::make($timer) : $timer;
 
-        $this->dontBroadcastToCurrentUser();
+        // $this->dontBroadcastToCurrentUser();
     }
 
     /**

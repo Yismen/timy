@@ -34,6 +34,7 @@ return [
     'updated_remotedly' => 'Timer updated remotedly. Most likely your supervisor updated your timer',
     'user_details' => 'User Details',
     'user_group' => 'User Group',
+    'forced_timer_title' => 'Manage Forced Timers',
     'update' => 'Update',
-    'user' => 'User',
+    'user' => 'User'
 ];

@@ -1,12 +1,13 @@
 
 <div class="position-relative">
     TODO: <br />
-- Add more user information, such as shift <br />
-- Confirm before firing actions <br />
-- Query by user with open timers rather than timers open, so we can sort by name <br />
+    - Add more user information, such as shift <br />
+    - Confirm before firing actions <br />
+    - Query by user with open timers rather than timers open, so we can sort by name <br />
+    {{-- <h1 wire:loading>Loading...</h1> --}}
     <h4>
         {{ __('timy::titles.open_timers_header') }}
-        <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer' wire:loading>
+        <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer'>
             {{ __('timy::titles.refresh') }}
         </a>
     </h4>
