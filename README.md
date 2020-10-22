@@ -20,7 +20,7 @@ class User extends Authenticatable
     use Timeable;
 }
 ````
-> This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication. Run `php artisan ui --auth vue`.
+> This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication. We recommend to running the following command: `php artisan ui --auth vue`.
 > Then install the front end dependencies and compile: `npm install && npm run dev`.
 * As required per `laravel/livewire`, make sure you update your layout view:
 ````javascript
