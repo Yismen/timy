@@ -8,7 +8,7 @@
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
                    <div class="card">
                        <div class="card-body">
-                        <h5>@lang('Today')</h5>
+                        <h5>@lang('timy::titles.hours_today')</h5>
                         <h1 class="text-center font-weight-bold" title="{{ $data['hours_today']->date ?? null }}">
                             {{ number_format($data['hours_today']->hours ?? 0, 2) }}
                          </h1>
@@ -18,7 +18,7 @@
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
                    <div class="card">
                        <div class="card-body">
-                        <h5>@lang('Previous')</h5>
+                        <h5>@lang('timy::titles.hours_last_date')</h5>
                         <h1 class="text-center font-weight-bold" title="{{ $data['hours_last_date']->date ?? null }}">
                             {{ number_format($data['hours_last_date']->hours ?? 0, 2) }}
                          </h1>
@@ -28,7 +28,7 @@
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
                    <div class="card">
                        <div class="card-body">
-                        <h5>@lang('PTD')</h5>
+                        <h5>@lang('timy::titles.hours_this_payroll')</h5>
                         <h1 class="text-center font-weight-bold" title="{{ $data['hours_payrolltd']->date ?? null }}">
                             {{ number_format($data['hours_payrolltd']['hours'] ?? 0, 2) }}
                          </h1>
@@ -39,7 +39,7 @@
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
                 <div class="card">
                     <div class="card-body">
-                     <h5>@lang('Last P.')</h5>
+                     <h5>@lang('timy::titles.hours_last_payroll')</h5>
                      <h1 class="text-center font-weight-bold" title="{{ $data['hours_last_payroll']->date ?? null }}">
                          {{ number_format($data['hours_last_payroll']['hours'] ?? 0, 2) }}
                       </h1>
@@ -53,14 +53,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header bg-white">
-                            <h4 class="font-weight-bold">@lang('Last 17 Dates')</h4>
+                            <h4 class="font-weight-bold">@lang('timy::titles.user_details_title')</h4>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-sm m-0">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Hours</th>
+                                        <th>{{ __('timy::titles.date') }}</th>
+                                        <th>{{ __('timy::titles.hours') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

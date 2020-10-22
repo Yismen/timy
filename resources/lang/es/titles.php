@@ -10,7 +10,7 @@ return [
     'menu_title' => 'Timy',
     'no_timers_running' => 'No Timers Running At This Moment. Nobody Logged In Apparently!',
     'open_timers_header' => 'Lista de Timers Abiertos',
-    'out_of_shoft' => "Timer not registered. Our shift runs from " . config('timy.shift.starts_at') . " to " . config('timy.shift.ends_at') . " on days " . join(", ", config('timy.shift.working_days')) . ". You can contact your supervisor for more details",
+    'out_of_shift' => "Timer no registrado. Nuestro turno corre de  " . config('timy.shift.starts_at') . " a " . config('timy.shift.ends_at') . " en los dias " . join(", ", config('timy.shift.working_days')) . ". You can contact your supervisor for more details",
     'refresh' => 'Refresh',
     'stopped_remotedly' => 'Your timer has been stopped. Contact you supervisor',
     'super_admin' => 'Super Admin',

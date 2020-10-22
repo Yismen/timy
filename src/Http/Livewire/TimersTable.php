@@ -29,7 +29,7 @@ class TimersTable extends Component
             Timer::orderBy('started_at', 'desc')
                 ->with(['disposition', 'user'])
                 ->mine()
-                ->paginate(20)
+                ->paginate(15)
         );
     }
 }

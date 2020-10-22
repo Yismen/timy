@@ -20,6 +20,8 @@ class OpenTimersMonitor extends Component
 
     public $exception;
 
+    public $all = false;
+
     public function mount()
     {
         TimerResource::withoutWrapping();
@@ -48,6 +50,7 @@ class OpenTimersMonitor extends Component
 
     public function toggleSelected($timer_id)
     {
+        $this->all = false;
         if (!in_array($timer_id, $this->selected)) {
             $this->selected[] = $timer_id;
         } else {
@@ -63,9 +66,7 @@ class OpenTimersMonitor extends Component
             try {
                 resolve('TimyUser')::whereIn('id', $this->selected)->get()
                     ->each->startTimer($this->selected_to_change);
-
-                $this->selected = [];
-                $this->selected_to_change = '';
+                $this->resetSelectors();
 
                 $this->timers = $this->getOpenTimers();
             } catch (\Throwable $th) {
@@ -86,8 +87,7 @@ class OpenTimersMonitor extends Component
                 $this->timers = $this->getOpenTimers();
             }
 
-            $this->selected = [];
-            $this->selected_to_change = '';
+            $this->resetSelectors();
         } catch (\Throwable $th) {
             $this->exception = $th->getMessage();
         }
@@ -102,5 +102,22 @@ class OpenTimersMonitor extends Component
                 ->orderBy('name')
                 ->get()
         )->jsonSerialize();
+    }
+
+    protected function resetSelectors()
+    {
+        $this->selected = [];
+        $this->selected_to_change = '';
+        $this->all = false;
+    }
+
+    public function toggleSelectAll()
+    {
+        $this->all = !$this->all;
+        $this->selected = $this->all ?
+            array_map(function ($timer) {
+                return $timer['user_id'];
+            }, $this->timers) :
+            [];
     }
 }

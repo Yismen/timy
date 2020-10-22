@@ -18,3 +18,23 @@
 
         @include('timy::_user-profile-modal')
     </div>
+
+    @push('scripts')
+    <script>
+        function fetchUserHours() {        
+            
+            let event = window.event
+            let href = event.target.href
+            let profileEl = document.getElementById('profile-content')
+            event.preventDefault()
+    
+            profileEl.innerHTML = '<h1 class="p-5">Loading...</h1>'
+    
+           $('#userIdProfile').modal()
+    
+            fetch(href)
+                .then(response => response.text())
+                .then(html => profileEl.innerHTML = html)
+        }
+    </script>
+    @endpush

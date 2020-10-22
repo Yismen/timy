@@ -2,6 +2,8 @@
 
 return [
     'admin' => 'Admin',
+    'date' => 'Date',
+    'hours' => 'Hours',
     'change_selected' => 'Change Selected',
     'close_timer' => 'Close Timer',
     'disposition' => 'Disposition',
@@ -11,7 +13,7 @@ return [
     'menu_title' => 'Timy Dashboards',
     'no_timers_running' => 'No Timers Running At This Moment. Nobody Logged In Apparently!',
     'open_timers_header' => 'Open Timers List',
-    'out_of_shoft' => "Timer not registered. Our shift runs from " . config('timy.shift.starts_at') . " to " . config('timy.shift.ends_at') . " on days " . join(", ", config('timy.shift.working_days')) . ". You can contact your supervisor for more details",
+    'out_of_shift' => "Timer not registered. Our shift runs from " . config('timy.shift.starts_at') . " to " . config('timy.shift.ends_at') . " on days " . join(", ", config('timy.shift.working_days')) . ". You can contact your supervisor for more details",
     'refresh' => 'Refresh',
     'stopped_remotedly' => 'Your timer has been stopped. Contact you supervisor',
     'super_admin' => 'Super Admin',
@@ -24,6 +26,7 @@ return [
     'hours_this_payroll' => 'This Payroll',
     'hours_last_payroll' => 'Last Payroll',
     'started_at' => 'Started At',
+    'user_details_title' => 'Daily Hours Detail',
     'timers_registered' => 'Timers Registered',
     'updated_remotedly' => 'Timer updated remotedly. Most likely your supervisor updated your timer',
     'user_details' => 'User Details',

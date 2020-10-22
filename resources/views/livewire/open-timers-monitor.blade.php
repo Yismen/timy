@@ -2,9 +2,8 @@
 <div class="position-relative">
     TODO: <br />
 - Add more user information, such as shift <br />
+- Confirm before firing actions <br />
 - Query by user with open timers rather than timers open, so we can sort by name <br />
-- Move Hours Details to a wire component <br />
-- Complete Translation <br />
     <h4>
         {{ __('timy::titles.open_timers_header') }}
         <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer' wire:loading>
@@ -19,7 +18,21 @@
         <table class="table table-hover bg-white m-0 table-sm">
             <thead class="thead-inverse">
                 <tr>
-                    <th>{{ __('timy::titles.user') }}</th>
+                    <th>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" 
+                                    class="form-check-input" 
+                                    @if ($all)
+                                        checked
+                                    @endif
+                                    wire:change="toggleSelectAll()"
+                                >
+                                Select All
+                            </label>
+                        </div>
+                        {{ __('timy::titles.user') }}
+                    </th>
                     <th>{{ __('timy::titles.user_group') }}</th>
                     <th>{{ __('timy::titles.timer_started_at') }}</th>
                     <th>{{ __('timy::titles.disposition') }}</th>
@@ -52,10 +65,13 @@
         </table>
 
         @if (count($selected))
-            <div class="form-group position-sticky bg-secondary text-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; width: 240px;">
-                <label for="changeDispo" class="position-relative w-100">{{ __('timy::titles.change_selected') }}: 
-                    <span class="badge badge-pill badge-info text-light">{{ count($selected) }}</span>
-                    <a href="#" class="btn btn-sm btn-danger float-right" 
+            <div class="form-group position-sticky bg-secondary text-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; max-width: 350px;">
+                <label for="changeDispo" class="row flex-row justify-content-between px-4">
+                    <div class="">
+                        <span class="text-light">{{ __('timy::titles.change_selected') }}: </span>
+                        <span class="badge badge-pill badge-info text-light m-2">{{ count($selected) }}</span>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-danger" 
                         title="{{ __("timy::titles.close_timer") }}"
                         wire:click.prevent="closeSelectedTimers"
                     > X </a>
