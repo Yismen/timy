@@ -20,18 +20,20 @@ class User extends Authenticatable
     use Timeable;
 }
 ````
-> This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication
-* Starting on version 2, this packaged switched to `laravel/livewire`. Make sure you update your layout view:
+> This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication. Run `php artisan ui --auth vue`.
+> Then install the front end dependencies and compile: `npm install && npm run dev`.
+* As required per `laravel/livewire`, make sure you update your layout view:
 ````javascript
     @livewireStyles
 </head>
 <body>
     ...
+    @stack('scripts')
     @livewireScripts
 </body>
 </html>
 ````
-* Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `app.config` file.
+* Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `config.app` file.
 * Next paste the following routes in your `routes\channels.php` file:
 ````javascript
 Broadcast::channel('Timy.User.{id}', function ($user, $id) {
@@ -59,38 +61,6 @@ PUSHER_APP_CLUSTER=
 MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ````
-* Publish the vue components by running the command `php artisan vendor:publish --tag=timy-components --force`
-* Next, Register your components previous to creating the vue instance:  
-````javascript
-Vue.component('timy-timers-control', require('./components/Timy/ControlTimers.vue').default);  
-Vue.component('timy-user-dashboard', require('./components/Timy/DashboardUser.vue').default);  
-Vue.component('timy-admin-dashboard', require('./components/Timy/DashboardAdmin.vue').default);  
-Vue.component('timy-super-admin-dashboard', require('./components/Timy/DashboardSuperAdmin.vue').default);  
-````
-* Make sure the `laravel-echo` block in the `resources\js\bootstrap.js` is present and uncommented:
-````javascript
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: true
-});
-````
-* Next install the following dependencies and compile for production:
-    > - `npm install vue@^2.* cross-env@7 axios@0.* vuedraggable@2.* chart.js@^2.* vue-chartjs@^3.* js-cookie@^2.* moment@^2.* laravel-echo@1.* pusher-js@6.* --save-dev && npm run production`
-> Optionally, you may want to add the following scripts in your main `composer.json` file, which will trigger anytime you update composer or just dump the autuload:
-> ````javascript
-> "scripts": {
->     "post-autoload-dump": [
->         "@php artisan vendor:publish --tag=timy-components --force",
->         "npm run production"
->    ],
-> }
-> ````
 ## Features
 - Authenticated users is required for the package to work. We leverage that on `laravel/ui` package. 
 - Users and admin shoud have valid roles assigned to them. 
