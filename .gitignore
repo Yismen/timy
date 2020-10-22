@@ -1,8 +1,0 @@
-/vendor
-/public
-/node_modules
-.env
-webpack.mix.js
-package-lock.json
-package.json
-mix-manifest.json
