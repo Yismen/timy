@@ -52,7 +52,7 @@ class ForcedTimerManagement extends Component
         ]);
 
         resolve('TimyUser')->whereIn('id', $this->selected)->get()
-            ->each->startTimer((int)$this->selectedDisposition);
+            ->each->startTimer((int)$this->selectedDisposition, ['forced' => true]);
         $this->selected = [];
     }
 }
