@@ -1,10 +1,5 @@
 
 <div class="position-relative">
-    TODO: <br />
-    - Add more user information, such as shift <br />
-    - Confirm before firing actions <br />
-    - Query by user with open timers rather than timers open, so we can sort by name <br />
-    {{-- <h1 wire:loading>Loading...</h1> --}}
     <h4>
         {{ __('timy::titles.open_timers_header') }}
         <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer'>
@@ -29,7 +24,7 @@
                                     @endif
                                     wire:change="toggleSelectAll()"
                                 >
-                                Select All
+                                Toggle All
                             </label>
                         </div>
                         {{ __('timy::titles.user') }}
@@ -44,7 +39,7 @@
                         <tr class="{{ in_array($timer['user_id'], $selected) ? 'text-danger font-italic font-weight-bold' : '' }}">
                             <td class="">
                                 <div class="form-check">
-                                    <label class="form-check-label">
+                                    <label class="form-check-label" style="cursor: pointer;">
                                         <input type="checkbox" 
                                             class="form-check-input" 
                                             @if (in_array($timer['user_id'], $selected))
@@ -66,30 +61,50 @@
         </table>
 
         @if (count($selected))
-            <div class="form-group position-sticky bg-secondary text-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; max-width: 350px;">
+            <div class="form-group position-sticky bg-light p-2 rounded border border-dark" style="bottom: 35%; left: 35%; z-index: 10000; max-width: 350px;">
                 <label for="changeDispo" class="row flex-row justify-content-between px-4">
                     <div class="">
-                        <span class="text-light">{{ __('timy::titles.change_selected') }}: </span>
+                        <span class="font-weight-bold">{{ __('timy::titles.change_selected') }}: </span>
                         <span class="badge badge-pill badge-info text-light m-2">{{ count($selected) }}</span>
                     </div>
-                    <a href="#" class="btn btn-sm btn-danger" 
-                        title="{{ __("timy::titles.close_timer") }}"
-                        wire:click.prevent="closeSelectedTimers"
+                    <a href="#" class="btn btn-sm btn-secondary" 
+                        title="{{ __("timy::titles.cancel") }}"
+                        wire:click.prevent="resetSelectors"
                     > X </a>
                 </label>
-                <select 
-                    class="form-control form-control-sm" 
-                    name="changeDispo" 
-                    id="changeDispo" 
-                    wire:model="selected_to_change"
-                    wire:change='updateSelectedTimers'>
-                    <option></option>
-                    @foreach ($dispositions as $disposition)
-                        <option value="{{ $disposition->id }}"
-                            class="text-light {{ $disposition->payable == 1 ? 'bg-success' : 'bg-danger' }}"    
-                        >{{ $disposition->name }}</option>
-                    @endforeach
-                </select>
+                <div class="">
+                    <select 
+                        class="form-control form-control-sm" 
+                        name="changeDispo" 
+                        id="changeDispo" 
+                        wire:model="selected_to_change"
+                    >
+                        <option></option>
+                        @foreach ($dispositions as $disposition)
+                            <option value="{{ $disposition->id }}"
+                                class="text-light {{ $disposition->payable == 1 ? 'bg-success' : 'bg-danger' }}"    
+                            >{{ $disposition->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('selected_to_change') 
+                        <span class="text-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mt-3 row m-0 justify-content-between">                    
+                    <a href="#" 
+                        class="btn btn-sm btn-primary" 
+                        title="{{ __("timy::titles.close_timer") }}"
+                        wire:click.prevent="updateSelectedTimers"
+                    > {{ __("timy::titles.update") }} </a>   
+
+                    <a href="#" 
+                        class="btn btn-sm btn-danger" 
+                        title="{{ __("timy::titles.close_timer") }}"
+                        wire:click.prevent="closeSelectedTimers"
+                    > {{ __("timy::titles.close_timer") }} </a>
+                </div>
             </div>
         @endif
     @endif

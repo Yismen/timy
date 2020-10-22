@@ -62,6 +62,10 @@ class OpenTimersMonitor extends Component
 
     public function updateSelectedTimers()
     {
+        $this->validate([
+            'selected_to_change' => 'required|exists:timy_dispositions,id'
+        ]);
+
         if ($this->selected_to_change) {
             try {
                 resolve('TimyUser')::whereIn('id', $this->selected)->get()
@@ -105,7 +109,7 @@ class OpenTimersMonitor extends Component
         )->jsonSerialize();
     }
 
-    protected function resetSelectors()
+    public function resetSelectors()
     {
         $this->selected = [];
         $this->selected_to_change = '';
@@ -120,5 +124,9 @@ class OpenTimersMonitor extends Component
                 return $timer['user_id'];
             }, $this->timers) :
             [];
+    }
+
+    public function cancelUpdating()
+    {
     }
 }

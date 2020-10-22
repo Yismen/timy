@@ -3,12 +3,6 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center pt-2">
-        :TODO <br>
-        - Forced Timers <br>
-        ------ Get all users with current timers <br>
-        ------ Create forced, ignoring shift <br>
-        - Translate <br>
-        - Preffer the select to change aproach on both create forced and move from Roles <br>
         <div class="col-sm-12 col-md-8">
             <div class="row">
                 <div class="col-sm-6">

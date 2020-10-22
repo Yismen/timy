@@ -36,5 +36,5 @@ return [
     'user_group' => 'User Group',
     'forced_timer_title' => 'Manage Forced Timers',
     'update' => 'Update',
-    'user' => 'User'
+    'user' => 'User',
 ];
