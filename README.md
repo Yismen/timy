@@ -21,7 +21,6 @@ class User extends Authenticatable
 }
 ````
 > This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication. We recommend to running the following command: `php artisan ui --auth vue`.
-> Then install the front end dependencies and compile: `npm install && npm run dev`.
 * As required per `laravel/livewire`, make sure you update your layout view:
 ````javascript
     @livewireStyles
@@ -33,6 +32,12 @@ class User extends Authenticatable
 </body>
 </html>
 ````
+* Update your package.json file with the follow dependencies:
+````javascript
+        "laravel-echo": "^1.8.0",
+        "pusher-js": "^6.0.3",
+````
+> Then install the front end dependencies and compile: `npm install && npm run dev`.
 * Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `config.app` file.
 * Next paste the following routes in your `routes\channels.php` file:
 ````javascript
@@ -41,7 +46,7 @@ Broadcast::channel('Timy.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('Timy.Admin', function ($user) {
-    return Gate::allows(config('timy.roles.admin'));
+    return \Illuminate\Support\Facades\Gate::allows(config('timy.roles.admin'));
 });
 ````
 * Include the timy menu in your main nav-bar after you check for logged in users: `@include('timy::_timy-menu')`. 
@@ -50,7 +55,7 @@ Broadcast::channel('Timy.Admin', function ($user) {
 > Admin Users: URL=`/timy/admin`, NAME=`admin_dashboard`, GATEWAY(blade @can directive)=`timy-admin`
 > Super Admin User: URL=`/timy/super_admin`, NAME=`supepr_admin_dashboard`, GATEWAY(blade @can directive)=`timy-super-admin`
 * Next, define the Super User in you .env file by providing its email in the variable `TIMY_SUPER_USER_EMAIL=` . This user will have plenty control of the app.
-* Next get your Pusher's credentials from https://dashboard.pusher.com/apps and use them to define the following variables in your .env file:
+* Next get your Pusher's credentials from https://dashboard.pusher.com/apps and use them to define the following variables in your .env file. BE CERTAIN YOU SET YOUR `BROADCAST_DRIVER` VARIABLE TO `pusher`:
 ````javascript
 BROADCAST_DRIVER=pusher
 PUSHER_APP_ID=
