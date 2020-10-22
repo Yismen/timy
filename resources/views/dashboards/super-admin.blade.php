@@ -1,4 +1,4 @@
-@extends('timy::app')
+@extends(config('app.env') == "package_development" ? 'timy::local-layout' : config('timy.layout'))
 
 @section('content')
 <div class="container">
