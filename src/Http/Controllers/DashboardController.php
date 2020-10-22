@@ -40,7 +40,7 @@ class DashboardController extends BaseController
 
         $dispositions = Disposition::orderBy('name')->get();
 
-        return view('timy::super-admin-dashboard', compact('dispositions'));
+        return view('timy::dashboards.super-admin', compact('dispositions'));
     }
     public function admin()
     {
