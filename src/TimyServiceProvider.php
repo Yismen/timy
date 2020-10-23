@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy;
 
+use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\InfoBox;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
@@ -30,6 +31,11 @@ class TimyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(EventServiceProvider::class);
+
+        $this->commands(
+            CloseInactiveTimersCommand::class
+        );
+
         $this->mergeConfigFrom(
             __DIR__ . '/../config/timy.php',
             'timy'
