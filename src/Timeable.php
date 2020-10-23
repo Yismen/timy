@@ -70,10 +70,17 @@ trait Timeable
         return $this->getTimerStarted($disposition_id, $now);
     }
 
-    protected function getTimerStarted($disposition_id, $now)
+    public function forgetTimyCache()
     {
         $cache_key = $this->cache_key . $this->id;
+
         Cache::forget($cache_key);
+    }
+
+    protected function getTimerStarted($disposition_id, $now)
+    {
+        $this->forgetTimyCache();
+        $cache_key = $this->cache_key . $this->id;
 
         Cache::rememberForever($cache_key, function () use ($disposition_id) {
             return "$disposition_id";
