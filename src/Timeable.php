@@ -3,10 +3,9 @@
 namespace Dainsys\Timy;
 
 use Carbon\Carbon;
-use Dainsys\Timy\Events\ShiftClosed;
 use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Events\TimerCreatedAdmin;
-use Dainsys\Timy\Exceptions\TimerNotCreatedException;
+use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Role;
 use Dainsys\Timy\Timer;
@@ -111,7 +110,9 @@ trait Timeable
 
         if ($shift['with_shift'] == true) {
             if ($current < $starts || $current > $ends || !in_array($day, $workingDays)) {
-                throw new TimerNotCreatedException(
+                $this->forgetTimyCache();
+
+                throw new ShiftEndendException(
                     trans('timy::titles.out_of_shift'),
                     423
                 );
