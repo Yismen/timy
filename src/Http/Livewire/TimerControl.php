@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Http\Livewire;
 
+use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Illuminate\Support\Facades\Cache;
@@ -9,8 +10,6 @@ use Livewire\Component;
 
 class TimerControl extends Component
 {
-    public $exception;
-
     public $pushed = "Initial";
 
     public $dispositions = [];
@@ -30,6 +29,8 @@ class TimerControl extends Component
         if ($runningTimer) {
             $this->selectedDisposition = $runningTimer->disposition_id;
             $this->running = TimerResource::make($runningTimer)->jsonSerialize();
+
+            $this->emit('timerCreated');
         } else {
             $this->selectedDisposition = $this->selectedDisposition == null ?
                 $this->getCurrentDispositionId() :
@@ -85,26 +86,15 @@ class TimerControl extends Component
     {
         try {
             $this->running =  $this->user->startTimer($dispositionId);
-        } catch (\Throwable $th) {
-            $this->exception = $th->getMessage();
 
+            $this->emit('timerCreated');
+        } catch (\Throwable $th) {
             $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
-            $this->running = [
-                "id" => '',
-                "user_id" => '',
-                "user_created_at" => '',
-                "name" => '',
-                "path" => '',
-                "disposition_id" => '',
-                "disposition" => '',
-                "started_at" => '',
-                "finished_at" => '',
-                "is_payable" => '',
-                "is_invoiceable" => '',
-                "total_hours" => '',
-                "payable_hours" => '',
-                "invoiceable_hours" => '',
-            ];
+            if ($th instanceof ShiftEndendException) {
+
+                $this->selectedDisposition =  $this->getCurrentDispositionId();
+            }
+            $this->running = [];
         }
     }
 }
