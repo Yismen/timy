@@ -81,8 +81,8 @@ class OpenTimersMonitor extends Component
             $users =  resolve('TimyUser')::whereIn('id', $this->selected)->get();
 
             foreach ($users as $user) {
-                $user->stopRunningTimers($this->selected_to_change);
-                Cache::forget($user->cache_key . $user->id);
+                $user->stopRunningTimers();
+                $user->forgetTimyCache();
 
                 event(new TimerStopped($user));
 
