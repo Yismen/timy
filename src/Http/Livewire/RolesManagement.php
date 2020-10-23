@@ -50,10 +50,15 @@ class RolesManagement extends Component
         if ($this->selectedRole) {
             $role = Role::findOrFail($this->selectedRole);
             $users->each->assignTimyRole($role);
-            $this->selected = [];
+            $this->closeForm();
         } else {
             $users->each->removeTimyRole();
-            $this->selected = [];
+            $this->closeForm();
         }
+    }
+
+    public function closeForm()
+    {
+        $this->selected = [];
     }
 }

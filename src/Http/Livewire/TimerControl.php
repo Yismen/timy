@@ -24,7 +24,9 @@ class TimerControl extends Component
     public function mount()
     {
         $this->user = auth()->user();
+
         $runningTimer = $this->user->timers()->running()->first();
+
         if ($runningTimer) {
             $this->selectedDisposition = $runningTimer->disposition_id;
             $this->running = TimerResource::make($runningTimer)->jsonSerialize();

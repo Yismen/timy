@@ -32,6 +32,7 @@ class DashboardController extends BaseController
 
         return view('timy::dashboards.user', UserDataRepository::toArray(auth()->user()));
     }
+
     public function superAdmin()
     {
         if (Gate::denies(config('timy.roles.super_admin'))) {

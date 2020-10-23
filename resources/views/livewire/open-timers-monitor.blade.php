@@ -16,7 +16,7 @@
                 <tr>
                     <th>
                         <div class="form-check">
-                            <label class="form-check-label">
+                            <label class="form-check-label" style="cursor: pointer;">
                                 <input type="checkbox" 
                                     class="form-check-input" 
                                     @if ($all)
@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     @foreach ($timers as $timer)
-                        <tr class="{{ in_array($timer['user_id'], $selected) ? 'text-danger font-italic font-weight-bold' : '' }}">
+                        <tr class="{{ in_array($timer['user_id'], $selected) ? 'text-primary font-italic font-weight-bold' : '' }}">
                             <td class="">
                                 <div class="form-check">
                                     <label class="form-check-label" style="cursor: pointer;">

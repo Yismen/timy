@@ -41,15 +41,31 @@
 
     @if (count($selected) > 0)
         <div class="position-absolute" style="top: 20px; left: 150px;">
-            <div class="position-fixed bg-warning row p-2 justify-content-between" style="z-index: 1000;">
+            <div class="position-fixed bg-warning row p-2 justify-content-between" style="z-index: 1000; max-width: 300px;">
+                <div class="col-12 mb-2">
+                    <h5 class="text-dark row justify-content-between">
+                        <div class="col-10">
+                            {{ __('timy::titles.roles_management_form_title') }}
+                        </div>
+                        <div class="col-2">
+                            <a href="#" class="float-right btn btn-sm btn-secondary" wire:click.prevent="closeForm"> X </a>
+                        </div>
+                    </h5>
+                </div>
                 <div class="col-8">
-                    <select name="" id="" wire:model="selectedRole">
-                        <option value="">{{ __('timy::titles.remove_assignment') }}</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">{{ Str::studly($role->name) }}</option>
-                        @endforeach
-                    </select>
-                    <span class="badge badge-pill badge-secondary text-light">{{ count($selected) }}</span>
+                    <div class="row justify-content-between">
+                        <div class="col-9 input-group input-group-sm">
+                            <select name="" id="" wire:model="selectedRole" class="form-control">
+                                <option value="">{{ __('timy::titles.remove_assignment') }}</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ Str::studly($role->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <span class="badge badge-pill badge-secondary text-light">{{ count($selected) }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4">
                     <button class="btn btn-sm btn-primary " wire:click="updateRoles">

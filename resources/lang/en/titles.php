@@ -37,4 +37,7 @@ return [
     'forced_timer_title' => 'Manage Forced Timers',
     'update' => 'Update',
     'user' => 'User',
+    'cancel' => 'Cancel',
+    'forced_timers_form_title' => 'Create Timers For Disposition',
+    'roles_management_form_title' => 'Change Users Role',
 ];
