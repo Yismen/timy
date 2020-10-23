@@ -1,5 +1,5 @@
 {
-    "name": "dainsys/timy",
+    "name": "dainsys/timy2",
     "description": "Add user's time tracker functionality to Laravel 7, VueJs 2 and Bootstrap 4",
     "type": "library",
     "require": {
