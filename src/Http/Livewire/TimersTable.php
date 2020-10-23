@@ -12,10 +12,23 @@ class TimersTable extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    /**
-     * TODO:
-     * Listen to event for when a timer is updated.
-     */
+
+    public $user;
+
+    protected function getListeners()
+    {
+        return [
+            'timerCreated' => 'getTimers',
+            "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerCreated" => 'getTimers',
+            "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerStopped" => 'getTimers',
+        ];
+    }
+
+    public function mount()
+    {
+        $this->user = auth()->user();
+    }
+
     public function render()
     {
         return view('timy::livewire.timers-table', [
