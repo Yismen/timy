@@ -17,14 +17,15 @@
 </div>
 
 @push('scripts')
-    <script>    
-    function fetUserLeavingEvent() {
+    <script>          
+        window.onbeforeunload = function() {            
             fetch("{{ route('timy_timers.user_left', auth()->id()) }}")
                 .finally(() => {
                     return true
                 })
-        }
-        window.onbeforeunload = fetUserLeavingEvent();
+        };
+
+        window.onbeforeunload
          
         window.addEventListener('timyShowAlert', event => {
             alert(event.detail.message)

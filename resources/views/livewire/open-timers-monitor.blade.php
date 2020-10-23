@@ -2,7 +2,7 @@
 <div class="position-relative">
     <h4>
         {{ __('timy::titles.open_timers_header') }}
-        <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='userChangedTimer'>
+        <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='getOpenTimers'>
             {{ __('timy::titles.refresh') }}
         </a>
     </h4>

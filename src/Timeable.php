@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 
 trait Timeable
 {
-    protected $cache_key = 'timy-user-last-disposition-';
+    public $cache_key = 'timy-user-last-disposition-';
 
     public function timers()
     {
@@ -51,9 +51,6 @@ trait Timeable
     public function stopRunningTimers()
     {
         $this->timers()->running()->get()->each->stop();
-
-        $cache_key = $this->cache_key . $this->id;
-        // Cache::forget($cache_key);
     }
 
     public function startTimer(int $disposition_id, $options = null)

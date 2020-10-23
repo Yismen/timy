@@ -6,6 +6,7 @@ use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class OpenTimersMonitor extends Component
@@ -28,7 +29,7 @@ class OpenTimersMonitor extends Component
 
         $this->dispositions = DispositionsRepository::all();
 
-        $this->timers = $this->getOpenTimers();
+        $this->getOpenTimers();
     }
 
     public function render()
@@ -39,13 +40,9 @@ class OpenTimersMonitor extends Component
     public function getListeners()
     {
         return [
-            "echo-private:Timy.Admin,\\Dainsys\\Timy\\Events\\TimerCreatedAdmin" => 'userChangedTimer',
+            "echo-private:Timy.Admin,\\Dainsys\\Timy\\Events\\TimerCreatedAdmin" => 'getOpenTimers',
+            "timerCreatedByTimerControl" => 'getOpenTimers',
         ];
-    }
-
-    public function userChangedTimer()
-    {
-        $this->timers = $this->getOpenTimers();
     }
 
     public function toggleSelected($timer_id)
@@ -66,17 +63,15 @@ class OpenTimersMonitor extends Component
             'selected_to_change' => 'required|exists:timy_dispositions,id'
         ]);
 
-        if ($this->selected_to_change) {
-            try {
-                resolve('TimyUser')::whereIn('id', $this->selected)->get()
-                    ->each->startTimer($this->selected_to_change);
+        try {
+            resolve('TimyUser')::whereIn('id', $this->selected)->get()
+                ->each->startTimer($this->selected_to_change);
 
-                $this->resetSelectors();
+            $this->resetSelectors();
 
-                $this->timers = $this->getOpenTimers();
-            } catch (\Throwable $th) {
-                $this->exception = $th->getMessage();
-            }
+            $this->getOpenTimers();
+        } catch (\Throwable $th) {
+            $this->exception = $th->getMessage();
         }
     }
 
@@ -87,9 +82,11 @@ class OpenTimersMonitor extends Component
 
             foreach ($users as $user) {
                 $user->stopRunningTimers($this->selected_to_change);
+                Cache::forget($user->cache_key . $user->id);
 
                 event(new TimerStopped($user));
-                $this->timers = $this->getOpenTimers();
+
+                $this->getOpenTimers();
             }
 
             $this->resetSelectors();
@@ -98,9 +95,9 @@ class OpenTimersMonitor extends Component
         }
     }
 
-    protected function getOpenTimers()
+    public function getOpenTimers()
     {
-        return TimerResource::collection(
+        $this->timers = TimerResource::collection(
             Timer::with(['user', 'disposition'])
                 ->running()
                 ->orderBy('disposition_id')

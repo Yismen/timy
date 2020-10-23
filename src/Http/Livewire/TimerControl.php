@@ -31,7 +31,10 @@ class TimerControl extends Component
             $this->selectedDisposition = $runningTimer->disposition_id;
             $this->running = TimerResource::make($runningTimer)->jsonSerialize();
         } else {
-            $this->selectedDisposition = $this->selectedDisposition == null ? $this->getCurrentDispositionId() : $this->selectedDisposition;
+            $this->selectedDisposition = $this->selectedDisposition == null ?
+                $this->getCurrentDispositionId() :
+                $this->selectedDisposition;
+
             $this->createNewTimerForUser($this->selectedDisposition);
         }
     }
@@ -39,6 +42,7 @@ class TimerControl extends Component
     public function render()
     {
         $this->dispositions = DispositionsRepository::all();
+        $this->emit('timerCreatedByTimerControl', $this->running);
 
         return view('timy::livewire.timer-control');
     }
@@ -67,7 +71,7 @@ class TimerControl extends Component
     public function timerStoppedRemotedly($payload)
     {
         $this->running = $payload['timer'];
-        $this->selectedDisposition = $this->getCurrentDispositionId();
+        $this->selectedDisposition =  $this->getCurrentDispositionId();
 
         $this->dispatchBrowserEvent('timyShowAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
     }
