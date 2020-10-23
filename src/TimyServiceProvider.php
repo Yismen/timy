@@ -8,11 +8,13 @@ use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
+use Dainsys\Timy\Providers\EventServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
 class TimyServiceProvider extends ServiceProvider
 {
+
     public function boot()
     {
         $this
@@ -27,6 +29,7 @@ class TimyServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->register(EventServiceProvider::class);
         $this->mergeConfigFrom(
             __DIR__ . '/../config/timy.php',
             'timy'
