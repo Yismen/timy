@@ -29,7 +29,7 @@ class TimerCreated implements ShouldBroadcast
         $this->user = $user;
         $this->timer = TimerResource::make($timer);
 
-        // $this->dontBroadcastToCurrentUser();
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**
