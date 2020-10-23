@@ -2,10 +2,14 @@
 
 return [
     /**
-         * The id of the disposition to which the controller will default when no other is set. Usually it is an 
+         * ====================================================
+         * Timy Package Config Options
+         * ====================================================
+         */
 
-         * initla state, not payable or invoiceable disposition.
-
+    /**
+     * The id of the disposition to which the controller will default when no other is set. Usually it is an 
+     * initla state, not payable or invoiceable disposition.
      */
     'default_disposition_id' => 1,
     /**
@@ -15,11 +19,15 @@ return [
      * To disable the shift functionality just set the 'with_shift' to false.
      */
     'shift' => [
-        'with_shift' => false,
-        'starts_at' => '07:45',
-        'ends_at' => '17:15',
+        'with_shift' => true,
+        'starts_at' => '08:00',
+        'ends_at' => '17:00',
         'working_days' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     ],
+    /**
+     * The amount of seconds to wait for an IP Address to respond when checking if alive.
+     */
+    'ip_timeout_in_seconds' => 5,
     /**
      * Default layout to extend in production.
      */

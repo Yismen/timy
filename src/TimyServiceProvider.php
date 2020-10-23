@@ -10,6 +10,7 @@ use Dainsys\Timy\Http\Livewire\RolesManagement;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
 use Dainsys\Timy\Providers\EventServiceProvider;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -26,15 +27,21 @@ class TimyServiceProvider extends ServiceProvider
         $this->app->bind('TimyUser', config('timy.models.user'));
 
         SecureGates::boot();
+
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            $schedule->command('timy:close-inactive-timers')->everyMinute();
+        });
     }
 
     public function register()
     {
         $this->app->register(EventServiceProvider::class);
 
-        $this->commands(
-            CloseInactiveTimersCommand::class
-        );
+        if ($this->app->runningInConsole()) {
+            $this->commands(
+                CloseInactiveTimersCommand::class
+            );
+        }
 
         $this->mergeConfigFrom(
             __DIR__ . '/../config/timy.php',
