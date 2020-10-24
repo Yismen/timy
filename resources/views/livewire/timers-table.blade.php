@@ -1,6 +1,12 @@
 <div class="card p-0">
     <div class="card-header bg-white">
-        <h4>{{ __('timy::titles.timers_registered') }}</h4>
+        <h4>
+            {{ __('timy::titles.timers_registered') }}
+        
+            <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='getTimers'>
+                {{ __('timy::titles.refresh') }}
+            </a>
+        </h4>
     </div>
 
     <div class="card-body p-0">
