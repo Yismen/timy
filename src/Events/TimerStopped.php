@@ -26,6 +26,8 @@ class TimerStopped implements ShouldBroadcast
     {
         $this->user = $user;
         $this->timer = $timer ? TimerResource::make($timer) : $timer;
+
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**
