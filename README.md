@@ -1,8 +1,8 @@
 # Dainsys Time Tracker Package
-Add user's time tracker functionality to Laravel 7, VueJs 2 and Bootstrap 4.
+Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
 
 ## Installation
-1. Install with composer: `composer require dainsys/timy`.
+1. Install with composer: `composer require dainsys/timy2`.
     >   Optional: The Package should be auto-discovered by Laravel. However, you could all register it in your config.app file within the providers array:
     > ````php
     >     'providers' => [
