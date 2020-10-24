@@ -19,7 +19,7 @@ return [
      * To disable the shift functionality just set the 'with_shift' to false.
      */
     'shift' => [
-        'with_shift' => true,
+        'with_shift' => env('TIMY_WITH_SHIFT', true),
         'starts_at' => '08:00',
         'ends_at' => '17:00',
         'working_days' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
