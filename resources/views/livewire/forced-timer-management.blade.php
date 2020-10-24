@@ -22,7 +22,7 @@
             <div class="card-body position-fixed bg-danger p-2" style="z-index: 1000; width: 300px">
                 <div class="row">
                     <div class="col-10 text-light">
-                        <h4>{{ __('timy::titles.roles_management_form_title') }}</h4>
+                        <h4>{{ __('timy::titles.forced_timers_form_title') }}</h4>
                     </div>
                     <div class="col-2">
                         <a href="#" class="float-right btn btn-sm btn-secondary" 
