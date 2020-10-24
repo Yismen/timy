@@ -17,7 +17,7 @@ return [
     'hours_this_payroll' => 'Nomina Actual',
     'hours_today' => 'Hoy',
     'hours' => 'Horas',
-    'menu_title' => 'Tableros Timy',
+    'menu_title' => 'Timy App',
     'no_timers_running' => 'No hay Timers corriendo en este momento. Al parecer nadie ha iniciado sesion!',
     'open_timers_header' => 'Lista de Timers Abiertos',
     'out_of_shift' => "El Timer no se ha registrado. Nuestro turno va desde " . config('timy.shift.starts_at') . " hasta " . config('timy.shift.ends_at') . " en dias " . join(", ", config('timy.shift.working_days')) . ". Contacte su supervisor para mas detalles!",

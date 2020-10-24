@@ -17,7 +17,7 @@ return [
     'hours_this_payroll' => 'This Payroll',
     'hours_today' => 'Today',
     'hours' => 'Hours',
-    'menu_title' => 'Timy Dashboards',
+    'menu_title' => 'Timy App',
     'no_timers_running' => 'No Timers Running At This Moment. Nobody Logged In Apparently!',
     'open_timers_header' => 'Open Timers List',
     'out_of_shift' => "Timer not registered. Our shift runs from " . config('timy.shift.starts_at') . " to " . config('timy.shift.ends_at') . " on days " . join(", ", config('timy.shift.working_days')) . ". You can contact your supervisor for more details",
