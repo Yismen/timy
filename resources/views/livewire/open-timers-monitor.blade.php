@@ -1,4 +1,3 @@
-
 <div class="position-relative">
     <h4>
         {{ __('timy::titles.open_timers_header') }}

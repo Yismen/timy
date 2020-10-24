@@ -19,40 +19,42 @@
     </div>
     @if (count($selected) > 0)
         <div class="position-absolute" style="top: 20px; left: 100px;">
-            <div class="position-fixed bg-danger row p-2 justify-content-between" style="z-index: 1000; max-width: 300px">
-                <div class="col-12 mb-2">
-                    <h5 class="text-light row justify-content-between">
-                        <div class="col-10">
-                            {{ __('timy::titles.roles_management_form_title') }}
-                        </div>
-                        <div class="col-2">
-                            <a href="#" class="float-right btn btn-sm btn-secondary" wire:click.prevent="closeForm"> X </a>
-                        </div>
-                    </h5>
-                </div>
-                <div class="col-9">
-                    <div class="row">
-                        <div class="col-10 input-group-sm">
-                            <select name="" id="" wire:model="selectedDisposition" class="form-control">
-                                <option value=""></option>
-                                    @foreach ($dispositions as $disposition)
-                                        <option 
-                                            value="{{ $disposition->id }}"
-                                            class="{{ $disposition->payable == 1 ? 'text-success font-weight-bold' : 'text-danger' }}"
-                                        >{{ Str::title($disposition->name) }}</option>
-                                    @endforeach
-                            </select>
-                            @error('selectedDisposition') <span class="text-light">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="col-2">
-                            <span class="badge badge-pill badge-secondary text-light">{{ count($selected) }}</span>
-                        </div>
+            <div class="card-body position-fixed bg-danger p-2" style="z-index: 1000; width: 300px">
+                <div class="row">
+                    <div class="col-10 text-light">
+                        <h4>{{ __('timy::titles.roles_management_form_title') }}</h4>
+                    </div>
+                    <div class="col-2">
+                        <a href="#" class="float-right btn btn-sm btn-secondary" 
+                        title="{{ __("timy::titles.cancel") }}"
+                        wire:click.prevent="closeForm"> X </a>
                     </div>
                 </div>
-                <div class="col-3">
-                    <button class="btn btn-sm btn-warning" wire:click="updateUsers">
-                        {{ __('timy::titles.update') }}
-                    </button>
+                <div class="row mt-2">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-10 input-group-sm">
+                                <select name="" id="" wire:model="selectedDisposition" class="form-control">
+                                    <option value=""></option>
+                                        @foreach ($dispositions as $disposition)
+                                            <option 
+                                                value="{{ $disposition->id }}"
+                                                class="{{ $disposition->payable == 1 ? 'text-success font-weight-bold' : 'text-danger' }}"
+                                            >{{ Str::title($disposition->name) }}</option>
+                                        @endforeach
+                                </select>
+                                @error('selectedDisposition') <span class="text-light">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="col-2">
+                                <span class="badge badge-pill badge-secondary text-light">{{ count($selected) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-sm btn-warning" wire:click="updateUsers">
+                            {{ __('timy::titles.update') }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

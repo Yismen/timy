@@ -48,7 +48,9 @@
                             {{ __('timy::titles.roles_management_form_title') }}
                         </div>
                         <div class="col-2">
-                            <a href="#" class="float-right btn btn-sm btn-secondary" wire:click.prevent="closeForm"> X </a>
+                            <a href="#" 
+                                title="{{ __("timy::titles.cancel") }}"
+                                class="float-right btn btn-sm btn-secondary" wire:click.prevent="closeForm"> X </a>
                         </div>
                     </h5>
                 </div>

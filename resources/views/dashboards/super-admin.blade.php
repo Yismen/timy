@@ -5,10 +5,10 @@
     <div class="row justify-content-center pt-2">
         <div class="col-sm-12 col-md-8">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-lg-6 mb-sm-2">
                     @livewire('timy::forced-timer-management')
                 </div>
-                <div class="col-sm-6">
+                <div class="col-lg-6">
                     @livewire('timy::role-management')
                 </div>
             </div>
