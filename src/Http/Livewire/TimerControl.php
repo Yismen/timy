@@ -24,20 +24,24 @@ class TimerControl extends Component
     {
         $this->user = auth()->user();
 
-        $runningTimer = $this->user->timers()->running()->first();
+        $this->selectedDisposition = $this->selectedDisposition == null ?
+            $this->getCurrentDispositionId() :
+            $this->selectedDisposition;
 
-        if ($runningTimer) {
-            $this->selectedDisposition = $runningTimer->disposition_id;
-            $this->running = TimerResource::make($runningTimer)->jsonSerialize();
+        $this->user->timers()->running()->get()->each->stop();
 
-            $this->emit('timerCreated');
-        } else {
-            $this->selectedDisposition = $this->selectedDisposition == null ?
-                $this->getCurrentDispositionId() :
-                $this->selectedDisposition;
+        $this->createNewTimerForUser($this->selectedDisposition);
 
-            $this->createNewTimerForUser($this->selectedDisposition);
-        }
+        // if ($runningTimer) {
+        //     $this->selectedDisposition = $runningTimer->disposition_id;
+        //     $this->running = TimerResource::make($runningTimer)->jsonSerialize();
+        // } else {
+        //     $this->selectedDisposition = $this->selectedDisposition == null ?
+        //         $this->getCurrentDispositionId() :
+        //         $this->selectedDisposition;
+
+        //     $this->createNewTimerForUser($this->selectedDisposition);
+        // }
     }
 
     public function render()
@@ -48,7 +52,7 @@ class TimerControl extends Component
         return view('timy::livewire.timer-control');
     }
 
-    public function getListeners()
+    protected function getListeners()
     {
         return [
             "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerCreated" => 'timerUpdatedRemotedly',
