@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Http\Livewire;
 
 use Dainsys\Timy\Events\TimerStopped;
+use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
@@ -18,8 +19,6 @@ class OpenTimersMonitor extends Component
     public $selected = [];
 
     public $timers;
-
-    public $exception;
 
     public $all = false;
 
@@ -71,7 +70,7 @@ class OpenTimersMonitor extends Component
 
             $this->getOpenTimers();
         } catch (\Throwable $th) {
-            $this->exception = $th->getMessage();
+            $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
         }
     }
 
@@ -91,7 +90,7 @@ class OpenTimersMonitor extends Component
 
             $this->resetSelectors();
         } catch (\Throwable $th) {
-            $this->exception = $th->getMessage();
+            $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
         }
     }
 
@@ -121,9 +120,5 @@ class OpenTimersMonitor extends Component
                 return $timer['user_id'];
             }, $this->timers) :
             [];
-    }
-
-    public function cancelUpdating()
-    {
     }
 }
