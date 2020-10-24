@@ -30,7 +30,11 @@ class TimerControl extends Component
 
         $this->user->timers()->running()->get()->each->stop();
 
-        $this->createNewTimerForUser($this->selectedDisposition);
+        try {
+            $this->createNewTimerForUser($this->selectedDisposition);
+        } catch (\Throwable $th) {
+            $this->respondToFailsToCreate($th);
+        }
 
         // if ($runningTimer) {
         //     $this->selectedDisposition = $runningTimer->disposition_id;
@@ -93,12 +97,18 @@ class TimerControl extends Component
 
             $this->emit('timerCreated');
         } catch (\Throwable $th) {
-            $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
-            if ($th instanceof ShiftEndendException) {
-
-                $this->selectedDisposition =  $this->getCurrentDispositionId();
-            }
-            $this->running = [];
+            $this->respondToFailsToCreate($th);
         }
+    }
+
+    public function respondToFailsToCreate(\Throwable $th)
+    {
+        $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
+
+        if ($th instanceof ShiftEndendException) {
+
+            $this->selectedDisposition =  $this->getCurrentDispositionId();
+        }
+        $this->running = [];
     }
 }
