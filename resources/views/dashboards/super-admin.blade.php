@@ -1,8 +1,8 @@
 @extends(config('app.env') == "package_development" ? 'timy::local-layout' : config('timy.layout'))
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center pt-2">
+<div class="container-fluid">
+    <div class="row justify-content-center">
         <div class="col-sm-12 col-md-8">
             <div class="row">
                 <div class="col-lg-6 mb-sm-2">

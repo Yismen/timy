@@ -1,5 +1,5 @@
 <div class="position-relative text-danger">
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header bg-white">
             <h4>
                 {{ __('timy::titles.forced_timer_title') }}

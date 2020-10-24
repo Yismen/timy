@@ -1,12 +1,8 @@
-<div class="position-relative text-primary">
-    <div class="card">
-        <div class="card-header bg-white">
-            <h4>{{ __('timy::titles.role_management_title') }}</h4>
-        </div>
-    </div>
+<div class="position-relative mb-3">
+    <h4>{{ __('timy::titles.role_management_title') }}</h4>
 
     @if ($unassigned->count() > 0)
-        <div class="card mt-2">
+        <div class="card mt-2 text-dark">
             <div class="card-header bg-white">
                 <h5>
                     {{ __('timy::titles.unasigned') }}
@@ -24,7 +20,7 @@
     @endif
     
     @foreach ($roles as $role)
-        <div class="card mt-2">
+        <div class="card mt-2  text-primary">
             <div class="card-header bg-white">
                 <h5>
                     {{ Str::studly($role->name) }}
