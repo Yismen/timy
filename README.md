@@ -20,7 +20,7 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
         use Timeable;
     }
     ````
-    > This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide from https://laravel.com/docs/7.x/authentication. We recommend to running the following command: `php artisan ui --auth vue`.
+    > This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide [Authentication](https://laravel.com/docs/7.x/authentication). We recommend to running the following command: `php artisan ui --auth vue`.
 1. As required per `laravel/livewire`, make sure you update your layout view:
     ````javascript
         @livewireStyles
@@ -55,7 +55,7 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
     > Admin Users: URL=`/timy/admin`, NAME=`admin_dashboard`, GATEWAY(blade @can directive)=`timy-admin`
     > Super Admin User: URL=`/timy/super_admin`, NAME=`supepr_admin_dashboard`, GATEWAY(blade @can directive)=`timy-super-admin`
 1. Next, define the Super User in you .env file by providing its email in the variable `TIMY_SUPER_USER_EMAIL=` . This user will have plenty control of the app.
-1. Next get your Pusher's credentials from https://dashboard.pusher.com/apps and use them to define the following variables in your .env file. BE CERTAIN YOU SET YOUR `BROADCAST_DRIVER` VARIABLE TO `pusher`:
+1. Next get your Pusher's credentials from [Pusher](https://dashboard.pusher.com/apps) and use them to define the following variables in your .env file. BE CERTAIN YOU SET YOUR `BROADCAST_DRIVER` VARIABLE TO `pusher`:
     ````javascript
     BROADCAST_DRIVER=pusher
     PUSHER_APP_ID=
@@ -67,7 +67,7 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
     MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
     ````
 1. This package runs an artisan command every 5 minutos that checks if users ip is still alive. 
-    > MAKE SURE your server is running a `cron job` as suggested in Laravel documentation `https://laravel.com/docs/7.x/scheduling#introduction`, Starting The schedule session: `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1`
+    > MAKE SURE your server is running a `cron job` as suggested in Laravel documentation [Scheduling](https://laravel.com/docs/7.x/scheduling#introduction), Starting The schedule session: `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1`
 ## Features
 - Authenticated users is required for the package to work. We leverage that on `laravel/ui` package. 
 - Users and admin shoud have valid roles assigned to them. 
