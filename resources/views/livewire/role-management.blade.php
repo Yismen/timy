@@ -1,39 +1,41 @@
 <div class="position-relative mb-3">
     <h4>{{ __('timy::titles.role_management_title') }}</h4>
-
-    @if ($unassigned->count() > 0)
-        <div class="card mt-2 text-dark">
-            <div class="card-header bg-white">
-                <h5>
-                    {{ __('timy::titles.unasigned') }}
-                    <span class="badge badge-primary badge-pill float-right">{{ $unassigned->count() }}</span>
-                </h5>
+    <h5 wire:loading wire:target='getRoles'>Loading...</h5>
+    <div wire:loading.remove wire:target='getRoles'>
+        @if ($unassigned->count() > 0)
+            <div class="card mt-2 text-dark">
+                <div class="card-header bg-white">
+                    <h5>
+                        {{ __('timy::titles.unasigned') }}
+                        <span class="badge badge-primary badge-pill float-right">{{ $unassigned->count() }}</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group">
+                        @foreach ($unassigned as $user)
+                            @include('timy::livewire._user-checkbox', ['with_timers' => false])
+                        @endforeach
+                    </ul>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <ul class="list-group">
-                    @foreach ($unassigned as $user)
+        @endif
+        
+        @foreach ($roles as $role)
+            <div class="card mt-2  text-primary">
+                <div class="card-header bg-white">
+                    <h5>
+                        {{ Str::studly($role->name) }}
+                        <span class="badge badge-primary badge-pill float-right">{{ $role->users->count() }}</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    @foreach ($role->users as $user)
                         @include('timy::livewire._user-checkbox', ['with_timers' => false])
                     @endforeach
-                </ul>
+                </div>
             </div>
-        </div>
-    @endif
-    
-    @foreach ($roles as $role)
-        <div class="card mt-2  text-primary">
-            <div class="card-header bg-white">
-                <h5>
-                    {{ Str::studly($role->name) }}
-                    <span class="badge badge-primary badge-pill float-right">{{ $role->users->count() }}</span>
-                </h5>
-            </div>
-            <div class="card-body p-0">
-                @foreach ($role->users as $user)
-                    @include('timy::livewire._user-checkbox', ['with_timers' => false])
-                @endforeach
-            </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 
     @if (count($selected) > 0)
         <div class="position-absolute" style="top: 20px; left: 150px;">
