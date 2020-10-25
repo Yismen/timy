@@ -6,7 +6,7 @@
         </a>
     </h4>
     @include('timy::_loading', ['target' => 'getOpenTimers'])
-    <div class="" wire:loading.remove wire:target="getOpenTimers">
+    <div class="" wire:loading.remove wire:target="getOpenTimers" wire:init="getOpenTimers">
         @if (!$timers || count($timers) == 0)
             <div class="alert alert-warning p-4 border mt-3 border-secondary" role="alert">
                 <h3><strong>{{ __('timy::titles.no_timers_running') }}</strong></h3>
