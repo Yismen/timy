@@ -35,17 +35,6 @@ class TimerControl extends Component
         } catch (\Throwable $th) {
             $this->respondToFailsToCreate($th);
         }
-
-        // if ($runningTimer) {
-        //     $this->selectedDisposition = $runningTimer->disposition_id;
-        //     $this->running = TimerResource::make($runningTimer)->jsonSerialize();
-        // } else {
-        //     $this->selectedDisposition = $this->selectedDisposition == null ?
-        //         $this->getCurrentDispositionId() :
-        //         $this->selectedDisposition;
-
-        //     $this->createNewTimerForUser($this->selectedDisposition);
-        // }
     }
 
     public function render()
