@@ -19,6 +19,6 @@
                     />
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">{{ __('Download') }}</button>
+            <button type="submit" class="btn btn-primary mt-2">{{ __('timy::titles.download') }}</button>
         </x-dc-form>
     </div>

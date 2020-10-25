@@ -1,5 +1,5 @@
 <div class="text-danger">
-    <h2 class="text-center p-4 w-100" wire:loading wire:target="getUsers">Loading...</h2>
+    <h2 class="text-center p-4 w-100" wire:loading wire:target="getUsers">{{ __('timy::titles.loading') }}...</h2>
     <div class="card mb-3" wire:loading.remove wire:target="getUsers">
         <div class="card-header bg-white">
             <h4>

@@ -8,7 +8,7 @@
             </a>
         </h4>
     </div>
-    <h3 wire:loading wire:target="getTimers">Loading...</h3>
+    <h3 wire:loading wire:target="getTimers">{{ __('timy::titles.loading') }}...</h3>
     <div wire:loading.remove wire:target='getTimers'>
         <div class="card-body p-0">
             <table class="table table-striped table-sm table-inverse table-responsive-sm w-full">

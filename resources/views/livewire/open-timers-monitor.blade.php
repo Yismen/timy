@@ -7,7 +7,7 @@
     </h4>
     <div wire:loading wire:target='getOpenTimers'>
         <h2 class="text-center">
-            <span class="text-center">Loading...</span>
+            <span class="text-center">{{ __('timy::titles.loading') }}...</span>
         </h2>
     </div>
     <div class="" wire:loading.remove wire:target="getOpenTimers">

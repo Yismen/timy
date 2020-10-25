@@ -6,50 +6,38 @@
             </h3>
            <div class="row">
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                   <div class="card">
-                       <div class="card-body">
-                        <h5>@lang('timy::titles.hours_today')</h5>
-                        <h1 class="text-center font-weight-bold" title="{{ $data['hours_today']->date ?? null }}">
-                            {{ number_format($data['hours_today']->hours ?? 0, 2) }}
-                         </h1>
-                       </div>
-                   </div>
+                   @livewire('timy::info-box', [
+                       'title' => __('timy::titles.hours_today'),
+                       'data' => $data['hours_today']->hours ?? 0,
+                       'tooltip' => $data['hours_today']->date ?? null,
+                   ])
                </div>
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                   <div class="card">
-                       <div class="card-body">
-                        <h5>@lang('timy::titles.hours_last_date')</h5>
-                        <h1 class="text-center font-weight-bold" title="{{ $data['hours_last_date']->date ?? null }}">
-                            {{ number_format($data['hours_last_date']->hours ?? 0, 2) }}
-                         </h1>
-                       </div>
-                   </div>
+                    @livewire('timy::info-box', [
+                        'title' => __('timy::titles.hours_last_date'),
+                        'data' => $data['hours_last_date']->hours ?? 0,
+                        'tooltip' => $data['hours_last_date']->date ?? null,
+                    ])
                </div>
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                   <div class="card">
-                       <div class="card-body">
-                        <h5>@lang('timy::titles.hours_this_payroll')</h5>
-                        <h1 class="text-center font-weight-bold" title="{{ $data['hours_payrolltd']->date ?? null }}">
-                            {{ number_format($data['hours_payrolltd']['hours'] ?? 0, 2) }}
-                         </h1>
-                       </div>
-                   </div>
+                    @livewire('timy::info-box', [
+                        'title' => __('timy::titles.hours_this_payroll'),
+                        'data' => $data['hours_payrolltd']->hours ?? 0,
+                        'tooltip' => $data['hours_payrolltd']->date ?? null,
+                    ])
                </div>
                
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                     <h5>@lang('timy::titles.hours_last_payroll')</h5>
-                     <h1 class="text-center font-weight-bold" title="{{ $data['hours_last_payroll']->date ?? null }}">
-                         {{ number_format($data['hours_last_payroll']['hours'] ?? 0, 2) }}
-                      </h1>
-                    </div>
+                   
+                    @livewire('timy::info-box', [
+                        'title' => __('timy::titles.hours_last_payroll'),
+                        'data' => $data['hours_last_payroll']->hours ?? 0,
+                        'tooltip' => $data['hours_last_payroll']->date ?? null,
+                    ])
                 </div>
             </div>
-           </div>
 
-           <div class="row">
-               
+           <div class="row">               
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header bg-white">
