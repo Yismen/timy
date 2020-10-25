@@ -20,24 +20,19 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
         use Timeable;
     }
     ````
-    > This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide [Authentication](https://laravel.com/docs/7.x/authentication). We recommend to running the following command: `php artisan ui --auth vue`.
+    > This package relies on `laravel/ui` to handle authentication. Follow it's  installation guide [Authentication](https://laravel.com/docs/7.x/authentication). 
+    > We recommend to running the following command: `php artisan ui --auth vue`.
 1. As required per `laravel/livewire`, make sure you update your layout view:
     ````javascript
         @livewireStyles
     </head>
     <body>
         ...
-        @stack('scripts')
         @livewireScripts
+        @stack('scripts')
     </body>
     </html>
     ````
-1. Update your `package.json` file with the follow dependencies:
-    ````javascript
-            "laravel-echo": "^1.8.0",
-            "pusher-js": "^6.0.3",
-    ````
-    > Then install the front end dependencies and compile: `npm install && npm run dev`.
 1. Make sure the `App\Providers\BroadcastServiceProvider::class` is uncommented in the `config.app` file.
 1. Next paste the following routes in your `routes\channels.php` file:
     ````javascript
@@ -66,6 +61,25 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
     MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
     MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
     ````
+1. Update your `package.json` file with the follow dependencies:
+    ````javascript
+            "laravel-echo": "^1.8.0",
+            "pusher-js": "^6.0.3",
+    ````
+1. Uncomment the `Laravel Echo` section in your `resources/js/bootstrap.js`:
+    ````javascript
+    import Echo from 'laravel-echo';
+
+    window.Pusher = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+        forceTLS: true
+    });
+    ````
+1. Then install the front end dependencies and compile: `npm install && npm run dev`.
 1. This package runs an artisan command every 5 minutos that checks if users ip is still alive. 
     > MAKE SURE your server is running a `cron job` as suggested in Laravel documentation [Scheduling](https://laravel.com/docs/7.x/scheduling#introduction), Starting The schedule session: `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1`
 ## Features
