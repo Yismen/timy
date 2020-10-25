@@ -5,11 +5,7 @@
             {{ __('timy::titles.refresh') }}
         </a>
     </h4>
-    <div wire:loading wire:target='getOpenTimers'>
-        <h2 class="text-center">
-            <span class="text-center">{{ __('timy::titles.loading') }}...</span>
-        </h2>
-    </div>
+    @include('timy::_loading', ['target' => 'getOpenTimers'])
     <div class="" wire:loading.remove wire:target="getOpenTimers">
         @if (!$timers || count($timers) == 0)
             <div class="alert alert-warning p-4 border mt-3 border-secondary" role="alert">

@@ -1,6 +1,6 @@
 <div class="position-relative mb-3">
     <h4>{{ __('timy::titles.role_management_title') }}</h4>
-    <h5 wire:loading wire:target='getRoles'>{{ __('timy::titles.loading') }}...</h5>
+    @include('timy::_loading', ['target' => 'getRoles'])
     <div wire:loading.remove wire:target='getRoles'>
         @if ($unassigned->count() > 0)
             <div class="card mt-2 text-dark">
