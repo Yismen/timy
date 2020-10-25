@@ -4,7 +4,6 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-sm-12 col-lg-8">
-            {{-- <timy-admin-dashboard class="w-100"></timy-admin-dashboard> --}}
             @livewire('timy::open-timers-monitor')
         </div>
         <div class="col-sm-12 col-lg-4">
