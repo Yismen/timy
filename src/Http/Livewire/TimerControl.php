@@ -4,7 +4,6 @@ namespace Dainsys\Timy\Http\Livewire;
 
 use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Repositories\DispositionsRepository;
-use Dainsys\Timy\Resources\TimerResource;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -40,7 +39,6 @@ class TimerControl extends Component
     public function render()
     {
         $this->dispositions = DispositionsRepository::all();
-        $this->emit('timerCreatedByTimerControl', $this->running);
 
         return view('timy::livewire.timer-control');
     }
@@ -61,9 +59,9 @@ class TimerControl extends Component
     public function timerUpdatedRemotedly($payload)
     {
         $this->running = $payload['timer'];
-        $this->selectedDisposition = $this->running['disposition_id'];
+        $this->selectedDisposition = $payload['timer']['disposition_id'];
 
-        $this->dispatchBrowserEvent('timyShowAlert', ['message' => trans('timy::titles.updated_remotedly')]);
+        $this->dispatchBrowserEvent('showTimyAlert', ['message' => trans('timy::titles.updated_remotedly')]);
     }
 
     public function timerStoppedRemotedly($payload)
@@ -71,7 +69,7 @@ class TimerControl extends Component
         $this->running = $payload['timer'];
         $this->selectedDisposition =  $this->getCurrentDispositionId();
 
-        $this->dispatchBrowserEvent('timyShowAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
+        $this->dispatchBrowserEvent('showTimyAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
     }
 
     protected function getCurrentDispositionId()
@@ -84,7 +82,7 @@ class TimerControl extends Component
         try {
             $this->running =  $this->user->startTimer($dispositionId);
 
-            $this->emit('timerCreated');
+            $this->emit('timerCreatedByTimerControl', $this->running);
         } catch (\Throwable $th) {
             $this->respondToFailsToCreate($th);
         }
@@ -92,7 +90,7 @@ class TimerControl extends Component
 
     public function respondToFailsToCreate(\Throwable $th)
     {
-        $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
+        $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
 
         if ($th instanceof ShiftEndendException) {
 

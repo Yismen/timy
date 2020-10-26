@@ -29,7 +29,7 @@
 
         window.onbeforeunload
          
-        window.addEventListener('timyShowAlert', event => {
+        window.addEventListener('showTimyAlert', event => {
             alert(event.detail.message)
         })
         

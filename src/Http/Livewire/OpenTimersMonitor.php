@@ -70,7 +70,7 @@ class OpenTimersMonitor extends Component
 
             $this->getOpenTimers();
         } catch (\Throwable $th) {
-            $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
+            $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
         }
     }
 
@@ -90,7 +90,7 @@ class OpenTimersMonitor extends Component
 
             $this->resetSelectors();
         } catch (\Throwable $th) {
-            $this->dispatchBrowserEvent('timyShowAlert', ['message' => $th->getMessage()]);
+            $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
         }
     }
 

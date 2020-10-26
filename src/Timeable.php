@@ -92,7 +92,6 @@ trait Timeable
             'ip_address' => request()->ip()
         ]);
 
-
         event(new TimerCreated($this, $timer));
         event(new TimerCreatedAdmin($this, $timer));
 
