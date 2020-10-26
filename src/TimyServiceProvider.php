@@ -10,6 +10,7 @@ use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
 use Dainsys\Timy\Http\Livewire\UserHoursInfo;
 use Dainsys\Timy\Providers\EventServiceProvider;
+use Dainsys\Timy\Tests\Mocks\UserMockery;
 use Dainsys\Timy\View\Components\InfoBox;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
@@ -26,7 +27,14 @@ class TimyServiceProvider extends ServiceProvider
             ->loadComponents()
             ->registerLivewireComponents();
 
-        $this->app->bind('TimyUser', config('timy.models.user'));
+
+        if ($this->app->runningUnitTests()) {
+            $this->app->bind('TimyUser', function () {
+                return UserMockery::class;
+            });
+        } else {
+            $this->app->bind('TimyUser', config('timy.models.user'));
+        }
 
         SecureGates::boot();
 

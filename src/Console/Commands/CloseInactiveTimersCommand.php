@@ -45,7 +45,10 @@ class CloseInactiveTimersCommand extends Command
             ->each(function ($timer) {
                 try {
                     Http::timeout((int) config('timy.ip_timeout_in_seconds', 5))->get($timer->ip_address);
+
+                    $this->info("User ip {$timer->ip_address} is Alive");
                 } catch (\Throwable $th) {
+                    dd($th);
                     $user = $timer->user;
 
                     $timer->stop();
@@ -54,6 +57,8 @@ class CloseInactiveTimersCommand extends Command
 
                     event(new TimerStopped($user));
                     event(new TimerCreatedAdmin($user));
+
+                    $this->error("User ip {$timer->ip_address} is Dead");
                 }
             });
     }

@@ -4,12 +4,16 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "^7.0",
+        "illuminate/support": "^5.1 || ^5.7 || ^5.8 || ^6.0 || ^7.0",
         "dainsys/components": "^1.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/ui": "^2.0",
-        "livewire/livewire": "^2.2",
+        "livewire/livewire": "dev-master",
         "maatwebsite/excel": "^3.1",
         "pusher/pusher-php-server": "~4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "5.x-dev"
     },
     "license": "MIT",
     "authors": [
@@ -40,8 +44,5 @@
         "post-package-update": [
             "@php artisan vendor:publish --tag=timy-components --force"
         ]
-    },
-    "require-dev": {
-        "orchestra/testbench": "5.x-dev"
     }
 }

@@ -21,7 +21,7 @@ class Timer extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('timy.models.user'));
+        return $this->belongsTo(resolve('TimyUser'));
     }
 
     /**

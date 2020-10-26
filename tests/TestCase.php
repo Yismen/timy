@@ -4,11 +4,11 @@ namespace Dainsys\Timy\Tests;
 
 use Dainsys\Timy\TimyServiceProvider;
 use Illuminate\Support\Facades\Auth;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Illuminate\Support\Facades\Route;
 use Laravel\Ui\UiServiceProvider;
+use Livewire\LivewireServiceProvider;
+use Orchestra\Testbench\TestCase as TestbenchTestCase;
 
-class TestCase extends OrchestraTestCase
+class TestCase extends TestbenchTestCase
 {
     /**
      * Executed before each test.
@@ -17,7 +17,7 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        $this->withFactories(database_path('/factories'));
+        $this->withFactories(__DIR__ . '/../database/factories');
         $this->loadLaravelMigrations();
         $this->artisan('migrate');
 
@@ -41,13 +41,14 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app): array
     {
         return [
+            LivewireServiceProvider::class,
             UiServiceProvider::class,
-            TimyServiceProvider::class
+            TimyServiceProvider::class,
         ];
     }
 
     protected function user($attributes = [])
     {
-        return factory(config('timy.models.user'))->create($attributes);
+        return factory(resolve('TimyUser'))->create($attributes);
     }
 }

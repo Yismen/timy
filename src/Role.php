@@ -37,6 +37,6 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->hasMany(config('timy.models.user'), 'timy_role_id');
+        return $this->hasMany(resolve('TimyUser'), 'timy_role_id');
     }
 }
