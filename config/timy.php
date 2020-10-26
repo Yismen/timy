@@ -25,6 +25,11 @@ return [
         'working_days' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     ],
     /**
+     * @type Boolean. If set to true, will register a command that would check the timers ip to
+     * see if they are still alive.
+     */
+    'with_scheduled_commands' => env('TIMY_WITH_SCHEDULED_COMMANDS', false),
+    /**
      * The amount of seconds to wait for an IP Address to respond when checking if alive.
      */
     'ip_timeout_in_seconds' => 5,

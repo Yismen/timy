@@ -38,9 +38,11 @@ class TimyServiceProvider extends ServiceProvider
 
         SecureGates::boot();
 
-        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-            $schedule->command('timy:close-inactive-timers')->everyMinute();
-        });
+        if ((bool)config('timy.with_scheduled_commands')) {
+            $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+                $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
+            });
+        }
     }
 
     public function register()
