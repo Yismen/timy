@@ -32,9 +32,15 @@ class ForcedTimerManagement extends Component
 
     public function getUsers()
     {
-        return resolve('TimyUser')->orderBy('name')->with(['timers' => function ($query) {
+        return resolve('TimyUser')
+            ->orderBy('name')->with(['timers' => function ($query) {
             $query->running();
-        }])->get();
+            }])
+            ->whereHas('timy_role', function ($query) {
+                $query->where('name', config('timy.roles.user'))
+                    ->orWhere('name', config('timy.roles.admin'));
+            })
+            ->get();
     }
 
 
