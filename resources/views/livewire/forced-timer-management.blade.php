@@ -4,6 +4,7 @@
         <div class="card-header bg-white">
             <h4>
                 {{ __('timy::titles.forced_timer_title') }}
+                <span class="badge badge-pill badge-danger">{{ $users->count() }}</span>
                 <button class="btn btn-sm btn-secondary float-right" wire:click="getUsers()">
                     {{ __('timy::titles.refresh') }}
                 </button>
