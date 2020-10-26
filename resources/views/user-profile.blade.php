@@ -6,33 +6,37 @@
             </h3>
            <div class="row">
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                   @livewire('timy::info-box', [
-                       'title' => __('timy::titles.hours_today'),
-                       'data' => $data['hours_today']->hours ?? 0,
-                       'tooltip' => $data['hours_today']->date ?? null,
-                   ])
+                    <x-timy-info-box 
+                        title="{{ __('timy::titles.hours_today')  }}"
+                        number="{{ $data['hours_today']['hours'] ?? 0 }}"
+                        tolltip="{{ $data['hours_today']['date'] ?? ''}}"
+                   >    
+                   </x-timy-info-box>
                </div>
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                    @livewire('timy::info-box', [
-                        'title' => __('timy::titles.hours_last_date'),
-                        'data' => $data['hours_last_date']->hours ?? 0,
-                        'tooltip' => $data['hours_last_date']->date ?? null,
-                    ])
+                    <x-timy-info-box 
+                        title="{{ __('timy::titles.hours_last_date')  }}"
+                        number="{{ $data['hours_last_date']['hours'] ?? 0 }}"
+                        tolltip="{{ $data['hours_last_date']['date'] ?? '' }}"
+                    >    
+                    </x-timy-info-box>
                </div>
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                    @livewire('timy::info-box', [
-                        'title' => __('timy::titles.hours_this_payroll'),
-                        'data' => $data['hours_payrolltd']['hours'],
-                        'tooltip' => join(' - ', [$data['hours_payrolltd']['since'], $data['hours_payrolltd']['to']])
-                    ])
+                    <x-timy-info-box 
+                        title="{{ __('timy::titles.hours_this_payroll')  }}"
+                        number="{{ $data['hours_payrolltd']['hours'] ?? 0 }}"
+                        tolltip="{{ join(' - ', [$data['hours_payrolltd']['since'] ?? '', $data['hours_payrolltd']['to']] ??'') }}"
+                    >    
+                    </x-timy-info-box>
                </div>
                
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                    @livewire('timy::info-box', [
-                        'title' => __('timy::titles.hours_last_payroll'),
-                        'data' => $data['hours_last_payroll']['hours'],
-                        'tooltip' =>  join(' - ', [$data['hours_last_payroll']['since'], $data['hours_last_payroll']['to']]),
-                    ])
+                    <x-timy-info-box 
+                        title="{{ __('timy::titles.hours_last_payroll')  }}"
+                        number="{{ $data['hours_last_payroll']['hours'] ?? 0 }}"
+                        tolltip="{{ join(' - ', [$data['hours_last_payroll']['since'] ?? '', $data['hours_last_payroll']['to']] ??'') }}"
+                    >    
+                    </x-timy-info-box>
                 </div>
             </div>
 

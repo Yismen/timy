@@ -4,14 +4,13 @@ namespace Dainsys\Timy;
 
 use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
-use Dainsys\Timy\Http\Livewire\InfoBox;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
 use Dainsys\Timy\Http\Livewire\UserHoursInfo;
 use Dainsys\Timy\Providers\EventServiceProvider;
-use Dainsys\Timy\View\Components\InfoBox as ComponentsInfoBox;
+use Dainsys\Timy\View\Components\InfoBox;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -85,13 +84,12 @@ class TimyServiceProvider extends ServiceProvider
     {
         Livewire::component('timy::timer-control', TimerControl::class);
         Livewire::component('timy::open-timers-monitor', OpenTimersMonitor::class);
-        Livewire::component('timy::info-box', InfoBox::class);
         Livewire::component('timy::timers-table', TimersTable::class);
         Livewire::component('timy::role-management', RolesManagement::class);
         Livewire::component('timy::forced-timer-management', ForcedTimerManagement::class);
         Livewire::component('timy::user-hours-info', UserHoursInfo::class);
 
-        Blade::component('timy-info-box', ComponentsInfoBox::class);
+        Blade::component('timy-info-box', InfoBox::class);
 
         return $this;
     }
