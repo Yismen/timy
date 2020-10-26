@@ -76,6 +76,13 @@ trait Timeable
         Cache::forget($cache_key);
     }
 
+    public function getTimyCachedDispo($user_id = null)
+    {
+        $user_id = $user_id ?: auth()->id();
+
+        return Cache::get('timy-user-last-disposition-' . $user_id, config('timy.default_disposition_id'));
+    }
+
     protected function getTimerStarted($disposition_id, $now)
     {
         $this->forgetTimyCache();

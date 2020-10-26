@@ -4,7 +4,6 @@ namespace Dainsys\Timy\Http\Livewire;
 
 use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Repositories\DispositionsRepository;
-use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class TimerControl extends Component
@@ -19,12 +18,15 @@ class TimerControl extends Component
 
     public $user;
 
+    protected $cached_timy_dispo;
+
     public function mount()
     {
         $this->user = auth()->user();
+        $this->cached_timy_dispo = $this->user->getTimyCachedDispo();
 
         $this->selectedDisposition = $this->selectedDisposition == null ?
-            $this->getCurrentDispositionId() :
+            $this->cached_timy_dispo :
             $this->selectedDisposition;
 
         $this->user->timers()->running()->get()->each->stop();
@@ -67,14 +69,9 @@ class TimerControl extends Component
     public function timerStoppedRemotedly($payload)
     {
         $this->running = $payload['timer'];
-        $this->selectedDisposition =  $this->getCurrentDispositionId();
+        $this->selectedDisposition =  $this->cached_timy_dispo;
 
         $this->dispatchBrowserEvent('showTimyAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
-    }
-
-    protected function getCurrentDispositionId()
-    {
-        return Cache::get('timy-user-last-disposition-' . auth()->id(), config('timy.default_disposition_id'));
     }
 
     protected function createNewTimerForUser($dispositionId)
@@ -94,7 +91,7 @@ class TimerControl extends Component
 
         if ($th instanceof ShiftEndendException) {
 
-            $this->selectedDisposition =  $this->getCurrentDispositionId();
+            $this->selectedDisposition =  $this->cached_timy_dispo;
         }
         $this->running = [];
     }
