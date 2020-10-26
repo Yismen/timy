@@ -30,7 +30,7 @@ class DashboardController extends BaseController
             abort(403, 'Unauthorized');
         }
 
-        return view('timy::dashboards.user', UserDataRepository::toArray(auth()->user()));
+        return view('timy::dashboards.user');
     }
 
     public function superAdmin()

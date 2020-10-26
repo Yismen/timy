@@ -9,8 +9,11 @@ use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
+use Dainsys\Timy\Http\Livewire\UserHoursInfo;
 use Dainsys\Timy\Providers\EventServiceProvider;
+use Dainsys\Timy\View\Components\InfoBox as ComponentsInfoBox;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -86,6 +89,9 @@ class TimyServiceProvider extends ServiceProvider
         Livewire::component('timy::timers-table', TimersTable::class);
         Livewire::component('timy::role-management', RolesManagement::class);
         Livewire::component('timy::forced-timer-management', ForcedTimerManagement::class);
+        Livewire::component('timy::user-hours-info', UserHoursInfo::class);
+
+        Blade::component('timy-info-box', ComponentsInfoBox::class);
 
         return $this;
     }

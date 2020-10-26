@@ -1,4 +1,4 @@
-<div class="card p-0">
+<div class="card p-0" wire:init="getTimers">
     <div class="card-header bg-white">
         <h4>
             {{ __('timy::titles.timers_registered') }}
@@ -9,7 +9,7 @@
         </h4>
     </div>
     @include('timy::_loading', ['target' => 'getTimers'])
-    <div wire:loading.remove wire:target='getTimers' wire:init="getTimers">
+    <div wire:loading.remove wire:target='getTimers'>
         <div class="card-body p-0">
             <table class="table table-striped table-sm table-inverse table-responsive-sm w-full">
                 <thead class="thead-inverse">
