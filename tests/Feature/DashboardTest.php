@@ -55,12 +55,13 @@ class DashboardTest extends TestCase
     /** @test */
     public function authorized_users_can_see_super_admin_dashboard()
     {
+        $this->withoutExceptionHandling();
         $user =  $this->user(['email' => config('timy.super_admin_email')]);
 
         $this->actingAs($user)
             ->get(route('super_admin_dashboard'))
             ->assertOk()
-            ->assertViewIs('timy::super-admin-dashboard');
+            ->assertViewIs('timy::dashboard.super_admin');
     }
 
     /** @test */
