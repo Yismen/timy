@@ -3,11 +3,9 @@
 namespace Dainsys\Timy\Http\Livewire;
 
 use Dainsys\Timy\Events\TimerStopped;
-use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
-use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class OpenTimersMonitor extends Component
@@ -36,7 +34,7 @@ class OpenTimersMonitor extends Component
         return view('timy::livewire.open-timers-monitor');
     }
 
-    public function getListeners()
+    protected function getListeners()
     {
         return [
             "echo-private:Timy.Admin,\\Dainsys\\Timy\\Events\\TimerCreatedAdmin" => 'getOpenTimers',
