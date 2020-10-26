@@ -22,17 +22,16 @@
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
                     @livewire('timy::info-box', [
                         'title' => __('timy::titles.hours_this_payroll'),
-                        'data' => $data['hours_payrolltd']->hours ?? 0,
-                        'tooltip' => $data['hours_payrolltd']->date ?? null,
+                        'data' => $data['hours_payrolltd']['hours'],
+                        'tooltip' => join(' - ', [$data['hours_payrolltd']['since'], $data['hours_payrolltd']['to']])
                     ])
                </div>
                
                <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                   
                     @livewire('timy::info-box', [
                         'title' => __('timy::titles.hours_last_payroll'),
-                        'data' => $data['hours_last_payroll']->hours ?? 0,
-                        'tooltip' => $data['hours_last_payroll']->date ?? null,
+                        'data' => $data['hours_last_payroll']['hours'],
+                        'tooltip' =>  join(' - ', [$data['hours_last_payroll']['since'], $data['hours_last_payroll']['to']]),
                     ])
                 </div>
             </div>

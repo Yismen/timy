@@ -14,16 +14,23 @@
 
                     @livewire('timy::info-box', [
                         'title' => __('timy::titles.hours_last_date'), 
-                        'data' => $hours_last_date['hours'] ?? 0, 'tooltip' => $hours_last_date['date'] ?? ''
+                        'data' => $hours_last_date['hours'] ?? 0, 
+                        'tooltip' => $hours_last_date['date'] ?? ''
                     ])
                 </div>
                 <div class="mb-2 col-6 col-lg-4 col-xl-3">
                     @livewire('timy::info-box', [
-                            'title' => __('timy::titles.hours_this_payroll'), 'data' => $hours_payrolltd['hours'] ?? 0, 'tooltip' => ''
+                        'title' => __('timy::titles.hours_this_payroll'), 
+                        'data' => $hours_payrolltd['hours'] ?? 0, 
+                        'tooltip' => join(' - ', [$hours_payrolltd['since'], $hours_payrolltd['to']])
                     ])
                 </div>
                 <div class="mb-2 col-6 col-lg-4 col-xl-3">
-                    @livewire('timy::info-box', ['title' => __('timy::titles.hours_last_payroll'), 'data' => $hours_last_payroll['hours'] ?? 0, 'tooltip' => ''])
+                    @livewire('timy::info-box', [
+                        'title' => __('timy::titles.hours_last_payroll'), 
+                        'data' => $hours_last_payroll['hours'] ?? 0, 
+                        'tooltip' => join(' - ', [$hours_last_payroll['since'], $hours_last_payroll['to']])
+                    ])
                 </div>
             </div>
             
