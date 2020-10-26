@@ -2,19 +2,11 @@
 
 namespace Dainsys\Timy\Tests\Unit;
 
-use Dainsys\Timy\Tests\Mocks\UserMockery;
 use Dainsys\Timy\Tests\TestCase;
 use Dainsys\Timy\Timer;
 
 class CloseInactiveTimersCommandTest extends TestCase
 {
-    /** @test */
-    public function it_runs_the_command()
-    {
-        $this->artisan('timy:close-inactive-timers')
-            ->assertExitCode(0);
-    }
-
     /** @test */
     public function it_closes_invalid_ips()
     {
@@ -31,7 +23,8 @@ class CloseInactiveTimersCommandTest extends TestCase
     /** @test */
     public function it_keeps_valid_ips()
     {
-        factory(Timer::class)->create(['ip_address' => '200.88.117.182', 'finished_at' => null]);
+        $ip_address = '142.250.9.139'; //google
+        factory(Timer::class)->create(['ip_address' => $ip_address, 'finished_at' => null]);
 
         $this->assertCount(1, Timer::running()->get());
 

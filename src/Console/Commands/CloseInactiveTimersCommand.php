@@ -48,7 +48,6 @@ class CloseInactiveTimersCommand extends Command
 
                     $this->info("User ip {$timer->ip_address} is Alive");
                 } catch (\Throwable $th) {
-                    dd($th);
                     $user = $timer->user;
 
                     $timer->stop();
