@@ -18,9 +18,9 @@ class TimersTable extends Component
     protected function getListeners()
     {
         return [
-            'timerCreated' => 'getTimers',
-            "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerCreated" => 'getTimers',
-            "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerStopped" => 'getTimers',
+            'timerCreatedByTimerControl' => 'getTimers',
+            // "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerCreated" => 'getTimers',
+            // "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerStopped" => 'getTimers',
         ];
     }
 

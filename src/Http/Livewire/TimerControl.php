@@ -63,14 +63,17 @@ class TimerControl extends Component
         $this->running = $payload['timer'];
         $this->selectedDisposition = $payload['timer']['disposition_id'];
 
+        $this->emit('timerCreatedByTimerControl', $this->running);
         $this->dispatchBrowserEvent('showTimyAlert', ['message' => trans('timy::titles.updated_remotedly')]);
     }
 
     public function timerStoppedRemotedly($payload)
     {
         $this->running = $payload['timer'];
-        $this->selectedDisposition =  $this->cached_timy_dispo;
+        $this->selectedDisposition =  $this->user->getTimyCachedDispo();
 
+
+        $this->emit('timerCreatedByTimerControl', $this->running);
         $this->dispatchBrowserEvent('showTimyAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
     }
 
