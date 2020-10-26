@@ -55,6 +55,8 @@ class RolesManagement extends Component
             $users->each->removeTimyRole();
             $this->closeForm();
         }
+
+        $this->emit('timyRoleUpdated');
     }
 
     public function closeForm()

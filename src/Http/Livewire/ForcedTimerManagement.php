@@ -27,6 +27,7 @@ class ForcedTimerManagement extends Component
     {
         return [
             "echo-private:Timy.Admin,\\Dainsys\\Timy\\Events\\TimerCreatedAdmin" => 'getUsers',
+            'timyRoleUpdated' => 'getUsers'
         ];
     }
 
@@ -34,7 +35,7 @@ class ForcedTimerManagement extends Component
     {
         return resolve('TimyUser')
             ->orderBy('name')->with(['timers' => function ($query) {
-            $query->running();
+                $query->running();
             }])
             ->whereHas('timy_role', function ($query) {
                 $query->where('name', config('timy.roles.user'))
