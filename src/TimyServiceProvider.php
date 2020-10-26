@@ -63,7 +63,7 @@ class TimyServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/timy'),
-        ]);
+        ], 'timy-lang');
 
         return $this;
     }
