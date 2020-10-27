@@ -29,7 +29,9 @@ class TimyServiceProvider extends ServiceProvider
 
 
         if ($this->app->runningUnitTests()) {
-            $this->app->bind('TimyUser', function () {
+            $this->app->bind('TimyUser', UserMockery::class);
+
+            $this->app->bind('TimyUserClass', function () {
                 return UserMockery::class;
             });
         } else {

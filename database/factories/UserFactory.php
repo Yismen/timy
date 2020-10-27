@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(resolve('TimyUser'), function (Faker $faker) {
+$factory->define(resolve('TimyUserClass'), function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

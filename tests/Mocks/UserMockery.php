@@ -12,7 +12,6 @@ class UserMockery extends Authenticatable
     use Notifiable;
     use Timeable;
 
-
     /**
      * The attributes that are mass assignable.
      *
