@@ -1,4 +1,4 @@
-@extends(config('app.env') == "package_development" ? 'timy::local-layout' : config('timy.layout'))
+@extends(config('app.env') == "testing" ? 'timy::testing-app' : config('timy.layout'))
 
 @section('content')
 <div class="container-fluid">
