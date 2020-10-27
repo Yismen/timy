@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Dainsys\Timy\Disposition;
 use Dainsys\Timy\Rules\DateRangeInDays;
 use Dainsys\Timy\Exports\HoursExport;
+use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Repositories\UserDataRepository;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
@@ -39,7 +40,7 @@ class DashboardController extends BaseController
             abort(403, 'Unauthorized');
         }
 
-        $dispositions = Disposition::orderBy('name')->get();
+        $dispositions = DispositionsRepository::all();
 
         return view('timy::dashboards.super-admin', compact('dispositions'));
     }
