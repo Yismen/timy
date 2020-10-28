@@ -9,6 +9,7 @@ use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class TimerController extends BaseController
 {
@@ -23,65 +24,18 @@ class TimerController extends BaseController
         });
     }
 
-    // public function index()
-    // {
-    //     return TimerResource::collection(
-    //         Timer::orderBy('started_at', 'desc')
-    //             ->with(['disposition', 'user'])
-    //             ->mine()
-    //             ->paginate(20)
-    //     );
-    // }
+    public function getOpenTimersHours(): JsonResponse
+    {
+        $timers = $this->user->timers()->running()->get()
+            ->map(function ($timer) {
+                $timer->finished_at = now();
+                return TimerResource::make($timer);
+            });
 
-    // public function show(Timer $timer)
-    // {
-    //     return response()->json(['data' => $timer]);
-    // }
-
-    // protected function store()
-    // {
-    //     $this->validate(request(), [
-    //         'disposition_id' => 'exists:timy_dispositions,id'
-    //     ]);
-    //     try {
-    //         $this->user->stopRunningTimers();
-    //         $timer = $this->user->startTimer(request('disposition_id'));
-
-    //         event(new TimerCreated($this->user, $timer));
-    //         event(new TimerCreatedAdmin($this->user, $timer));
-
-    //         TimerResource::withoutWrapping();
-
-    //         return response()->json(['data' => new TimerResource($timer)], 200);
-    //     } catch (\Throwable $th) {
-    //         $code = (int) $th->getCode();
-    //         return response()->json([
-    //             'user' => $this->user,
-    //             'message' => $th->getMessage(),
-    //             'exception' => get_class($th)
-    //         ], $code > 0 ? $code : 500);
-    //     }
-    // }
-
-    // public function destroy(Timer $timer)
-    // {
-    //     $timer->stop();
-    //     $user = User::find($timer->user_id);
-
-    //     event(new TimerStopped($user, $timer));
-    //     event(new TimerCreatedAdmin($this->user, $timer));
-
-    //     TimerResource::withoutWrapping();
-
-    //     return response()->json(['data' => TimerResource::make($timer)], 200);
-    // }
-
-    // public function running()
-    // {
-    //     return response()->json([
-    //         'data' => $this->user->timers()->running()->first()
-    //     ]);
-    // }
+        return response()->json([
+            'hours' => (float) $timers->sum('payable_hours')
+        ]);
+    }
 
     protected function userDisconnected()
     {
