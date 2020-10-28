@@ -14,11 +14,14 @@ class InfoBox extends Component
 
     public $tooltip;
 
-    public function __construct($number, $title, $tooltip = '')
+    public $class;
+
+    public function __construct($number, $title, $tooltip = '', $class = '')
     {
         $this->number = $number;
         $this->title = $title;
         $this->tooltip = $tooltip;
+        $this->class = $class;
     }
 
     /**
