@@ -2,12 +2,10 @@
 
 namespace Dainsys\Timy\Http\Controllers\Api;
 
-use App\User;
 use Dainsys\Timy\Disposition;
 use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 
 class AdminController extends BaseController
@@ -39,13 +37,13 @@ class AdminController extends BaseController
         $this->validate(request(), [
             'user' => 'exists:users,id',
         ]);
-        
+
         $user = resolve('TimyUser')->findOrFail($user);
 
         $timer = $user->startTimer($disposition->id);
-        
+
         event(new TimerCreated($user, $timer));
-        
+
         return response()->json([
             'data' => $timer
         ]);

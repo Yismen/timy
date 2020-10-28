@@ -2,14 +2,11 @@
 
 namespace Dainsys\Timy\Repositories;
 
-use App\User;
 use Carbon\Carbon;
-use Dainsys\Timy\Timer;
-use Illuminate\Support\Facades\DB;
 
 class UserHoursPayrollTD extends UserHours
 {
-    public static function get(User $user, int $many = 0)
+    public static function get($user, int $many = 0)
     {
         $result = self::getResults($user);
 
@@ -20,7 +17,7 @@ class UserHoursPayrollTD extends UserHours
         ];
     }
 
-    protected static function getResults(User $user)
+    protected static function getResults($user)
     {
         $date = now();
         $starting_date = $date->day <= 15 ? $date->copy()->startOfMonth() : Carbon::create($date->year, $date->month, 16);

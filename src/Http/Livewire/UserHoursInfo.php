@@ -43,5 +43,7 @@ class UserHoursInfo extends Component
         $this->hours_payrolltd = $data['hours_payrolltd'];
         $this->hours_last_payroll = $data['hours_last_payroll'];
         // $this->hours_daily = $data['hours_daily'];
+
+        $this->dispatchBrowserEvent('timerControlUpdated');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests;
 
+use Dainsys\Components\ComponentsServiceProvider;
 use Dainsys\Timy\TimyServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Ui\UiServiceProvider;
@@ -43,12 +44,13 @@ class TestCase extends TestbenchTestCase
         return [
             LivewireServiceProvider::class,
             UiServiceProvider::class,
+            ComponentsServiceProvider::class,
             TimyServiceProvider::class,
         ];
     }
 
     protected function user($attributes = [])
     {
-        return factory(resolve('TimyUser'))->create($attributes);
+        return factory(resolve('TimyUserClass'))->create($attributes);
     }
 }

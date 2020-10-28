@@ -2,7 +2,6 @@
 
 namespace Dainsys\Timy;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Disposition extends Model

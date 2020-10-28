@@ -2,13 +2,12 @@
 
 namespace Dainsys\Timy\Repositories;
 
-use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 abstract class UserHours
 {
-    abstract static function get(User $user, int $many = 0);
+    abstract static function get($user, int $many = 0);
 
     protected static function query($user)
     {

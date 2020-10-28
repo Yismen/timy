@@ -2,14 +2,11 @@
 
 namespace Dainsys\Timy\Repositories;
 
-use App\User;
 use Carbon\Carbon;
-use Dainsys\Timy\Timer;
-use Illuminate\Support\Facades\DB;
 
 class UserHoursLastPayroll extends UserHours
 {
-    public static function get(User $user, int $many = 0)
+    public static function get($user, int $many = 0)
     {
         $result = self::getResults($user);
 

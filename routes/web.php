@@ -16,5 +16,5 @@ Route::middleware($apiMiddlewares)
         Route::resource('disposition', 'DispositionController')->names('timy_web_disposition')
             ->except('create', 'show', 'index', 'show');
 
-        Route::resource('timer', 'TimerController');
+        // Route::resource('timer', 'TimerController');
     });

@@ -45,16 +45,16 @@ class DispositionController extends BaseController
         $this->validateRequest();
 
         $disposition->update($request->all());
-        
+
         return redirect()->route('super_admin_dashboard');
     }
 
     public function validateRequest()
     {
-        if(request('invoiceable') == null) {
+        if (request('invoiceable') == null) {
             request()->merge(['invoiceable' => '0']);
         }
-        if(request('payable') == null) {
+        if (request('payable') == null) {
             request()->merge(['payable' => '0']);
         }
 

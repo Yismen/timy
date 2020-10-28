@@ -1,4 +1,4 @@
-@extends('timy::app')
+@extends(config('app.env') == "testing" ? 'timy::testing-app' : config('timy.layout'))
 
 @section('content')
 <div class="container">

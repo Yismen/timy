@@ -1,11 +1,11 @@
 <?php
 
-namespace Dainsys\Timy\Tests;
+namespace Dainsys\Timy\Tests\Feature\Traits;
 
 use Dainsys\Timy\Disposition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TimyDispositionTests extends TestCase
+trait TimyDispositionTestsTrait
 {
     /** @test */
     public function guest_are_unauthorized()

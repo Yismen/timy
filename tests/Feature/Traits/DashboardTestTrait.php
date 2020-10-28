@@ -1,11 +1,12 @@
 <?php
 
-namespace Dainsys\Timy\Tests;
+namespace Dainsys\Timy\Tests\Feature\Traits;
 
+use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class DashboardTest extends TestCase
+trait DashboardTestTrait
 {
     /** @test */
     public function guest_are_unauthorized_to_see_users_dashboard()
@@ -55,13 +56,13 @@ class DashboardTest extends TestCase
     /** @test */
     public function authorized_users_can_see_super_admin_dashboard()
     {
-        $this->withoutExceptionHandling();
         $user =  $this->user(['email' => config('timy.super_admin_email')]);
 
         $this->actingAs($user)
             ->get(route('super_admin_dashboard'))
             ->assertOk()
-            ->assertViewIs('timy::dashboard.super_admin');
+            ->assertViewIs('timy::dashboards.super-admin')
+            ->assertViewHas('dispositions',  DispositionsRepository::all());
     }
 
     /** @test */
@@ -74,12 +75,14 @@ class DashboardTest extends TestCase
         $this->actingAs($user)
             ->get(route('admin_dashboard'))
             ->assertOk()
-            ->assertViewIs('timy::admin-dashboard');
+            ->assertViewIs('timy::dashboards.admin')
+            ->assertViewHas('users');
     }
 
     /** @test */
     public function authorized_users_can_see_users_dashboard()
     {
+        $this->withoutExceptionHandling();
         $role = Role::where('name', config('timy.roles.user'))->first(); //created at the migration
         $user =  $this->user();
         $user->assignTimyRole($role);
@@ -87,6 +90,6 @@ class DashboardTest extends TestCase
         $this->actingAs($user)
             ->get(route('user_dashboard'))
             ->assertOk()
-            ->assertViewIs('timy::user-dashboard');
+            ->assertViewIs('timy::dashboards.user');
     }
 }

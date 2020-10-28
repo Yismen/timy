@@ -17,7 +17,7 @@ trait Timeable
 
     public function timers()
     {
-        return $this->hasMany(Timer::class);
+        return $this->hasMany(Timer::class, 'user_id');
     }
 
     public function timy_role()

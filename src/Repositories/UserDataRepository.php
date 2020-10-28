@@ -2,13 +2,11 @@
 
 namespace Dainsys\Timy\Repositories;
 
-use App\User;
-use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Resources\UserTimerResource;
 
 class UserDataRepository
 {
-    public static function toArray(User $user)
+    public static function toArray($user)
     {
         return [
             "hours_today" => UserHoursToday::get($user),
