@@ -36,12 +36,17 @@
 
     @push('scripts')
         <script>
-            let todaysHoursBox = document.querySelector('#todaysHoursBox h1')
-            let thisPayrollBox = document.querySelector('#thisPayrollBox h1')
-            setInterval(() => {
+            var timerInterval = null;          
+
+            function updateInfoboxesHours() {
+                let todaysHoursBox = document.querySelector('#todaysHoursBox h1')
+                let thisPayrollBox = document.querySelector('#thisPayrollBox h1')
                 let todaysHoursBoxHours = Number(todaysHoursBox.textContent)
                 let thisPayrollBoxHours = Number(thisPayrollBox.textContent)
-                fetch("{{ route('timy.getOpenTimersHours') }}")
+
+                clearInterval(timerInterval)
+                timerInterval = setInterval(() => {
+                    fetch("{{ route('timy.getOpenTimersHours') }}")
                     .then(response => response.text())
                     .then(response => {
                         let runningHours = Number(JSON.parse(response).hours)
@@ -50,6 +55,12 @@
                         document.querySelector('#thisPayrollBox h1').innerText = Number(Number(runningHours + thisPayrollBoxHours).toFixed(2))
                     })
                     .catch(error => location.reload())
-            }, 20000)
+                }, 35000)
+            }
+            
+            updateInfoboxesHours();
+            window.addEventListener('timerControlUpdated', function() {
+                updateInfoboxesHours();
+            })
         </script>
     @endpush
