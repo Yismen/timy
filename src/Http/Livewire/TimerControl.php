@@ -30,12 +30,7 @@ class TimerControl extends Component
             $this->selectedDisposition;
 
         $this->user->timers()->running()->get()->each->stop();
-
-        try {
-            $this->createNewTimerForUser($this->selectedDisposition);
-        } catch (\Throwable $th) {
-            $this->respondToFailsToCreate($th);
-        }
+        $this->createNewTimerForUser();
     }
 
     public function render()
@@ -55,7 +50,7 @@ class TimerControl extends Component
 
     public function updateUserDisposition()
     {
-        $this->createNewTimerForUser($this->selectedDisposition);
+        $this->createNewTimerForUser();
     }
 
     public function timerUpdatedRemotedly($payload)
@@ -72,15 +67,14 @@ class TimerControl extends Component
         $this->running = $payload['timer'];
         $this->selectedDisposition =  $this->user->getTimyCachedDispo();
 
-
         $this->emit('timerCreatedByTimerControl', $this->running);
         $this->dispatchBrowserEvent('showTimyAlert', ['message' => trans('timy::titles.stopped_remotedly')]);
     }
 
-    protected function createNewTimerForUser($dispositionId)
+    public function createNewTimerForUser()
     {
         try {
-            $this->running =  $this->user->startTimer($dispositionId);
+            $this->running =  $this->user->startTimer($this->selectedDisposition);
 
             $this->emit('timerCreatedByTimerControl', $this->running);
         } catch (\Throwable $th) {
@@ -93,7 +87,6 @@ class TimerControl extends Component
         $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
 
         if ($th instanceof ShiftEndendException) {
-
             $this->selectedDisposition =  $this->cached_timy_dispo;
         }
         $this->running = [];
