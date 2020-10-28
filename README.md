@@ -80,8 +80,9 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
     });
     ````
 1. Then install the front end dependencies and compile: `npm install && npm run dev`.
-1. This package runs an artisan command every 5 minutos that checks if users ip is still alive. 
-    > MAKE SURE your server is running a `cron job` as suggested in Laravel documentation [Scheduling](https://laravel.com/docs/7.x/scheduling#introduction), Starting The schedule session: `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1`
+1. OPTIONAL: This package includes an artisan command that runs every 5 minutes to check user's ip is still alive. It is inactive bt default: To activate it do the following
+    1. MAKE SURE your server is running a `cron job` as suggested in Laravel documentation [Scheduling](https://laravel.com/docs/7.x/scheduling#introduction), Starting The schedule session: `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1`
+    1. In the `config\timy.php` file set the with_scheduled_commands variable to true: `'with_scheduled_commands' => env('TIMY_WITH_SCHEDULED_COMMANDS', true)`.
 ## Features
 - Authenticated users is required for the package to work. We leverage that on `laravel/ui` package. 
 - Users and admin shoud have valid roles assigned to them. 
