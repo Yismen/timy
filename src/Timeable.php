@@ -27,7 +27,7 @@ trait Timeable
 
     public function scopeIsTimyUser($query)
     {
-        return $query->whereHas('timy_role', function ($query) {
+        return $query->with('timy_role')->whereHas('timy_role', function ($query) {
             $query->where('name', config('timy.roles.user'))
                 ->orWhere('name', config('timy.roles.admin'));
         });
