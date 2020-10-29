@@ -2,12 +2,8 @@
 
 namespace Dainsys\Timy\Http\Controllers\Api;
 
-use App\User;
-use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Events\TimerCreatedAdmin;
-use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Timer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 
@@ -41,7 +37,6 @@ class TimerController extends BaseController
     {
         $this->user->stopRunningTimers();
 
-        event(new TimerStopped($this->user));
         event(new TimerCreatedAdmin($this->user));
     }
 
