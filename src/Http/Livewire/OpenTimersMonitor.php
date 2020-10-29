@@ -6,6 +6,7 @@ use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Timer;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class OpenTimersMonitor extends Component
@@ -16,23 +17,32 @@ class OpenTimersMonitor extends Component
 
     public $selected = [];
 
-    public $timers;
+    public $timers = [];
 
-    public $usersWithoutTimers;
+    public $usersWithoutTimers = [];
 
     public $all = false;
+
+    protected $rules = [
+        'selected_to_change' => 'required|exists:timy_dispositions,id'
+    ];
 
     public function mount()
     {
         TimerResource::withoutWrapping();
+    }
 
-        $this->dispositions = DispositionsRepository::all();
-
-        $this->getOpenTimers();
+    protected function updated($property)
+    {
+        $this->validateOnly($property);
     }
 
     public function render()
     {
+        $this->dispositions = Cache::remember('timy_dispositions', now()->addMinutes(60), function () {
+            return DispositionsRepository::all();
+        });
+
         return view('timy::livewire.open-timers-monitor');
     }
 
@@ -58,10 +68,7 @@ class OpenTimersMonitor extends Component
 
     public function updateSelectedTimers()
     {
-        $this->validate([
-            'selected_to_change' => 'required|exists:timy_dispositions,id'
-        ]);
-
+        $this->validate($this->rules);
         try {
             resolve('TimyUser')::whereIn('id', $this->selected)->get()
                 ->each->startTimer($this->selected_to_change);
