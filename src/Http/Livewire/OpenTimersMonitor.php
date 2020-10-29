@@ -18,6 +18,8 @@ class OpenTimersMonitor extends Component
 
     public $timers;
 
+    public $usersWithoutTimers;
+
     public $all = false;
 
     public function mount()
@@ -101,6 +103,12 @@ class OpenTimersMonitor extends Component
                 ->orderBy('name')
                 ->get()
         )->jsonSerialize();
+
+        $this->usersWithoutTimers = resolve('TimyUser')
+            ->isTimyUser()
+            ->whereDoesntHave('timers', function ($query) {
+                return $query->running();
+            })->get();
     }
 
     public function resetSelectors()

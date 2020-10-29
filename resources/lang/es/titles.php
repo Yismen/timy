@@ -50,4 +50,5 @@ return [
     'dispositions' => 'Disposiciones',
     'list' => 'Lista',
     'download' => 'Descargar',
+    'users_without_timers' => 'Usuarios Sin Timers',
 ];

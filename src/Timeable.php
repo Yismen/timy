@@ -25,6 +25,14 @@ trait Timeable
         return $this->belongsTo(Role::class, 'timy_role_id');
     }
 
+    public function scopeIsTimyUser($query)
+    {
+        return $query->whereHas('timy_role', function ($query) {
+            $query->where('name', config('timy.roles.user'))
+                ->orWhere('name', config('timy.roles.admin'));
+        });
+    }
+
     public function hasTimyRole($role)
     {
         return strtolower($role) == strtolower(optional($this->timy_role)->name);
