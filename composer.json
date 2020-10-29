@@ -13,7 +13,8 @@
         "pusher/pusher-php-server": "~4.0"
     },
     "require-dev": {
-        "orchestra/testbench": "5.x-dev"
+        "orchestra/testbench": "5.x-dev",
+        "barryvdh/laravel-debugbar": "^3.5"
     },
     "license": "MIT",
     "authors": [
