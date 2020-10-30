@@ -20,22 +20,28 @@
 
 @push('scripts')
     <script>          
-        window.onbeforeunload = function() {            
-            fetch("{{ route('timy_timers.user_left', auth()->id()) }}")
-                .finally(() => {
-                    return true
-                })
-        };
+        (function() {
+            window.onbeforeunload = function() {            
+                fetch("{{ route('timy_timers.user_left', auth()->id()) }}")
+                    .finally(() => {
+                        return true
+                    })
+            };
 
-        // window.onbeforeunload
-         
-        window.addEventListener('showTimyAlert', event => {
-            alert(event.detail.message)
-        })
-        
-        setInterval(() => {
-            fetch("{{ route('timy_ping_user') }}")
-                .catch(error => window.location.reload())
-        }, 5*60*1000) // Every five minutes
+            // window.onbeforeunload
+            
+            window.addEventListener('showTimyAlert', event => {
+                alert(event.detail.message)
+            })
+
+            window.addEventListener('reloadPage', event => {
+                location.reload
+            })
+            
+            setInterval(() => {
+                fetch("{{ route('timy_ping_user') }}")
+                    .catch(error => window.location.reload())
+            }, 5*60*1000) // Every five minutes
+        })()
     </script>
 @endpush
