@@ -113,6 +113,7 @@ class OpenTimersMonitor extends Component
 
         $this->usersWithoutTimers = resolve('TimyUser')
             ->isTimyUser()
+            ->orderBy('name')
             ->whereDoesntHave('timers', function ($query) {
                 return $query->running();
             })->get();

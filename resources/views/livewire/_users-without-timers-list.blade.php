@@ -14,8 +14,8 @@
                 <tbody>
                     @foreach ($usersWithoutTimers as $user)
                         <tr class="">
-                            <td class=""> {{ $user['name'] }} </td>
-                            <td class="">{{ $user['user_created_at'] }}</td>
+                            <td class=""> {{ $user->name }} </td>
+                            <td class="">{{ $user->created_at->format('Y-m-d') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
