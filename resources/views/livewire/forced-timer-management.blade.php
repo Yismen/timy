@@ -20,8 +20,8 @@
         </div>
     </div>
     @if (count($selected) > 0)
-        <div class="position-absolute" style="top: 20px; left: 100px;">
-            <div class="card-body position-fixed bg-danger p-2" style="z-index: 1000; width: 300px">
+        <div class="position-fixed" style="top: 20%; left: 20%; z-index: 1000; width: 300px;">
+            <div class="card-body bg-danger p-2" style="">
                 <div class="row">
                     <div class="col-10 text-light">
                         <h4>{{ __('timy::titles.forced_timers_form_title') }}</h4>

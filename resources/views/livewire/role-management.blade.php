@@ -38,8 +38,8 @@
     </div>
 
     @if (count($selected) > 0)
-        <div class="position-absolute" style="top: 20px; left: 150px;">
-            <div class="position-fixed bg-warning row p-2 justify-content-between" style="z-index: 1000; max-width: 300px;">
+        <div class="position-fixed" style="top: 50%; right: 25%; z-index: 1000; max-width: 300px;">
+            <div class="bg-warning row p-2 justify-content-between">
                 <div class="col-12 mb-2">
                     <h5 class="text-dark row justify-content-between">
                         <div class="col-10">
