@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests;
 
+use ConsoleTVs\Charts\ChartsServiceProvider;
 use Dainsys\Components\ComponentsServiceProvider;
 use Dainsys\Timy\TimyServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,7 @@ class TestCase extends TestbenchTestCase
             LivewireServiceProvider::class,
             UiServiceProvider::class,
             ComponentsServiceProvider::class,
+            ChartsServiceProvider::class,
             TimyServiceProvider::class,
         ];
     }
