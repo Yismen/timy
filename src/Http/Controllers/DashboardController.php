@@ -4,11 +4,14 @@ namespace Dainsys\Timy\Http\Controllers;
 
 use App\User;
 use Carbon\Carbon;
+use Dainsys\Timy\Charts\UserDailyHoursChart;
 use Dainsys\Timy\Disposition;
 use Dainsys\Timy\Rules\DateRangeInDays;
 use Dainsys\Timy\Exports\HoursExport;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Repositories\UserDataRepository;
+use Dainsys\Timy\Repositories\UserHoursDaily;
+use Dainsys\Timy\Resources\UserTimerResource;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -31,7 +34,17 @@ class DashboardController extends BaseController
             abort(403, 'Unauthorized');
         }
 
-        return view('timy::dashboards.user');
+        $daily_hours =  UserTimerResource::collection(UserHoursDaily::get(auth()->user()))->pluck('hours', 'date');
+
+        $chart = new UserDailyHoursChart;
+        $chart->labels($daily_hours->keys());
+        $chart->dataset(__('timy::titles.daily_hours'), 'bar', $daily_hours->values())
+            ->color('rgba(21,101,192 ,1)')
+            ->backgroundColor('rgba(21,101,192 ,.25)');
+
+        return view('timy::dashboards.user', [
+            'chart' => $chart
+        ]);
     }
 
     public function superAdmin()

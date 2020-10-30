@@ -51,4 +51,5 @@ return [
     'list' => 'List',
     'download' => 'Download',
     'users_without_timers' => 'Users Without Timers',
+    'daily_hours' => 'Daily Hours Summary'
 ];

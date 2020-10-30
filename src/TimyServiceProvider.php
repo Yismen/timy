@@ -25,32 +25,15 @@ class TimyServiceProvider extends ServiceProvider
         $this
             ->registerPublishables()
             ->loadComponents()
-            ->registerLivewireComponents();
-
-
-        if ($this->app->runningUnitTests()) {
-            $this->app->bind('TimyUser', UserMockery::class);
-
-            $this->app->bind('TimyUserClass', function () {
-                return UserMockery::class;
-            });
-        } else {
-            $this->app->bind('TimyUser', config('timy.models.user'));
-        }
+            ->registerLivewireComponents()
+            ->registerToContainer();
 
         SecureGates::boot();
-
-        if ((bool)config('timy.with_scheduled_commands')) {
-            $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-                $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
-            });
-        }
     }
 
     public function register()
     {
         $this->app->register(EventServiceProvider::class);
-
         if ($this->app->runningInConsole()) {
             $this->commands(
                 CloseInactiveTimersCommand::class
@@ -101,6 +84,27 @@ class TimyServiceProvider extends ServiceProvider
         Livewire::component('timy::user-hours-info', UserHoursInfo::class);
 
         Blade::component('timy-info-box', InfoBox::class);
+
+        return $this;
+    }
+
+    protected function registerToContainer()
+    {
+        if ($this->app->runningUnitTests()) {
+            $this->app->bind('TimyUser', UserMockery::class);
+
+            $this->app->bind('TimyUserClass', function () {
+                return UserMockery::class;
+            });
+        } else {
+            $this->app->bind('TimyUser', config('timy.models.user'));
+        }
+
+        if ((bool)config('timy.with_scheduled_commands')) {
+            $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+                $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
+            });
+        }
 
         return $this;
     }
