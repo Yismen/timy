@@ -1,6 +1,6 @@
     <div wire:init='getInfoData'>
         @include('timy::_loading', ['target' => 'getInfoData'])
-        <div class="row" wire:loading.remove wire:target='getInfoData'>
+        <div class="row" wire:loading.remove wire:target="getInfoData">
             <div class="mb-2 col-6 col-lg-4 col-xl-3">
                 <x-timy-info-box
                     id="todaysHoursBox"
@@ -36,31 +36,33 @@
 
     @push('scripts')
         <script>
-            var timerInterval = null;          
+            (function() {
+                var timerInterval = null;          
+                
+                function updateInfoboxesHours() {
+                    let todaysHoursBox = document.querySelector('#todaysHoursBox h1')
+                    let thisPayrollBox = document.querySelector('#thisPayrollBox h1')
+                    let todaysHoursBoxHours = Number(todaysHoursBox.textContent)
+                    let thisPayrollBoxHours = Number(thisPayrollBox.textContent)
 
-            function updateInfoboxesHours() {
-                let todaysHoursBox = document.querySelector('#todaysHoursBox h1')
-                let thisPayrollBox = document.querySelector('#thisPayrollBox h1')
-                let todaysHoursBoxHours = Number(todaysHoursBox.textContent)
-                let thisPayrollBoxHours = Number(thisPayrollBox.textContent)
+                    clearInterval(timerInterval)
+                    timerInterval = setInterval(() => {
+                        fetch("{{ route('timy.getOpenTimersHours') }}")
+                        .then(response => response.text())
+                        .then(response => {
+                            let runningHours = Number(JSON.parse(response).hours)
 
-                clearInterval(timerInterval)
-                timerInterval = setInterval(() => {
-                    fetch("{{ route('timy.getOpenTimersHours') }}")
-                    .then(response => response.text())
-                    .then(response => {
-                        let runningHours = Number(JSON.parse(response).hours)
+                            document.querySelector('#todaysHoursBox h1').innerText = Number(Number(runningHours + todaysHoursBoxHours).toFixed(2))
+                            document.querySelector('#thisPayrollBox h1').innerText = Number(Number(runningHours + thisPayrollBoxHours).toFixed(2))
+                        })
+                        .catch(error => location.reload())
+                    }, 35000)
+                }
 
-                        document.querySelector('#todaysHoursBox h1').innerText = Number(Number(runningHours + todaysHoursBoxHours).toFixed(2))
-                        document.querySelector('#thisPayrollBox h1').innerText = Number(Number(runningHours + thisPayrollBoxHours).toFixed(2))
-                    })
-                    .catch(error => location.reload())
-                }, 35000)
-            }
-            
-            updateInfoboxesHours();
-            window.addEventListener('timerControlUpdated', function() {
                 updateInfoboxesHours();
-            })
+                window.addEventListener('timerControlUpdated', function() {
+                    updateInfoboxesHours();
+                })
+            })()
         </script>
     @endpush
