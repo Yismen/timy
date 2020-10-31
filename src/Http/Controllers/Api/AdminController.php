@@ -2,10 +2,10 @@
 
 namespace Dainsys\Timy\Http\Controllers\Api;
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Timer;
 use Illuminate\Support\Facades\Gate;
 
 class AdminController extends BaseController

@@ -7,8 +7,8 @@ use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Role;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Role;
+use Dainsys\Timy\Models\Timer;
 use Illuminate\Support\Facades\Cache;
 
 trait Timeable

@@ -4,7 +4,7 @@ namespace Dainsys\Timy\Console\Commands;
 
 use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Events\TimerStopped;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Timer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 

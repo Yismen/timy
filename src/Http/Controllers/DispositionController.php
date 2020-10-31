@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Http\Controllers;
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 use Illuminate\Http\Request;
 
 class DispositionController extends BaseController

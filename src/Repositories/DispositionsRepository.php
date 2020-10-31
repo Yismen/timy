@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Repositories;
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 
 class DispositionsRepository
 {

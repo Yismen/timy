@@ -5,7 +5,7 @@ namespace Dainsys\Timy\Http\Livewire;
 use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Timer;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 

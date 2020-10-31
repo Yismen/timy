@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Http\Livewire;
 
-use Dainsys\Timy\Role;
+use Dainsys\Timy\Models\Role;
 use Livewire\Component;
 
 class RolesManagement extends Component

@@ -3,7 +3,7 @@
 namespace Dainsys\Timy\Http\Livewire;
 
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Timer;
 use Livewire\Component;
 use Livewire\WithPagination;
 

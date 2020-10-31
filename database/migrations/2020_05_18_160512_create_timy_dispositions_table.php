@@ -1,6 +1,6 @@
 <?php
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

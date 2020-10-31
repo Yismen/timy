@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy;
+namespace Dainsys\Timy\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

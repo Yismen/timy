@@ -3,7 +3,7 @@
 namespace Dainsys\Timy\Tests\Feature\Traits;
 
 use Dainsys\Timy\Repositories\DispositionsRepository;
-use Dainsys\Timy\Role;
+use Dainsys\Timy\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 trait DashboardTestTrait

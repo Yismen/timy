@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Tests\Feature\Traits;
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 trait TimyDispositionTestsTrait

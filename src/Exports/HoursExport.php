@@ -4,7 +4,7 @@ namespace Dainsys\Timy\Exports;
 
 use Dainsys\Timy\Resources\TimerDownloadResource;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Timer;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;

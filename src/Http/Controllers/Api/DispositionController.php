@@ -2,7 +2,7 @@
 
 namespace Dainsys\Timy\Http\Controllers\Api;
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 use Illuminate\Validation\Rule;
 
 class DispositionController extends BaseController
@@ -23,7 +23,7 @@ class DispositionController extends BaseController
     protected function store()
     {
         $this->validate(request(), [
-            'name' => 'required|unique:Dainsys\Timy\Disposition'
+            'name' => 'required|unique:Dainsys\Timy\Models\Disposition'
         ]);
 
         $disposition = Disposition::create(request()->all());

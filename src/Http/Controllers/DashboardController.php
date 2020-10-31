@@ -5,7 +5,6 @@ namespace Dainsys\Timy\Http\Controllers;
 use App\User;
 use Carbon\Carbon;
 use Dainsys\Timy\Charts\UserDailyHoursChart;
-use Dainsys\Timy\Disposition;
 use Dainsys\Timy\Rules\DateRangeInDays;
 use Dainsys\Timy\Exports\HoursExport;
 use Dainsys\Timy\Repositories\DispositionsRepository;
