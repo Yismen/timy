@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Tests\Feature;
+namespace Dainsys\Timy\Tests\Unit;
 
 use Dainsys\Timy\Http\Livewire\TeamsTable;
 use Dainsys\Timy\Repositories\DispositionsRepository;

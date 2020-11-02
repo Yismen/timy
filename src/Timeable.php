@@ -39,6 +39,11 @@ trait Timeable
         });
     }
 
+    public function scopeWithoutTeam($query)
+    {
+        return $query->whereDoesntHave('timy_team');
+    }
+
     public function hasTimyRole($role)
     {
         return strtolower($role) == strtolower(optional($this->timy_role)->name);
@@ -144,10 +149,5 @@ trait Timeable
                 );
             }
         }
-    }
-
-    public function scopeWithoutTeam($query)
-    {
-        return $query->whereDoesntHave('timy_team');
     }
 }
