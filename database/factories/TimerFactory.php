@@ -1,6 +1,6 @@
 <?php
 
-use Dainsys\Timy\Disposition;
+use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Timer;
 use Faker\Generator as Faker;
 

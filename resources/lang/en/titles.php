@@ -38,7 +38,7 @@ return [
     'updated_remotedly' => 'Timer updated remotedly. Most likely your supervisor updated your timer',
     'user_details_title' => 'Daily Hours Detail',
     'user_details' => 'User Details',
-    'user_group' => 'User Group',
+    'user_group' => 'User Team',
     'user' => 'User',
     'create' => 'Create',
     'name' => 'Name',
@@ -51,5 +51,10 @@ return [
     'list' => 'List',
     'download' => 'Download',
     'users_without_timers' => 'Users Without Timers',
-    'daily_hours' => 'Daily Hours Summary'
+    'daily_hours' => 'Daily Hours Summary',
+    'teams_app_header' => 'Teams App',
+    'create_teams_form_header' => 'Create New Team',
+    'teams_header' => 'Teams List',
+    'without_teams_header' => 'Users Without a Team',
+    'teams_management_form_title' => 'Assign Selected to Team',
 ];

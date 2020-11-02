@@ -2,7 +2,7 @@
     @if ($usersWithoutTimers && $usersWithoutTimers->count() > 0)
         <h4>
             {{ __('timy::titles.users_without_timers') }}
-            <span class="badge badge-pill badge-danger text-light">{{ count($usersWithoutTimers) }}</span>
+            <span class="badge badge-pill badge-danger text-light float-right">{{ count($usersWithoutTimers) }}</span>
         </h4>
         <table class="table table-hover bg-white m-0 table-sm text-danger border">
             <thead class="thead-inverse">
@@ -15,7 +15,7 @@
                     @foreach ($usersWithoutTimers as $user)
                         <tr class="">
                             <td class=""> {{ $user->name }} </td>
-                            <td class="">{{ $user->created_at->format('Y-m-d') }}</td>
+                            <td class="">{{ $user->timy_team->name ?? $user->created_at->format('Y-m-d') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

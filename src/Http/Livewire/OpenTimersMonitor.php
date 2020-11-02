@@ -6,6 +6,7 @@ use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Repositories\TimersRepository;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -104,15 +105,12 @@ class OpenTimersMonitor extends Component
     public function getOpenTimers()
     {
         $this->timers = TimerResource::collection(
-            Timer::with(['user', 'disposition'])
-                ->running()
-                ->orderBy('disposition_id')
-                ->orderBy('name')
-                ->get()
+            TimersRepository::all()
         )->jsonSerialize();
 
         $this->usersWithoutTimers = resolve('TimyUser')
             ->isTimyUser()
+            ->with('timy_team')
             ->orderBy('name')
             ->whereDoesntHave('timers', function ($query) {
                 return $query->running();

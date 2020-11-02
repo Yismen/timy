@@ -40,7 +40,7 @@ class TimersTable extends Component
     {
         return TimerResource::collection(
             Timer::orderBy('started_at', 'desc')
-                ->with(['disposition', 'user'])
+                ->with(['disposition', 'user.timy_team'])
                 ->mine()
                 ->paginate(15)
         );

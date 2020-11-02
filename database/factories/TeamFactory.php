@@ -1,9 +1,9 @@
 <?php
 
-use Dainsys\Timy\Models\Role;
+use Dainsys\Timy\Models\Team;
 use Faker\Generator as Faker;
 
-$factory->define(Role::class, function (Faker $faker) {
+$factory->define(Team::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
     ];

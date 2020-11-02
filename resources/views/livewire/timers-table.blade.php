@@ -3,7 +3,7 @@
         <h4>
             {{ __('timy::titles.timers_registered') }}
         
-            <a href="#" class="float-right btn btn-secondary btn-sm" wire:click.prevent='getTimers'>
+            <a class="float-right btn btn-secondary btn-sm" wire:click.prevent='getTimers'>
                 {{ __('timy::titles.refresh') }}
             </a>
         </h4>

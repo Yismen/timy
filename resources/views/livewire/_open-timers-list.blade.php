@@ -43,7 +43,7 @@
                                     </label>
                                 </div>
                             </td>
-                            <td class="">{{ $timer['user_created_at'] }}</td>
+                            <td class="">{{ $timer['user_team'] }}</td>
                             <td class="">{{ $timer['started_at'] }}</td>
                             <td>
                                 <span class="badge badge-{{ $timer['is_payable'] == 0 ? 'danger' : 'success' }}">{{ $timer['disposition'] }}</span>

@@ -8,6 +8,7 @@ use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Models\Role;
+use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Models\Timer;
 use Illuminate\Support\Facades\Cache;
 
@@ -23,6 +24,11 @@ trait Timeable
     public function timy_role()
     {
         return $this->belongsTo(Role::class, 'timy_role_id');
+    }
+
+    public function timy_team()
+    {
+        return $this->belongsTo(Team::class, 'timy_team_id');
     }
 
     public function scopeIsTimyUser($query)
@@ -46,6 +52,12 @@ trait Timeable
     public function assignTimyRole(Role $role)
     {
         $this->timy_role_id = $role->id;
+        $this->save();
+    }
+
+    public function assignTimyTeam(Team $team)
+    {
+        $this->timy_team_id = $team->id;
         $this->save();
     }
 
@@ -132,5 +144,10 @@ trait Timeable
                 );
             }
         }
+    }
+
+    public function scopeWithoutTeam($query)
+    {
+        return $query->whereDoesntHave('timy_team');
     }
 }

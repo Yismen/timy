@@ -62,7 +62,10 @@ trait DashboardTestTrait
             ->get(route('super_admin_dashboard'))
             ->assertOk()
             ->assertViewIs('timy::dashboards.super-admin')
-            ->assertViewHas('dispositions',  DispositionsRepository::all());
+            ->assertViewHas('dispositions',  DispositionsRepository::all())
+            ->assertSeeLivewire('timy::teams-table')
+            ->assertSeeLivewire('timy::role-management')
+            ->assertSeeLivewire('timy::forced-timer-management');
     }
 
     /** @test */
@@ -76,7 +79,8 @@ trait DashboardTestTrait
             ->get(route('admin_dashboard'))
             ->assertOk()
             ->assertViewIs('timy::dashboards.admin')
-            ->assertViewHas('users');
+            ->assertViewHas('users')
+            ->assertSeeLivewire('timy::open-timers-monitor');
     }
 
     /** @test */
@@ -90,6 +94,8 @@ trait DashboardTestTrait
         $this->actingAs($user)
             ->get(route('user_dashboard'))
             ->assertOk()
-            ->assertViewIs('timy::dashboards.user');
+            ->assertViewIs('timy::dashboards.user')
+            ->assertSeeLivewire('timy::user-hours-info')
+            ->assertSeeLivewire('timy::timers-table');
     }
 }

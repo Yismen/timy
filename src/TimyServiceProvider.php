@@ -6,6 +6,7 @@ use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
+use Dainsys\Timy\Http\Livewire\TeamsTable;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
 use Dainsys\Timy\Http\Livewire\UserHoursInfo;
@@ -82,6 +83,7 @@ class TimyServiceProvider extends ServiceProvider
         Livewire::component('timy::role-management', RolesManagement::class);
         Livewire::component('timy::forced-timer-management', ForcedTimerManagement::class);
         Livewire::component('timy::user-hours-info', UserHoursInfo::class);
+        Livewire::component('timy::teams-table', TeamsTable::class);
 
         Blade::component('timy-info-box', InfoBox::class);
 

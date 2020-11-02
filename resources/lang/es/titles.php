@@ -38,7 +38,7 @@ return [
     'updated_remotedly' => 'Timer ha sido actualizado de manera remota. Puede que haya sido su supervisor!',
     'user_details_title' => 'Detalle de Horas Diarias',
     'user_details' => 'Detalles del Usuario',
-    'user_group' => 'Grupo del Usuario',
+    'user_group' => 'Equipo del Usuario',
     'user' => 'Usuario',
     'create' => 'Crear',
     'name' => 'Nombre',
@@ -51,5 +51,10 @@ return [
     'list' => 'Lista',
     'download' => 'Descargar',
     'users_without_timers' => 'Usuarios Sin Timers',
-    'daily_hours' => 'Resumen Horas Diarias'
+    'daily_hours' => 'Resumen Horas Diarias',
+    'teams_app_header' => 'Equipos App',
+    'create_teams_form_header' => 'Crear Nuevo Equipo',
+    'teams_header' => 'Lista de Equipos',
+    'without_teams_header' => 'Usuarios Sin Equipo',
+    'teams_management_form_title' => 'Asignar A Equipo',
 ];

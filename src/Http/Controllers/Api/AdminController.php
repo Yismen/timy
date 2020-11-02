@@ -5,7 +5,7 @@ namespace Dainsys\Timy\Http\Controllers\Api;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Events\TimerCreated;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Repositories\TimersRepository;
 use Illuminate\Support\Facades\Gate;
 
 class AdminController extends BaseController
@@ -15,15 +15,13 @@ class AdminController extends BaseController
         if (Gate::denies(config('timy.roles.admin'))) {
             abort(403);
         }
-
-        $timers = Timer::with(['user', 'disposition'])->running()->orderBy('disposition_id')
-            ->get();
+        
         TimerResource::withoutWrapping();
 
         return response()->json([
             'data' => [
                 'dispositions' => Disposition::orderBy('name')->get(),
-                'running_timers' => TimerResource::collection($timers),
+                'running_timers' => TimerResource::collection(TimersRepository::all()),
             ]
         ]);
     }

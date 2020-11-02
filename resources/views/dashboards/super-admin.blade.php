@@ -7,6 +7,13 @@
             <div class="row">
                 <div class="col-lg-6 mb-sm-2">
                     @livewire('timy::forced-timer-management')
+
+                    <div class="row">
+                        <div class="col-12 border-top">
+                            <h4 class="mt-2">{{ __('timy::titles.teams_app_header') }}</h4>
+                            @livewire('timy::teams-table')
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6">
                     @livewire('timy::role-management')
