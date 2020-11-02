@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Tests\Feature\Traits;
+namespace Dainsys\Timy\Tests\Feature;
 
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Models\Role;

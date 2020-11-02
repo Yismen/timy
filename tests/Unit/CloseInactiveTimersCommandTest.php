@@ -2,10 +2,9 @@
 
 namespace Dainsys\Timy\Tests\Unit;
 
-use Dainsys\Timy\Tests\TestCase;
-use Dainsys\Timy\Timer;
+use Dainsys\Timy\Models\Timer;
 
-class CloseInactiveTimersCommandTest extends TestCase
+trait CloseInactiveTimersCommandTest
 {
     /** @test */
     public function it_closes_invalid_ips()
