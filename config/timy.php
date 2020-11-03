@@ -42,12 +42,6 @@ return [
      */
     'scripts_stack' => 'scripts',
     /**
-     * Indicate if the web routes will be activated. Set it to false 
-     * if you are planning to use your own routes and compile the 
-     * components withing your front end.
-     */
-    'with_web_routes' => true,
-    /**
      * Here you can specify a list of middleware to apply to 
      * all routes. use "," or "|" to separate the list.
      */
