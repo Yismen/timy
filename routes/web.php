@@ -10,11 +10,9 @@ Route::middleware($apiMiddlewares)
     ->group(function () {
         Route::get('user', 'DashboardController@user')->name('user_dashboard');
         Route::get('admin', 'DashboardController@admin')->name('admin_dashboard');
-        Route::post('admin/hours/download', 'DashboardController@hours')->name('timy_hours_download');
         Route::get('super_admin', 'DashboardController@superAdmin')->name('super_admin_dashboard');
+        Route::post('admin/hours/download', 'DashboardController@hours')->name('timy_hours_download');
         Route::get('admin/profile/{user}', 'DashboardController@profile')->name('timy_user_profile');
         Route::resource('disposition', 'DispositionController')->names('timy_web_disposition')
             ->except('create', 'show', 'index', 'show');
-
-        // Route::resource('timer', 'TimerController');
     });

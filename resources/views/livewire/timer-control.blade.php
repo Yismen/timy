@@ -40,7 +40,9 @@
             
             setInterval(() => {
                 fetch("{{ route('timy_ping_user') }}")
-                    .catch(error => window.location.reload())
+                    .catch(error => {                        
+                        window.location.reload();
+                    })
             }, 5*60*1000) // Every five minutes
         })()
     </script>
