@@ -2,8 +2,11 @@
 
 namespace Dainsys\Timy\Tests\Feature;
 
-use Dainsys\Timy\Repositories\DispositionsRepository;
+use Dainsys\Timy\Charts\UserDailyHoursChart;
+use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
+use Dainsys\Timy\Repositories\UserHoursDaily;
+use Dainsys\Timy\Resources\UserTimerResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 trait DashboardTestTrait
@@ -56,13 +59,13 @@ trait DashboardTestTrait
     /** @test */
     public function authorized_users_can_see_super_admin_dashboard()
     {
-        $user =  $this->user(['email' => config('timy.super_admin_email')]);
+        $user =  $this->superAdminUser();
 
         $this->actingAs($user)
             ->get(route('super_admin_dashboard'))
             ->assertOk()
             ->assertViewIs('timy::dashboards.super-admin')
-            ->assertViewHas('dispositions',  DispositionsRepository::all())
+            ->assertViewHas('dispositions',  Disposition::orderBy('name')->get())
             ->assertSeeLivewire('timy::teams-table')
             ->assertSeeLivewire('timy::role-management')
             ->assertSeeLivewire('timy::forced-timer-management');
@@ -71,9 +74,7 @@ trait DashboardTestTrait
     /** @test */
     public function authorized_users_can_see_admin_dashboard()
     {
-        $role = Role::where('name', config('timy.roles.admin'))->first(); //created at the migration
-        $user =  $this->user();
-        $user->assignTimyRole($role);
+        $user = $this->adminUser();
 
         $this->actingAs($user)
             ->get(route('admin_dashboard'))
@@ -86,16 +87,16 @@ trait DashboardTestTrait
     /** @test */
     public function authorized_users_can_see_users_dashboard()
     {
-        $this->withoutExceptionHandling();
-        $role = Role::where('name', config('timy.roles.user'))->first(); //created at the migration
-        $user =  $this->user();
-        $user->assignTimyRole($role);
 
-        $this->actingAs($user)
-            ->get(route('user_dashboard'))
+        $this->actingAs($this->timyUser());
+
+        $response = $this->get(route('user_dashboard'))
             ->assertOk()
             ->assertViewIs('timy::dashboards.user')
+            ->assertViewHas('chart')
             ->assertSeeLivewire('timy::user-hours-info')
             ->assertSeeLivewire('timy::timers-table');
+
+        $this->assertTrue($response->viewData('chart') instanceof UserDailyHoursChart);
     }
 }

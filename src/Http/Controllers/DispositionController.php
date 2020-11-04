@@ -19,7 +19,7 @@ class DispositionController extends BaseController
 
         Disposition::create($request->all());
 
-        return redirect()->back();
+        return redirect()->route('super_admin_dashboard');
     }
 
     /**
@@ -54,6 +54,7 @@ class DispositionController extends BaseController
         if (request('invoiceable') == null) {
             request()->merge(['invoiceable' => '0']);
         }
+
         if (request('payable') == null) {
             request()->merge(['payable' => '0']);
         }

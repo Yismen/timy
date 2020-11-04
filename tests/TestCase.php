@@ -4,6 +4,7 @@ namespace Dainsys\Timy\Tests;
 
 use ConsoleTVs\Charts\ChartsServiceProvider;
 use Dainsys\Components\ComponentsServiceProvider;
+use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\TimyServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Ui\UiServiceProvider;
@@ -54,5 +55,27 @@ class TestCase extends TestbenchTestCase
     protected function user($attributes = [])
     {
         return factory(resolve('TimyUserClass'))->create($attributes);
+    }
+
+    protected function timyUser()
+    {
+        $user =  $this->user();
+        $role = Role::where('name', config('timy.roles.user'))->first(); //created at the migration
+        $user->assignTimyRole($role);
+
+        return $user;
+    }
+
+    protected function superAdminUser()
+    {
+        return $this->user(['email' => config('timy.super_admin_email')]);
+    }
+
+    protected function adminUser()
+    {
+        $user =  $this->user();
+        $role = Role::where('name', config('timy.roles.admin'))->first(); //created at the migration
+        $user->assignTimyRole($role);
+        return $user;
     }
 }

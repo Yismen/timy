@@ -6,6 +6,7 @@ use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Resources\TimerResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Dainsys\Timy\Http\Controllers\BaseController;
 
 class TimerController extends BaseController
 {
@@ -42,8 +43,10 @@ class TimerController extends BaseController
 
     public function ping()
     {
+
         return response()->json([
-            'Authenticated!'
-        ]);
+            'Authenticated!',
+            'timer' => $this->user->timers()->running()->first(),
+        ], 200);
     }
 }

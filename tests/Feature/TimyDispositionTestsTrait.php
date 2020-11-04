@@ -8,52 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 trait TimyDispositionTestsTrait
 {
     /** @test */
-    public function guest_are_unauthorized()
-    {
-        $this->get(route('timy_dispositions.index'))
-            ->assertRedirect(route('login'));
-    }
-
-    /** @test */
-    public function user_can_see_dispositions()
-    {
-        factory(Disposition::class, 10)->create();
-        $initial = config('timy.initial_dispositions');
-
-        $this->actingAs($this->user())->get(route('timy_dispositions.index'))
-            ->assertOk()
-            ->assertJson([
-                'data' => []
-            ])
-            ->assertJsonCount(10 + count($initial), 'data');
-    }
-
-    /** @test */
-    public function user_can_see_a_single_dispositions()
-    {
-        $disposition = factory(Disposition::class)->create();
-
-        $this->actingAs($this->user())->get(route('timy_dispositions.show', $disposition->id))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => $disposition->id,
-                    'name' => $disposition->name,
-                    'invoiceable' => $disposition->invoiceable,
-                ]
-            ]);
-    }
-
-    /** @test */
     public function a_disposition_can_be_created()
     {
         $disposition = factory(Disposition::class)->make()->toArray();
 
-        $this->actingAs($this->user())->post(route('timy_dispositions.store'), $disposition)
-            ->assertOk()
-            ->assertJson([
-                'data' => $disposition
-            ]);
+        $this->actingAs($this->superAdminUser())->post(route('timy_web_disposition.store'), $disposition)
+            ->assertRedirect(route('super_admin_dashboard'));
 
         $this->assertDatabaseHas('timy_dispositions', ['name' => strtolower($disposition['name'])]);
     }
@@ -63,17 +23,11 @@ trait TimyDispositionTestsTrait
     {
         $disposition = factory(Disposition::class)->create();
 
-        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition->id), [
-            'name' => 'Updated Name'
-        ])
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => $disposition->id,
-                    'name' => 'Updated Name',
-                    'invoiceable' => $disposition->invoiceable,
-                ]
-            ]);
+        $this->actingAs($this->superAdminUser())
+            ->put(route('timy_web_disposition.update', $disposition->id), [
+                'name' => 'Updated Name'
+            ])
+            ->assertRedirect(route('super_admin_dashboard'));
 
         $this->assertDatabaseHas('timy_dispositions', [
             'name' => 'updated name'
@@ -83,7 +37,7 @@ trait TimyDispositionTestsTrait
     /** @test */
     public function name_is_required_to_create_a_disposition()
     {
-        $this->actingAs($this->user())->post(route('timy_dispositions.store'), ['name' => null])
+        $this->actingAs($this->user())->post(route('timy_web_disposition.store'), ['name' => null])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -92,7 +46,7 @@ trait TimyDispositionTestsTrait
     {
         $disposition = factory(Disposition::class)->create();
 
-        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition->id), ['name' => null])
+        $this->actingAs($this->user())->put(route('timy_web_disposition.update', $disposition->id), ['name' => null])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -101,7 +55,7 @@ trait TimyDispositionTestsTrait
     {
         factory(Disposition::class)->create(['name' => 'same name']);
 
-        $this->actingAs($this->user())->post(route('timy_dispositions.store'), ['name' => 'same name'])
+        $this->actingAs($this->user())->post(route('timy_web_disposition.store'), ['name' => 'same name'])
             ->assertSessionHasErrors(['name']);
     }
 
@@ -112,10 +66,10 @@ trait TimyDispositionTestsTrait
         $disposition2 = factory(Disposition::class)->create();
 
         // Try to update disposition 2 using same name as disposition 1 should fail validation
-        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition2->id), ['name' => strtolower($disposition->name)])
+        $this->actingAs($this->user())->put(route('timy_web_disposition.update', $disposition2->id), ['name' => strtolower($disposition->name)])
             ->assertSessionHasErrors(['name']);
 
-        $this->actingAs($this->user())->put(route('timy_dispositions.update', $disposition->id), ['name' => strtolower($disposition->name)])
+        $this->actingAs($this->user())->put(route('timy_web_disposition.update', $disposition->id), ['name' => strtolower($disposition->name)])
             ->assertSessionDoesntHaveErrors(['name']);
     }
 }

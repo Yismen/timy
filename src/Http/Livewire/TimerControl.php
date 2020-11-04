@@ -88,7 +88,7 @@ class TimerControl extends Component
 
         if ($th instanceof ShiftEndendException) {
             $this->selectedDisposition =  $this->cached_timy_dispo;
-        } else {            
+        } else {
             $this->dispatchBrowserEvent('reloadPage');
         }
         $this->running = [];
