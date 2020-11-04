@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="col-sm-12 col-md-4">
-            @include('timy::_dispositions-pannel')
+            @livewire('timy::dispositions')
         </div>
     </div>
 </div>

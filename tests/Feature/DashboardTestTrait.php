@@ -65,8 +65,9 @@ trait DashboardTestTrait
             ->get(route('super_admin_dashboard'))
             ->assertOk()
             ->assertViewIs('timy::dashboards.super-admin')
-            ->assertViewHas('dispositions',  Disposition::orderBy('name')->get())
+            // ->assertViewHas('dispositions',  Disposition::orderBy('name')->get())
             ->assertSeeLivewire('timy::teams-table')
+            ->assertSeeLivewire('timy::dispositions')
             ->assertSeeLivewire('timy::role-management')
             ->assertSeeLivewire('timy::forced-timer-management');
     }

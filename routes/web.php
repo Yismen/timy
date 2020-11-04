@@ -13,6 +13,4 @@ Route::middleware($apiMiddlewares)
         Route::get('super_admin', 'DashboardController@superAdmin')->name('super_admin_dashboard');
         Route::post('admin/hours/download', 'DashboardController@hours')->name('timy_hours_download');
         Route::get('admin/profile/{user}', 'DashboardController@profile')->name('timy_user_profile');
-        Route::resource('disposition', 'DispositionController')->names('timy_web_disposition')
-            ->except('create', 'show', 'index', 'show');
     });
