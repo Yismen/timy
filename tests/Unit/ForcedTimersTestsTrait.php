@@ -12,7 +12,7 @@ use Livewire\Livewire;
 trait ForcedTimersTestsTrait
 {
     /** @test */
-    public function it_properties_are_set_on_load()
+    public function properties_are_set_on_load()
     {
         $users = resolve('TimyUser')
             ->orderBy('name')
