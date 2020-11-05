@@ -6,7 +6,7 @@ use Dainsys\Timy\Models\Disposition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
-trait LivewireDispositionsTestsTrait
+trait DispositionsTestsTrait
 {
     /** @test */
     public function it_properties_are_set_on_load()
