@@ -5,7 +5,7 @@
             <h4>
                 {{ __('timy::titles.forced_timer_title') }}
                 <span class="badge badge-pill badge-danger">{{ $users->count() }}</span>
-                <button class="btn btn-sm btn-secondary float-right" wire:click="getUsers()">
+                <button class="btn btn-sm btn-secondary float-right" wire:click="getUsers">
                     {{ __('timy::titles.refresh') }}
                 </button>
             </h4>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-sm btn-warning" wire:click="updateUsers">
+                        <button class="btn btn-sm btn-warning" wire:click="createForcedTimers">
                             {{ __('timy::titles.update') }}
                         </button>
                     </div>

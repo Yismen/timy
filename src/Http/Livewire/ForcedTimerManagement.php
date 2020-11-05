@@ -58,7 +58,7 @@ class ForcedTimerManagement extends Component
         $this->validateOnly($property);
     }
 
-    public function updateUsers()
+    public function createForcedTimers()
     {
         $this->validate();
 
