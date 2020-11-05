@@ -11,6 +11,8 @@ class ForcedTimerManagement extends Component
 
     public $selectedDisposition;
 
+    public $users;
+
     protected $rules = [
         'selectedDisposition' => 'required|exists:timy_dispositions,id'
     ];
@@ -18,8 +20,8 @@ class ForcedTimerManagement extends Component
     public function render()
     {
         return view('timy::livewire.forced-timer-management', [
-            'users' => $this->getUsers(),
-            'dispositions' => DispositionsRepository::all()
+            'dispositions' => DispositionsRepository::all(),
+            'users' => $this->getUsers()
         ]);
     }
 
@@ -33,14 +35,15 @@ class ForcedTimerManagement extends Component
 
     public function getUsers()
     {
-        return resolve('TimyUser')
-            ->orderBy('name')->with(['timers' => function ($query) {
-                $query->running();
+        $this->users =  resolve('TimyUser')
+            ->orderBy('name')
+            ->with(['timers' => function ($query) {
+                $query->running()
+                    ->with('disposition');
             }])
             ->isTimyUser()
             ->get();
     }
-
 
     public function toggleSelection($user_id)
     {
@@ -64,11 +67,14 @@ class ForcedTimerManagement extends Component
 
         resolve('TimyUser')->whereIn('id', $this->selected)->get()
             ->each->startTimer((int)$this->selectedDisposition, ['forced' => true]);
+
         $this->closeForm();
     }
 
     public function closeForm()
     {
+        $this->selectedDisposition = null;
+
         $this->selected = [];
     }
 }
