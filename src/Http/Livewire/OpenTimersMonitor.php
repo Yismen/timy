@@ -6,7 +6,6 @@ use App\User;
 use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Repositories\TimersRepository;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
@@ -76,12 +75,12 @@ class OpenTimersMonitor extends Component
             User::whereIn('id', $this->selected)->get()
                 ->each->startTimer($this->selectedDisposition);
 
-            $this->resetSelectors();
-
             $this->getOpenTimers();
         } catch (\Throwable $th) {
             $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
         }
+
+        $this->resetSelectors();
     }
 
     public function closeSelectedTimers()

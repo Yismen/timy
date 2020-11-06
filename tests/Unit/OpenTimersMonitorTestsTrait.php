@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Tests\Unit;
 
 use App\User;
+use Carbon\Carbon;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Timer;
@@ -89,6 +90,10 @@ trait OpenTimersMonitorTestsTrait
     /** @test */
     public function open_timers_updates_selected_timers()
     {
+        $user = $this->adminUser();
+        $this->actingAs($user);
+        $now = now()->startOfWeek(2)->setHour('10'); // Tuesday, 10:00 am
+        Carbon::setTestNow($now);
         $this->actingAs($this->adminUser());
         $users = factory(User::class, 4)->create();
         $disposition = factory(Disposition::class)->create();
