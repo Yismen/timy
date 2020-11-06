@@ -48,20 +48,22 @@ class RolesManagement extends Component
     public function updateRoles()
     {
         $users = User::whereIn('id', $this->selected)->get();
+
         if ($this->selectedRole) {
             $role = Role::findOrFail($this->selectedRole);
             $users->each->assignTimyRole($role);
-            $this->closeForm();
         } else {
             $users->each->removeTimyRole();
-            $this->closeForm();
         }
 
+        $this->closeForm();
         $this->emit('timyRoleUpdated');
     }
 
     public function closeForm()
     {
         $this->selected = [];
+
+        $this->selectedRole = null;
     }
 }
