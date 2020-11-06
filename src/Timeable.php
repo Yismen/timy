@@ -142,6 +142,7 @@ trait Timeable
         if ($shift['with_shift'] == true) {
             if ($current < $starts || $current > $ends || !in_array($day, $workingDays)) {
                 $this->forgetTimyCache();
+                $this->stopRunningTimers();
 
                 throw new ShiftEndendException(
                     trans('timy::titles.out_of_shift'),
