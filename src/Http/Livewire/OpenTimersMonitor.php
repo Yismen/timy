@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Http\Livewire;
 
+use App\User;
 use Dainsys\Timy\Events\TimerStopped;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Resources\TimerResource;
@@ -71,7 +72,7 @@ class OpenTimersMonitor extends Component
     {
         $this->validate($this->rules);
         try {
-            resolve('TimyUser')::whereIn('id', $this->selected)->get()
+            User::whereIn('id', $this->selected)->get()
                 ->each->startTimer($this->selected_to_change);
 
             $this->resetSelectors();
@@ -85,7 +86,7 @@ class OpenTimersMonitor extends Component
     public function closeSelectedTimers()
     {
         try {
-            $users =  resolve('TimyUser')::whereIn('id', $this->selected)->get();
+            $users =  User::whereIn('id', $this->selected)->get();
 
             foreach ($users as $user) {
                 $user->stopRunningTimers();
@@ -108,8 +109,7 @@ class OpenTimersMonitor extends Component
             TimersRepository::all()
         )->jsonSerialize();
 
-        $this->usersWithoutTimers = resolve('TimyUser')
-            ->isTimyUser()
+        $this->usersWithoutTimers = User::isTimyUser()
             ->with('timy_team')
             ->orderBy('name')
             ->whereDoesntHave('timers', function ($query) {

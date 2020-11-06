@@ -32,7 +32,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Dainsys\\Timy\\Tests\\": "tests/"
+            "Dainsys\\Timy\\Tests\\": "tests/",
+            "App\\": "tests/app/"
         }
     },
     "extra": {

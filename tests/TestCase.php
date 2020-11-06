@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests;
 
+use App\User;
 use ConsoleTVs\Charts\ChartsServiceProvider;
 use Dainsys\Components\ComponentsServiceProvider;
 use Dainsys\Timy\Models\Role;
@@ -54,7 +55,7 @@ class TestCase extends TestbenchTestCase
 
     protected function user($attributes = [])
     {
-        return factory(resolve('TimyUserClass'))->create($attributes);
+        return factory(User::class)->create($attributes);
     }
 
     protected function timyUser()

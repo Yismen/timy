@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\User;
 use Dainsys\Timy\Tests\Mocks\UserMockery;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(resolve('TimyUserClass'), function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

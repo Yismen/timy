@@ -63,7 +63,7 @@ class DashboardController extends BaseController
         }
 
         return view('timy::dashboards.admin', [
-            'users' => resolve('TimyUser')->orderBy('name')
+            'users' => User::orderBy('name')
                 ->isTimyUser()
                 ->get()
                 ->split(2),

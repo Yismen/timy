@@ -65,13 +65,6 @@ return [
     /**
      * Timy models
      */
-    'models' => [
-        /**
-         * User model. Replace this model by your eloquen User model 'App\Model' and add
-         * use the Dainsys\Timy\Timeable trait.
-         */
-        'user' => App\User::class,
-    ],
     /**
      * Default seeder. When the table is migrated, these dispositions will be inserted.
      */

@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests\Unit;
 
+use App\User;
 use Dainsys\Timy\Http\Livewire\TeamsTable;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Models\Team;
@@ -17,9 +18,9 @@ trait TeamsTestsTrait
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
         factory(Team::class, 5)->create();
-        
+
         $this->get(route('super_admin_dashboard'));
-        
+
         Livewire::test(TeamsTable::class)
             ->assertSee(__('timy::titles.create_teams_form_header'))
             ->assertSee(__('timy::titles.teams_header'))
@@ -28,13 +29,13 @@ trait TeamsTestsTrait
             ->assertSet('selected', [])
             ->assertSet('selectedTeam', null)
             ->assertSet('teams', TeamsRepository::all())
-            ->assertSet('users_without_team', resolve('TimyUser')->withoutTeam()->orderBy('name')->get());
+            ->assertSet('users_without_team', User::withoutTeam()->orderBy('name')->get());
     }
     /** @test */
     public function teams_component_create_a_team()
     {
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
-        
+
         Livewire::test(TeamsTable::class)
             ->set('name', 'New Team')
             ->call('createTeam')
@@ -48,7 +49,7 @@ trait TeamsTestsTrait
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
         $user = $this->user();
-        
+
         Livewire::test(TeamsTable::class)
             ->call('toggleSelection', $user->id)
             ->assertSet('selected', [$user->id])
@@ -62,7 +63,7 @@ trait TeamsTestsTrait
 
         $user = $this->user();
         $team = factory(Team::class)->create();
-        
+
         Livewire::test(TeamsTable::class)
             ->set('selectedTeam', $team->id)
             ->call('toggleSelection', $user->id)

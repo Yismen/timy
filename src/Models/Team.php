@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
@@ -37,6 +38,6 @@ class Team extends Model
      */
     public function users()
     {
-        return $this->hasMany(resolve('TimyUser'), 'timy_team_id');
+        return $this->hasMany(User::class, 'timy_team_id');
     }
 }

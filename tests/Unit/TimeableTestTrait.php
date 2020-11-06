@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests\Unit;
 
+use App\User;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Team;
@@ -13,13 +14,13 @@ trait TimeableTestTrait
     public function it_loads_relationships()
     {
         $this->user();
-        $user = resolve('TimyUser')->with(['timers', 'timy_role', 'timy_team'])->first();
+        $user = User::with(['timers', 'timy_role', 'timy_team'])->first();
 
         $this->assertEmpty($user->timers);
         $this->assertEmpty($user->timy_role);
         $this->assertEmpty($user->timy_team);
     }
-    
+
     /** @test */
     public function it_starts_a_timer()
     {
@@ -30,7 +31,7 @@ trait TimeableTestTrait
         $this->assertCount(1, Timer::running()->get());
         $this->assertCount(1, $user->timers()->running()->get());
     }
-    
+
     /** @test */
     public function it_stops_all_running_timers()
     {
@@ -42,7 +43,7 @@ trait TimeableTestTrait
         $this->assertCount(0, Timer::running()->get());
         $this->assertCount(0, $user->timers()->running()->get());
     }
-    
+
     /** @test */
     public function it_assigns_a_timy_role()
     {
@@ -52,7 +53,7 @@ trait TimeableTestTrait
 
         $this->assertEquals($user->timy_role_id, $role->id);
     }
-    
+
     /** @test */
     public function it_removes_a_timy_role()
     {
@@ -61,7 +62,7 @@ trait TimeableTestTrait
 
         $this->assertEquals($user->timy_role_id, null);
     }
-    
+
     /** @test */
     public function it_assigns_a_timy_team()
     {

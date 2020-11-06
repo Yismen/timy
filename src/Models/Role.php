@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
@@ -37,6 +38,6 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->hasMany(resolve('TimyUser'), 'timy_role_id');
+        return $this->hasMany(User::class, 'timy_role_id');
     }
 }

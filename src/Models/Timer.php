@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Timer extends Model
@@ -21,7 +22,7 @@ class Timer extends Model
 
     public function user()
     {
-        return $this->belongsTo(resolve('TimyUser'), 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

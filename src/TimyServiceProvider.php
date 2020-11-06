@@ -94,16 +94,6 @@ class TimyServiceProvider extends ServiceProvider
 
     protected function registerToContainer()
     {
-        if ($this->app->runningUnitTests()) {
-            $this->app->bind('TimyUser', UserMockery::class);
-
-            $this->app->bind('TimyUserClass', function () {
-                return UserMockery::class;
-            });
-        } else {
-            $this->app->bind('TimyUser', config('timy.models.user'));
-        }
-
         if ((bool)config('timy.with_scheduled_commands')) {
             $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
                 $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();

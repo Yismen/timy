@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests\Unit;
 
+use App\User;
 use Carbon\Carbon;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Models\Disposition;
@@ -14,8 +15,7 @@ trait ForcedTimersTestsTrait
     /** @test */
     public function properties_are_set_on_load()
     {
-        $users = resolve('TimyUser')
-            ->orderBy('name')
+        $users = User::orderBy('name')
             ->with(['timers' => function ($query) {
                 $query->running()
                     ->with('disposition');
@@ -92,8 +92,7 @@ trait ForcedTimersTestsTrait
 
     protected function usersWithTimers()
     {
-        return resolve('TimyUser')
-            ->orderBy('name')
+        return User::orderBy('name')
             ->with(['timers' => function ($query) {
                 $query->running()
                     ->with('disposition');

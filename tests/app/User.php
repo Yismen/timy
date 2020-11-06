@@ -1,13 +1,13 @@
 <?php
 
-namespace Dainsys\Timy\Tests\Mocks;
+namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Dainsys\Timy\Timeable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class UserMockery extends Authenticatable
+class User extends Authenticatable
 {
     use Notifiable;
     use Timeable;
@@ -38,6 +38,4 @@ class UserMockery extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    protected $table = 'users';
 }

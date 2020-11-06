@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Http\Livewire;
 
+use App\User;
 use Dainsys\Timy\Models\Role;
 use Livewire\Component;
 
@@ -28,7 +29,7 @@ class RolesManagement extends Component
 
     public function getUnassigned()
     {
-        return resolve('TimyUser')->orderBy('name')->whereDoesntHave('timy_role')->get();
+        return User::orderBy('name')->whereDoesntHave('timy_role')->get();
     }
 
 
@@ -46,7 +47,7 @@ class RolesManagement extends Component
 
     public function updateRoles()
     {
-        $users = resolve('TimyUser')->whereIn('id', $this->selected)->get();
+        $users = User::whereIn('id', $this->selected)->get();
         if ($this->selectedRole) {
             $role = Role::findOrFail($this->selectedRole);
             $users->each->assignTimyRole($role);

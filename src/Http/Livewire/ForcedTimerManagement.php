@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Http\Livewire;
 
+use App\User;
 use Dainsys\Timy\Repositories\DispositionsRepository;
 use Livewire\Component;
 
@@ -35,8 +36,7 @@ class ForcedTimerManagement extends Component
 
     public function getUsers()
     {
-        $this->users =  resolve('TimyUser')
-            ->orderBy('name')
+        $this->users =  User::orderBy('name')
             ->with(['timers' => function ($query) {
                 $query->running()
                     ->with('disposition');
@@ -65,7 +65,7 @@ class ForcedTimerManagement extends Component
     {
         $this->validate();
 
-        resolve('TimyUser')->whereIn('id', $this->selected)->get()
+        User::whereIn('id', $this->selected)->get()
             ->each->startTimer((int)$this->selectedDisposition, ['forced' => true]);
 
         $this->closeForm();

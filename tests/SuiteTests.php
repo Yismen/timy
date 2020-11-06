@@ -19,4 +19,9 @@ class SuiteTests extends TestCase
     use CloseInactiveTimersCommandTest;
     use TimeableTestTrait;
     use ForcedTimersTestsTrait;
+    // OpenTimersMonitor
+    // RolesManagement
+    // TimerControl
+    // TimersTable
+    // UserHoursInfo
 }

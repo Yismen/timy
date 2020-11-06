@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Http\Livewire;
 
+use App\User;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Repositories\TeamsRepository;
 use Livewire\Component;
@@ -31,8 +32,8 @@ class TeamsTable extends Component
     public function getData()
     {
         $this->teams = TeamsRepository::all();
-        
-        $this->users_without_team = resolve('TimyUser')->withoutTeam()->orderBy('name')->get();
+
+        $this->users_without_team = User::withoutTeam()->orderBy('name')->get();
     }
 
     public function updatedName()
@@ -63,16 +64,15 @@ class TeamsTable extends Component
     }
 
     public function assignTeam()
-    {      
+    {
         $this->validate([
             'selectedTeam' => 'required|exists:timy_teams,id'
         ]);
         $team = Team::findOrFail($this->selectedTeam);
-        
-        resolve('TimyUser')
-            ->whereIn('id', $this->selected)
+
+        User::whereIn('id', $this->selected)
             ->get()->each->assignTimyTeam($team);
-            
+
         $this->getData();
         // $this->selectedTeam = null;
 
