@@ -13,7 +13,7 @@ use Livewire\Component;
 
 class OpenTimersMonitor extends Component
 {
-    public $selected_to_change;
+    public $selectedDisposition;
 
     public $dispositions;
 
@@ -26,11 +26,16 @@ class OpenTimersMonitor extends Component
     public $all = false;
 
     protected $rules = [
-        'selected_to_change' => 'required|exists:timy_dispositions,id'
+        'selectedDisposition' => 'required|exists:timy_dispositions,id',
+        'selected' => 'array|required',
     ];
 
     public function mount()
     {
+        $this->dispositions = Cache::remember('timy_dispositions', now()->addMinutes(60), function () {
+            return DispositionsRepository::all();
+        });
+
         TimerResource::withoutWrapping();
     }
 
@@ -41,10 +46,6 @@ class OpenTimersMonitor extends Component
 
     public function render()
     {
-        $this->dispositions = Cache::remember('timy_dispositions', now()->addMinutes(60), function () {
-            return DispositionsRepository::all();
-        });
-
         return view('timy::livewire.open-timers-monitor');
     }
 
@@ -73,7 +74,7 @@ class OpenTimersMonitor extends Component
         $this->validate($this->rules);
         try {
             User::whereIn('id', $this->selected)->get()
-                ->each->startTimer($this->selected_to_change);
+                ->each->startTimer($this->selectedDisposition);
 
             $this->resetSelectors();
 
@@ -110,7 +111,6 @@ class OpenTimersMonitor extends Component
         )->jsonSerialize();
 
         $this->usersWithoutTimers = User::isTimyUser()
-            ->with('timy_team')
             ->orderBy('name')
             ->whereDoesntHave('timers', function ($query) {
                 return $query->running();
@@ -120,7 +120,7 @@ class OpenTimersMonitor extends Component
     public function resetSelectors()
     {
         $this->selected = [];
-        $this->selected_to_change = '';
+        $this->selectedDisposition = '';
         $this->all = false;
     }
 

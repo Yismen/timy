@@ -8,6 +8,7 @@ use Dainsys\Timy\Tests\Unit\TeamsTestsTrait;
 use Dainsys\Timy\Tests\Unit\CloseInactiveTimersCommandTest;
 use Dainsys\Timy\Tests\Unit\DispositionsTestsTrait;
 use Dainsys\Timy\Tests\Unit\ForcedTimersTestsTrait;
+use Dainsys\Timy\Tests\Unit\OpenTimersMonitorTestsTrait;
 use Dainsys\Timy\Tests\Unit\TimeableTestTrait;
 
 class SuiteTests extends TestCase
@@ -19,7 +20,7 @@ class SuiteTests extends TestCase
     use CloseInactiveTimersCommandTest;
     use TimeableTestTrait;
     use ForcedTimersTestsTrait;
-    // OpenTimersMonitor
+    use OpenTimersMonitorTestsTrait;
     // RolesManagement
     // TimerControl
     // TimersTable

@@ -70,7 +70,7 @@
                         class="form-control form-control-sm" 
                         name="changeDispo" 
                         id="changeDispo" 
-                        wire:model="selected_to_change"
+                        wire:model="selectedDisposition"
                     >
                         <option></option>
                         @foreach ($dispositions as $disposition)
@@ -79,7 +79,7 @@
                             >{{ $disposition->name }}</option>
                         @endforeach
                     </select>
-                    @error('selected_to_change') 
+                    @error('selectedDisposition') 
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

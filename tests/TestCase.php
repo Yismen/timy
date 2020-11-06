@@ -53,9 +53,9 @@ class TestCase extends TestbenchTestCase
         ];
     }
 
-    protected function user($attributes = [])
+    protected function user($attributes = [], $amount = null)
     {
-        return factory(User::class)->create($attributes);
+        return factory(User::class, $amount)->create($attributes);
     }
 
     protected function timyUser()
