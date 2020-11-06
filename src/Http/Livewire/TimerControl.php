@@ -8,8 +8,6 @@ use Livewire\Component;
 
 class TimerControl extends Component
 {
-    public $pushed = "Initial";
-
     public $dispositions = [];
 
     public $selectedDisposition;
@@ -75,22 +73,15 @@ class TimerControl extends Component
     {
         try {
             $this->running =  $this->user->startTimer($this->selectedDisposition);
-
             $this->emit('timerCreatedByTimerControl', $this->running);
-        } catch (\Throwable $th) {
-            $this->respondToFailsToCreate($th);
-        }
-    }
-
-    public function respondToFailsToCreate(\Throwable $th)
-    {
-        $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
-
-        if ($th instanceof ShiftEndendException) {
+        } catch (ShiftEndendException $th) {
             $this->selectedDisposition =  $this->cached_timy_dispo;
-        } else {
+            $this->running = [];
+            $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
+        } catch (\Exception $th) {
+            $this->running = [];
+            $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
             $this->dispatchBrowserEvent('reloadPage');
         }
-        $this->running = [];
     }
 }
