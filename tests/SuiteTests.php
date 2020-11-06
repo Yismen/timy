@@ -11,6 +11,7 @@ use Dainsys\Timy\Tests\Unit\ForcedTimersTestsTrait;
 use Dainsys\Timy\Tests\Unit\OpenTimersMonitorTestsTrait;
 use Dainsys\Timy\Tests\Unit\RolesManagementTestsTrait;
 use Dainsys\Timy\Tests\Unit\TimeableTestTrait;
+use Dainsys\Timy\Tests\Unit\TimerControlTestsTrait;
 use Dainsys\Timy\Tests\Unit\TimersTableTestsTrait;
 use Dainsys\Timy\Tests\Unit\UserHoursInfoTestsTrait;
 
@@ -27,5 +28,5 @@ class SuiteTests extends TestCase
     use RolesManagementTestsTrait;
     use TimersTableTestsTrait;
     use UserHoursInfoTestsTrait;
-    // TimerControl
+    use TimerControlTestsTrait;
 }

@@ -3,6 +3,8 @@
 namespace Dainsys\Timy\Tests\Unit;
 
 use App\User;
+use Carbon\Carbon;
+use Dainsys\Timy\Exceptions\ShiftEndendException;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Team;
@@ -22,7 +24,7 @@ trait TimeableTestTrait
     }
 
     /** @test */
-    public function it_starts_a_timer()
+    public function it_starts_a_forced_timer()
     {
         $disposition = factory(Disposition::class)->create();
         $user = $this->user();
@@ -71,5 +73,33 @@ trait TimeableTestTrait
         $user->assignTimyTeam($team);
 
         $this->assertEquals($user->timy_team_id, $team->id);
+    }
+
+    /** @test */
+    public function timeable_creates_a_timer_if_withing_shift()
+    {
+        $disposition = factory(Disposition::class)->create();
+        $user = $this->user();
+        $now = now()->startOfWeek(2)->setHour('10'); // Tuesday, 10:00 am
+        Carbon::setTestNow($now);
+
+        $user->startTimer($disposition->id);
+
+        $this->assertDatabaseHas('timy_timers', ['user_id' => $user->id, 'finished_at' => null]);
+    }
+
+    /** @test */
+    public function timeable_creates_throw_exception_if_outside_shift_and_does_not_create_the_timer()
+    {
+        $disposition = factory(Disposition::class)->create();
+        $user = $this->user();
+        $now = now()->endOfWeek(1)->setHour('20'); // Tuesday, 10:00 am
+        Carbon::setTestNow($now);
+
+        $this->expectException(ShiftEndendException::class);
+
+        $user->startTimer($disposition->id);
+
+        $this->assertDatabaseMissing('timy_timers', ['user_id' => $user->id, 'finished_at' => null]);
     }
 }

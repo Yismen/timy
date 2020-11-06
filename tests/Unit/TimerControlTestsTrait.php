@@ -11,7 +11,7 @@ use Livewire\Livewire;
 trait TimerControlTestsTrait
 {
     /** @test */
-    public function user_hours_info_renders()
+    public function timer_control_renders()
     {
         $user = $this->adminUser();
         $this->actingAs($user);
