@@ -11,19 +11,20 @@ use Dainsys\Timy\Tests\Unit\ForcedTimersTestsTrait;
 use Dainsys\Timy\Tests\Unit\OpenTimersMonitorTestsTrait;
 use Dainsys\Timy\Tests\Unit\RolesManagementTestsTrait;
 use Dainsys\Timy\Tests\Unit\TimeableTestTrait;
+use Dainsys\Timy\Tests\Unit\TimersTableTestsTrait;
 
 class SuiteTests extends TestCase
 {
-    // use ApiRotuesTestTrait;
-    // use DashboardTestTrait;
-    // use DispositionsTestsTrait;
-    // use TeamsTestsTrait;
-    // use CloseInactiveTimersCommandTest;
-    // use TimeableTestTrait;
-    // use ForcedTimersTestsTrait;
-    // use OpenTimersMonitorTestsTrait;
-    // use RolesManagementTestsTrait;
-    // TimersTable
+    use ApiRotuesTestTrait;
+    use DashboardTestTrait;
+    use DispositionsTestsTrait;
+    use TeamsTestsTrait;
+    use CloseInactiveTimersCommandTest;
+    use TimeableTestTrait;
+    use ForcedTimersTestsTrait;
+    use OpenTimersMonitorTestsTrait;
+    use RolesManagementTestsTrait;
+    use TimersTableTestsTrait;
     // UserHoursInfo
     // TimerControl
 }
