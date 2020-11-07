@@ -23,6 +23,13 @@ class TeamsTable extends Component
         'name' => 'required|unique:timy_teams,name|min:3'
     ];
 
+    protected function getListeners()
+    {
+        return [
+            'timyRoleUpdated' => 'getData'
+        ];
+    }
+
     public function render()
     {
         return view('timy::livewire.teams-table');
@@ -37,7 +44,7 @@ class TeamsTable extends Component
     {
         $this->teams = TeamsRepository::all();
 
-        $this->users_without_team = User::withoutTeam()->orderBy('name')->get();
+        $this->users_without_team = TeamsRepository::usersWithoutTeam();
     }
 
     public function updatedName()

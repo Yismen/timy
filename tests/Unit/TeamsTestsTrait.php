@@ -4,7 +4,6 @@ namespace Dainsys\Timy\Tests\Unit;
 
 use App\User;
 use Dainsys\Timy\Http\Livewire\TeamsTable;
-use Dainsys\Timy\Repositories\DispositionsRepository;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Repositories\TeamsRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,12 +23,12 @@ trait TeamsTestsTrait
         Livewire::test(TeamsTable::class)
             ->assertSee(__('timy::titles.create_teams_form_header'))
             ->assertSee(__('timy::titles.teams_header'))
-            ->assertSee(__('timy::titles.without_teams_header'))
             ->assertSet('name', null)
             ->assertSet('selected', [])
             ->assertSet('selectedTeam', null)
             ->assertSet('teams', TeamsRepository::all())
-            ->assertSet('users_without_team', User::withoutTeam()->orderBy('name')->get());
+            // ->assertSee(__('timy::titles.without_teams_header'))
+            ->assertSet('users_without_team', User::withoutTeam()->whereHas('timy_role')->orderBy('name')->get());
     }
     /** @test */
     public function teams_component_validates_before_creating_a_team()
@@ -90,5 +89,18 @@ trait TeamsTestsTrait
             ->assertSet('selected', []);
 
         $this->assertDatabaseHas('users', ['timy_team_id' => $team->id]);
+    }
+
+    /** @test */
+    public function teams_component_listen_for_events()
+    {
+        $livewire = Livewire::test(TeamsTable::class);
+
+        factory(Team::class)->create();
+
+        $livewire
+            ->emit('timyRoleUpdated')
+            ->assertSet('teams', TeamsRepository::all())
+            ->assertSet('users_without_team', TeamsRepository::usersWithoutTeam());
     }
 }
