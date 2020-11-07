@@ -32,6 +32,24 @@ trait TeamsTestsTrait
             ->assertSet('users_without_team', User::withoutTeam()->orderBy('name')->get());
     }
     /** @test */
+    public function teams_component_validates_before_creating_a_team()
+    {
+        $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
+
+        $team = factory(Team::class)->create();
+
+        Livewire::test(TeamsTable::class)
+            ->set('name', '')
+            ->call('createTeam')
+            ->assertHasErrors('name', 'required')
+            ->set('name', $team->name)
+            ->call('createTeam')
+            ->assertHasErrors('name', 'unique')
+            ->set('name', 'aa')
+            ->call('createTeam')
+            ->assertHasErrors('name', 'min');
+    }
+    /** @test */
     public function teams_component_create_a_team()
     {
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
@@ -41,8 +59,9 @@ trait TeamsTestsTrait
             ->call('createTeam')
             ->assertSet('name', '');
 
-        $this->assertDatabaseHas('timy_teams', ['name' => 'new team']);
+        $this->assertDatabaseHas('timy_teams', ['name' => 'New Team']);
     }
+
     /** @test */
     public function teams_component_toggles_selection()
     {

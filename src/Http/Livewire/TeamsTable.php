@@ -19,6 +19,10 @@ class TeamsTable extends Component
 
     public $selectedTeam;
 
+    protected $rules = [
+        'name' => 'required|unique:timy_teams,name|min:3'
+    ];
+
     public function render()
     {
         return view('timy::livewire.teams-table');
@@ -38,13 +42,13 @@ class TeamsTable extends Component
 
     public function updatedName()
     {
-        $this->validate([
-            'name' => 'required|unique:timy_teams,name|min:3'
-        ]);
+        $this->validate();
     }
 
     public function createTeam()
     {
+        $this->validate();
+
         Team::create(['name' => $this->name]);
 
         $this->name = '';

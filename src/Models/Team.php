@@ -22,16 +22,6 @@ class Team extends Model
     }
 
     /**
-     * Name Mutator
-     *
-     * @param String $name
-     * @return void
-     */
-    public function setNameAttribute($name)
-    {
-        $this->attributes['name'] = strtolower(trim($name));
-    }
-    /**
      * A Disposition can have many Timers
      *
      * @return Relationship
