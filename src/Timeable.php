@@ -68,6 +68,8 @@ trait Timeable
 
     public function removeTimyRole()
     {
+        $this->stopRunningTimers();
+
         $this->timy_role_id = null;
         $this->save();
     }

@@ -4,7 +4,9 @@ namespace Dainsys\Timy\Tests\Unit;
 
 use App\User;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
+use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
+use Dainsys\Timy\Models\Timer;
 use Livewire\Livewire;
 
 trait RolesManagementTestsTrait
@@ -66,11 +68,14 @@ trait RolesManagementTestsTrait
     }
 
     /** @test */
-    public function roles_management_removes_roles()
+    public function roles_management_removes_roles_and_close_open_timers()
     {
         $role = factory(Role::class)->create();
+        $disposition = factory(Disposition::class)->create();
         $users = $this->user([], 5)
             ->each->assignTimyRole($role);
+
+        $users->each->startTimer($disposition->id, ['forced' => true]);
 
         Livewire::test(RolesManagement::class)
             ->set('selected', $users->pluck('id')->toArray())
@@ -82,5 +87,7 @@ trait RolesManagementTestsTrait
         $this->assertCount(5, User::whereDoesntHave('timy_role', function ($query) use ($role) {
             $query->where('id', $role->id);
         })->get());
+
+        $this->assertCount(0, Timer::running()->get());
     }
 }
