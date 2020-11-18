@@ -3,8 +3,6 @@
 namespace Dainsys\Timy\Listeners;
 
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class UserLoggedOut
 {
