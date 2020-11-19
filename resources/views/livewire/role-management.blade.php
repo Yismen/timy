@@ -56,9 +56,9 @@
                     <div class="row justify-content-between">
                         <div class="col-9 input-group input-group-sm">
                             <select name="" id="" wire:model="selectedRole" class="form-control">
-                                <option value="">{{ __('timy::titles.remove_assignment') }}</option>
+                                <option value="" class="border-bottom border bg-light">{{ __('timy::titles.remove_assignment') }}</option>
                                 @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}">{{ Str::studly($role->name) }}</option>
+                                    <option value="{{ $role->id }}">{{ ucwords(str_replace(['-', '_'], ' ', $role->name)) }}</option>
                                 @endforeach
                             </select>
                         </div>
