@@ -4,7 +4,7 @@
         <div class="card-header p-1">
             <h5>
                 {{ $team->name }} 
-                <span class="badge badge-pill badge-success float-right">{{ $team->users()->count() }}</span>
+                <span class="badge badge-pill badge-success float-right">{{ $team->users->count() }}</span>
             </h5>
         </div>
 
