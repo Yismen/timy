@@ -24,7 +24,7 @@
             <div class="card mt-2  text-primary">
                 <div class="card-header bg-white">
                     <h5>
-                        {{ Str::studly($role->name) }}
+                        {{ ucwords(str_replace(['-', '_'], ' ', $role->name)) }}
                         <span class="badge badge-primary badge-pill float-right">{{ $role->users->count() }}</span>
                     </h5>
                 </div>
@@ -39,7 +39,7 @@
 
     @if (count($selected) > 0)
         <div class="position-fixed" style="top: 40%; right: 20%; z-index: 1000; max-width: 300px;">
-            <div class="bg-warning row p-2 justify-content-between">
+            <div class="bg-warning row py-3 justify-content-between">
                 <div class="col-12 mb-2">
                     <h5 class="text-dark row justify-content-between">
                         <div class="col-10">
@@ -56,11 +56,13 @@
                     <div class="row justify-content-between">
                         <div class="col-9 input-group input-group-sm">
                             <select name="" id="" wire:model="selectedRole" class="form-control">
-                                <option value="" class="border-bottom border bg-light">{{ __('timy::titles.remove_assignment') }}</option>
+                                <option value=""></option>
+                                <option value="{{ $remove_role_key }}" class="bg-danger border border-bottom text-white">{{ __('timy::titles.remove_assignment') }}</option>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ ucwords(str_replace(['-', '_'], ' ', $role->name)) }}</option>
                                 @endforeach
                             </select>
+                            @error('selectedRole') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-3">
                             <span class="badge badge-pill badge-secondary text-light">{{ count($selected) }}</span>
