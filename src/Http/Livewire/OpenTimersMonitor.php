@@ -31,11 +31,13 @@ class OpenTimersMonitor extends Component
 
     public function mount()
     {
+        TimerResource::withoutWrapping();
+
         $this->dispositions = Cache::remember('timy_dispositions', now()->addMinutes(60), function () {
             return DispositionsRepository::all();
         });
 
-        TimerResource::withoutWrapping();
+        // $this->getOpenTimers();
     }
 
     protected function updated($property)

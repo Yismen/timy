@@ -10,7 +10,7 @@
     <div class="row" wire:loading.remove wire:target="getOpenTimers" wire:init="getOpenTimers">
         @include('timy::livewire._open-timers-list')
     </div>
-    <div class="row mt-3" wire:loading.remove wire:target="getOpenTimers" wire:init="getOpenTimers">
+    <div class="row mt-3" wire:loading.remove wire:target="getOpenTimers">
         @include('timy::livewire._users-without-timers-list')
     </div>
 </div>
