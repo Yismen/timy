@@ -21,11 +21,6 @@ class TimerControl extends Component
     public function mount()
     {
         $this->user = auth()->user();
-        $this->cached_timy_dispo = $this->user->getTimyCachedDispo();
-
-        $this->selectedDisposition = $this->selectedDisposition == null ?
-            $this->cached_timy_dispo :
-            $this->selectedDisposition;
 
         $this->user->timers()->running()->get()->each->stop();
         $this->createNewTimerForUser();
@@ -71,6 +66,12 @@ class TimerControl extends Component
 
     public function createNewTimerForUser()
     {
+        $this->cached_timy_dispo = $this->user->getTimyCachedDispo();
+
+        $this->selectedDisposition = $this->selectedDisposition == null ?
+            $this->cached_timy_dispo :
+            $this->selectedDisposition;
+
         try {
             $this->running =  $this->user->startTimer($this->selectedDisposition);
             $this->emit('timerCreatedByTimerControl', $this->running);
@@ -78,6 +79,9 @@ class TimerControl extends Component
             $this->selectedDisposition =  $this->cached_timy_dispo;
             $this->running = [];
             $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
+
+            $this->user->forgetTimyCache();
+            $this->cached_timy_dispo = $this->selectedDisposition = $this->user->getTimyCachedDispo();
         } catch (\Exception $th) {
             $this->running = [];
             $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
