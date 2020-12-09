@@ -57,4 +57,5 @@ return [
     'teams_header' => 'Lista de Equipos',
     'without_teams_header' => 'Usuarios Sin Equipo',
     'teams_management_form_title' => 'Asignar A Equipo',
+    'filter_by_teams' => 'Filtrar Por Equipo',
 ];

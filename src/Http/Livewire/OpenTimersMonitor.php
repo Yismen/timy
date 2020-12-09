@@ -4,9 +4,10 @@ namespace Dainsys\Timy\Http\Livewire;
 
 use App\User;
 use Dainsys\Timy\Events\TimerStopped;
+use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Repositories\DispositionsRepository;
+use Dainsys\Timy\Repositories\TeamsRepository;
 use Dainsys\Timy\Resources\TimerResource;
-use Dainsys\Timy\Repositories\TimersRepository;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -19,6 +20,10 @@ class OpenTimersMonitor extends Component
     public $selected = [];
 
     public $timers = [];
+
+    public $teams;
+
+    public $team;
 
     public $usersWithoutTimers = [];
 
@@ -36,6 +41,8 @@ class OpenTimersMonitor extends Component
         $this->dispositions = Cache::remember('timy_dispositions', now()->addMinutes(60), function () {
             return DispositionsRepository::all();
         });
+
+        $this->teams = TeamsRepository::all();
 
         // $this->getOpenTimers();
     }
@@ -104,11 +111,28 @@ class OpenTimersMonitor extends Component
             $this->dispatchBrowserEvent('showTimyAlert', ['message' => $th->getMessage()]);
         }
     }
-
+    /**
+     * Retrieve the list of open timers and map them thru the TimerResource.
+     * If the team var is set, filter the users by its team.
+     * 
+     * @return void
+     */
     public function getOpenTimers()
     {
+        $timers = Timer::with(['user.timy_team', 'disposition'])
+            ->running()
+            ->orderBy('disposition_id')
+            ->orderBy('name');
+
+        if ($this->team) {
+            $timers->whereHas('user.timy_team', function ($query) {
+                $query->whereIn('id', (array)$this->team);
+            });
+        }
+
         $this->timers = TimerResource::collection(
-            TimersRepository::all()
+            $timers->get()
+            // TimersRepository::all()
         )->jsonSerialize();
 
         $this->usersWithoutTimers = User::isTimyUser()

@@ -57,4 +57,5 @@ return [
     'teams_header' => 'Teams List',
     'without_teams_header' => 'Users Without a Team',
     'teams_management_form_title' => 'Assign Selected to Team',
+    'filter_by_teams' => 'Filter By Team',
 ];
