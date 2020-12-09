@@ -18,8 +18,8 @@
 
         @include('timy::_user-profile-modal')
     </div>
-
-    @push('scripts')
+    
+    @push(config('timy.scripts_stack', 'scripts'))
     <script>
         function fetchUserHours() {        
             

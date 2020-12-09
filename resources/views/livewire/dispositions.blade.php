@@ -52,7 +52,7 @@
     </div>
 </div>
 
-@push('scripts')
+@push(config('timy.scripts_stack', 'scripts'))
     <script>
         (function() {
             window.addEventListener('editingDisposition', (event) => {

@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    @push('scripts')
+    @push(config('timy.scripts_stack', 'scripts'))
         <script>
             (function() {
                 var timerInterval = null;          

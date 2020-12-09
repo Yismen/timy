@@ -18,7 +18,7 @@
     </select>
 </div>
 
-@push('scripts')
+@push(config('timy.scripts_stack', 'scripts'))
     <script>          
         (function() {
             window.onbeforeunload = function() {            

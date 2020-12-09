@@ -28,7 +28,7 @@
 </div>
 @endsection
 
-@push('scripts')    
+@push(config('timy.scripts_stack', 'scripts'))   
     <!-- Charting library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
     {!! $chart->script() !!}
