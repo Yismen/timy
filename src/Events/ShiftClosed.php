@@ -2,7 +2,6 @@
 
 namespace Dainsys\Timy\Events;
 
-use Dainsys\Timy\Resources\TimerResource;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
