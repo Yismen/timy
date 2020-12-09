@@ -79,7 +79,7 @@ trait RolesManagementTestsTrait
 
         Livewire::test(RolesManagement::class)
             ->set('selected', $users->pluck('id')->toArray())
-            ->set('selectedRole', null)
+            ->set('selectedRole', 'remove-role')
             ->call('updateRoles')
             ->assertSet('selected', [])
             ->assertSet('selectedDisposition', null);
