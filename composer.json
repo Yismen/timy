@@ -4,18 +4,14 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
-        "illuminate/broadcasting": "^6.0 || ^7.0 || ^8.0",
-        "illuminate/console": "^6.0 || ^7.0 || ^8.0",
-        "illuminate/contracts": "^6.0 || ^7.0 || ^8.0",
-        "illuminate/support": "^6.0 || ^7.0 || ^8.0",
-        "illuminate/queue": "^6.0 || ^7.0 || ^8.0",
         "dainsys/components": "^1.0",
+        "consoletvs/charts": "6.*",
         "guzzlehttp/guzzle": "^6.3",
+        "illuminate/framework": "^6.0 || ^7.0 || ^8.0",
         "laravel/ui": "^2.0",
         "livewire/livewire": "^v2.0",
         "maatwebsite/excel": "^3.1",
-        "pusher/pusher-php-server": "~4.0",
-        "consoletvs/charts": "6.*"
+        "pusher/pusher-php-server": "~4.0"
     },
     "require-dev": {
         "orchestra/testbench": "5.x-dev",
