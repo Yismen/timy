@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Tests;
 
 use Dainsys\Timy\Tests\Feature\ApiRotuesTestTrait;
+use Dainsys\Timy\Tests\Feature\ApiTimersFilteredTrait;
 use Dainsys\Timy\Tests\Feature\DashboardTestTrait;
 use Dainsys\Timy\Tests\Unit\TeamsTestsTrait;
 use Dainsys\Timy\Tests\Unit\CloseInactiveTimersCommandTest;
@@ -17,6 +18,7 @@ use Dainsys\Timy\Tests\Unit\UserHoursInfoTestsTrait;
 
 class SuiteTests extends TestCase
 {
+    use ApiTimersFilteredTrait;
     use ApiRotuesTestTrait;
     use DashboardTestTrait;
     use DispositionsTestsTrait;

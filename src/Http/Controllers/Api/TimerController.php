@@ -7,6 +7,8 @@ use Dainsys\Timy\Resources\TimerResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Dainsys\Timy\Http\Controllers\BaseController;
+use Dainsys\Timy\Repositories\TimersRepository;
+use Dainsys\Timy\Resources\TimerDownloadResource;
 
 class TimerController extends BaseController
 {
@@ -48,5 +50,12 @@ class TimerController extends BaseController
             'Authenticated!',
             'timer' => $this->user->timers()->running()->first(),
         ], 200);
+    }
+
+    public function filtered()
+    {
+        return TimerDownloadResource::collection(
+            TimersRepository::filtered()
+        );
     }
 }

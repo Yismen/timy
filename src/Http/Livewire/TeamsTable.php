@@ -84,12 +84,11 @@ class TeamsTable extends Component
         User::whereIn('id', $this->selected)
             ->get()->each->assignTimyTeam($team);
 
-        $this->getData();
-        // $this->selectedTeam = null;
-
         $this->closeForm();
 
         $this->emit('timyTeamUpdated');
+
+        $this->getData();
     }
 
     public function closeForm()

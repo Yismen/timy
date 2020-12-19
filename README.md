@@ -96,3 +96,13 @@ Add user's time tracker functionality to Laravel 7, Livewire and Bootstrap 4.
 - If a user change the Dispositions dropdown (Vue component) a new timer is created, closing all previous.
 - When an user change their dispo, the admin dashboar update dinamically.
 - When admin update a scpecific user's dispo, user interface update and the user is alerted. 
+## Api Endpoints
+- The GET endpoing `/timy/api/timers_filtered` or route `route('timy.timers_filtered')` retunrs a Json formated resource with all timers, filtered by the query string. The following GET variables will allow you to filter the list:
+    - `disposition=value` will only return timers where the `disposition` name contains the given value.
+    - `user=value` will only return timers where the `user` name contains the given value.
+    - `from_date=date` will only return timers where the `start_date` is newer or equal to the given date.
+    - `to_date=date` will only return timers where the `start_date` is older or equal to the given date.
+    - `payable=true` will only return timers where `disposition` is labeled as `payable`.
+    - `invoiceable=true` will only return timers where `disposition` is labeled as `invoiceable`.
+    - `running=true` will only return timers where `finished_at` field is null, which represent currently running timers.
+- Visit the GET route `/timy/api/get_open_timer_hours` or route `route('timy.getOpenTimersHours')` to get the current hours of the open timer for the current user. Ideal to display live updates, calculating the hours, whithout actually closing the current timer.
