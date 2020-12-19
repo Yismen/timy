@@ -72,6 +72,8 @@ class TeamsTable extends Component
         } else {
             $this->selected[] = $user_id;
         }
+
+        $this->getData();
     }
 
     public function assignTeam()
@@ -79,16 +81,19 @@ class TeamsTable extends Component
         $this->validate([
             'selectedTeam' => 'required|exists:timy_teams,id'
         ]);
+
         $team = Team::findOrFail($this->selectedTeam);
 
-        User::whereIn('id', $this->selected)
-            ->get()->each->assignTimyTeam($team);
+        $users = User::whereIn('id', $this->selected)
+            ->get();
+
+        $users->each->assignTimyTeam($team);
 
         $this->closeForm();
 
-        $this->emit('timyTeamUpdated');
-
         $this->getData();
+
+        $this->emit('timyTeamUpdated');
     }
 
     public function closeForm()

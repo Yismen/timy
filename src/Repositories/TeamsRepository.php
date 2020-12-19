@@ -11,8 +11,10 @@ class TeamsRepository
     {
         return Team::orderBy('name')
             ->with(['users' => function ($query) {
-                return $query->whereHas('timy_role')
-                    ->orderBy('name');
+                return $query
+                    ->orderBy('name')
+                    ->with('timy_role')
+                    ->whereHas('timy_role');
             }])->get();
     }
 
