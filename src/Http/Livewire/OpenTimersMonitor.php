@@ -4,9 +4,9 @@ namespace Dainsys\Timy\Http\Livewire;
 
 use App\User;
 use Dainsys\Timy\Events\TimerStopped;
+use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Repositories\DispositionsRepository;
-use Dainsys\Timy\Repositories\TeamsRepository;
 use Dainsys\Timy\Resources\TimerResource;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
@@ -42,7 +42,14 @@ class OpenTimersMonitor extends Component
             return DispositionsRepository::all();
         });
 
-        $this->teams = TeamsRepository::all();
+        $this->teams = Team::orderBy('name')
+            ->whereHas('users', function ($query) {
+                $query->whereHas('timy_role');
+            })
+            ->with(['users' => function ($query) {
+                return $query->whereHas('timy_role')
+                    ->orderBy('name');
+            }])->get();
 
         // $this->getOpenTimers();
     }
