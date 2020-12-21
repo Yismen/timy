@@ -24,8 +24,10 @@ class UserLoggedOut
      */
     public function handle(Logout $event)
     {
-        $event->user->stopRunningTimers();
+        if ($user = $event->user) {
+            $user->stopRunningTimers();
 
-        $event->user->forgetTimyCache();
+            $user->forgetTimyCache();
+        }
     }
 }

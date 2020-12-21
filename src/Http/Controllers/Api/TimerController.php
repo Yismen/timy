@@ -36,22 +36,6 @@ class TimerController extends BaseController
         ]);
     }
 
-    protected function userDisconnected()
-    {
-        $this->user->stopRunningTimers();
-
-        event(new TimerCreatedAdmin($this->user));
-    }
-
-    public function ping()
-    {
-
-        return response()->json([
-            'Authenticated!',
-            'timer' => $this->user->timers()->running()->first(),
-        ], 200);
-    }
-
     public function filtered()
     {
         return TimerDownloadResource::collection(

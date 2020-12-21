@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-$webMiddlewares = preg_split("/[,|]+/", config('timy.midlewares.web'));
-
-Route::middleware($apiMiddlewares)
+Route::middleware(
+    preg_split("/[,|]+/", config('timy.midlewares.web'))
+)
     ->prefix('timy')
     ->namespace('\Dainsys\Timy\Http\Controllers')
     ->group(function () {
@@ -13,4 +13,6 @@ Route::middleware($apiMiddlewares)
         Route::get('super_admin', 'DashboardController@superAdmin')->name('super_admin_dashboard');
         Route::post('admin/hours/download', 'DashboardController@hours')->name('timy_hours_download');
         Route::get('admin/profile/{user}', 'DashboardController@profile')->name('timy_user_profile');
+        Route::get('ping', 'TimyUserController@ping')->name('timy_ping_user');
+        Route::get('/user_left/{userId}', 'TimyUserController@userDisconnected')->name('timy_timers.user_left');
     });

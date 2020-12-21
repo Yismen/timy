@@ -6,7 +6,7 @@ use Dainsys\Timy\Models\Disposition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 
-trait ApiRotuesTestTrait
+trait UserRotuesTestTrait
 {
     /** @test */
     public function it_closes_user_session_when_it_leave_the_browser()
@@ -23,6 +23,7 @@ trait ApiRotuesTestTrait
 
         $this->assertNotEquals($user->timers()->first()->finished_at, null);
     }
+
     /** @test */
     public function it_pings_user_and_keeps_session_if_user_is_active()
     {
@@ -36,15 +37,15 @@ trait ApiRotuesTestTrait
 
         $this->assertEquals($user->timers()->first()->finished_at, null);
     }
+
     /** @test */
-    public function it_pings_user_and_return_error_if_not_logged_id()
+    public function it_pings_user_and_return_error_if_not_logged_in()
     {
         $user = $this->user();
         $disposition = factory(Disposition::class)->create();
         $user->startTimer($disposition->id, ['forced' => true]);
         $this->actingAs($user);
-
-        Auth::logout();
+        auth()->logout();
 
         $this->get(route('timy_ping_user'))
             ->assertRedirect(route('login'));

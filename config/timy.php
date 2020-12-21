@@ -46,7 +46,7 @@ return [
      * all routes. use "," or "|" to separate the list.
      */
     'midlewares' => [
-        'api' => 'web|auth', // 'api'
+        'api' => 'api',
         'web' => 'web|auth',
     ],
     /**

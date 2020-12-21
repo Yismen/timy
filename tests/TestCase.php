@@ -45,8 +45,8 @@ class TestCase extends TestbenchTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            LivewireServiceProvider::class,
             UiServiceProvider::class,
+            LivewireServiceProvider::class,
             ComponentsServiceProvider::class,
             ChartsServiceProvider::class,
             TimyServiceProvider::class,
