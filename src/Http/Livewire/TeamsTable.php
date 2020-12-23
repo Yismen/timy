@@ -19,8 +19,10 @@ class TeamsTable extends Component
 
     public $selectedTeam;
 
+    public Team $team;
+
     protected $rules = [
-        'name' => 'required|unique:timy_teams,name|min:3'
+        'team.name' => 'required|unique:timy_teams,name|min:3'
     ];
 
     protected function getListeners()
@@ -37,6 +39,7 @@ class TeamsTable extends Component
 
     public function mount()
     {
+        $this->team = new Team();
         $this->getData();
     }
 
@@ -47,18 +50,13 @@ class TeamsTable extends Component
         $this->users_without_team = TeamsRepository::usersWithoutTeam();
     }
 
-    public function updatedName()
-    {
-        $this->validate();
-    }
-
     public function createTeam()
     {
         $this->validate();
 
-        Team::create(['name' => $this->name]);
+        Team::create(['name' => $this->team->name]);
 
-        $this->name = '';
+        $this->team->name = '';
 
         $this->getData();
     }
@@ -106,5 +104,26 @@ class TeamsTable extends Component
         $this->validateOnly($this->selectedTeam, [
             'selectedTeam' => 'required|exists:timy_teams,id'
         ]);
+    }
+
+    public function editTeam(int $team_id)
+    {
+        $this->team = Team::findOrFail($team_id);
+
+        $this->dispatchBrowserEvent('show-edit-team-modal', $this->team);
+    }
+
+    public function updateTeam(int $team_id)
+    {
+        $this->validate();
+
+        Team::findOrFail($team_id)
+            ->update([
+                'name' => $this->team->name
+            ]);
+
+        $this->team = new Team();
+
+        $this->dispatchBrowserEvent('hide-edit-team-modal', $this->team);
     }
 }

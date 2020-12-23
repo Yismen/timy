@@ -13,7 +13,7 @@
                 </label>
                 <div class="input-group">
                     <input type="text"
-                        wire:model.lazy="name"
+                        wire:model.lazy="team.name"
                         class="form-control" name="nameField" id="nameField" 
                         aria-describedby="nameHelpId" placeholder="">     
                         <div class="input-group-prepend">

@@ -12,7 +12,7 @@ use Livewire\Livewire;
 trait TeamsTestsTrait
 {
     /** @test */
-    public function teams_component_fetch_teams()
+    public function teams_component_inits_and_fetch_teams()
     {
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
@@ -23,7 +23,8 @@ trait TeamsTestsTrait
         Livewire::test(TeamsTable::class)
             ->assertSee(__('timy::titles.create_teams_form_header'))
             ->assertSee(__('timy::titles.teams_header'))
-            ->assertSet('name', null)
+            ->assertSet('team', new Team())
+            ->assertSet('team.name', null)
             ->assertSet('selected', [])
             ->assertSet('selectedTeam', null)
             ->assertSet('teams', TeamsRepository::all())
@@ -38,15 +39,15 @@ trait TeamsTestsTrait
         $team = factory(Team::class)->create();
 
         Livewire::test(TeamsTable::class)
-            ->set('name', '')
+            ->set('team.name', '')
             ->call('createTeam')
-            ->assertHasErrors('name', 'required')
-            ->set('name', $team->name)
+            ->assertHasErrors('team.name', 'required')
+            ->set('team.name', $team->name)
             ->call('createTeam')
-            ->assertHasErrors('name', 'unique')
-            ->set('name', 'aa')
+            ->assertHasErrors('team.name', 'unique')
+            ->set('team.name', 'aa')
             ->call('createTeam')
-            ->assertHasErrors('name', 'min');
+            ->assertHasErrors('team.name', 'min');
     }
     /** @test */
     public function teams_component_create_a_team()
@@ -54,9 +55,9 @@ trait TeamsTestsTrait
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
         Livewire::test(TeamsTable::class)
-            ->set('name', 'New Team')
+            ->set('team.name', 'New Team')
             ->call('createTeam')
-            ->assertSet('name', '');
+            ->assertSet('team.name', '');
 
         $this->assertDatabaseHas('timy_teams', ['name' => 'New Team']);
     }
@@ -102,5 +103,43 @@ trait TeamsTestsTrait
             ->emit('timyRoleUpdated')
             ->assertSet('teams', TeamsRepository::all())
             ->assertSet('users_without_team', TeamsRepository::usersWithoutTeam());
+    }
+    /** @test */
+    public function it_sets_the_team_var_and_emit_event_to_show_edit_form()
+    {
+        $team = factory(Team::class)->create();
+
+        Livewire::test(TeamsTable::class)
+            ->assertSet('team', new Team())
+            ->call('editTeam', $team->id)
+            ->assertSet("team", $team->fresh())
+            ->assertDispatchedBrowserEvent('show-edit-team-modal');
+    }
+    /** @test */
+    public function a_name_is_required_to_edit_at_team()
+    {
+        $team = factory(Team::class)->create();
+
+        Livewire::test(TeamsTable::class)
+            ->call('editTeam', $team->id)
+            ->set("team.name", '')
+            ->call('updateTeam', $team->id)
+            ->assertHasErrors(['team.name']);
+    }
+
+    /** @test */
+    public function team_name_can_be_updated()
+    {
+        $team = factory(Team::class)->create();
+
+        Livewire::test(TeamsTable::class)
+            ->call('editTeam', $team->id)
+            ->set('team.name', "Updated Name")
+            ->call('updateTeam', $team->id)
+            ->assertDispatchedBrowserEvent('hide-edit-team-modal')
+            ->assertSet('team', new Team());
+
+        $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
+        $this->assertDatabaseHas('timy_teams', ['name' => 'Updated Name']);
     }
 }
