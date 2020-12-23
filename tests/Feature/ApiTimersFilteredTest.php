@@ -4,8 +4,9 @@ namespace Dainsys\Timy\Tests\Feature;
 
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Tests\TestCase;
 
-trait ApiTimersFilteredTrait
+class ApiTimersFilteredTest extends TestCase
 {
     /** @test */
     public function it_return_hours_for_current_date()

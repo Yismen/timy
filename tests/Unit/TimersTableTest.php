@@ -5,9 +5,10 @@ namespace Dainsys\Timy\Tests\Unit;
 use Dainsys\Timy\Http\Livewire\TimersTable;
 use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Resources\TimerResource;
+use Dainsys\Timy\Tests\TestCase;
 use Livewire\Livewire;
 
-trait TimersTableTestsTrait
+class TimersTableTest extends TestCase
 {
     /** @test */
     public function timers_table_renders()

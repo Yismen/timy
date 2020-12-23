@@ -7,9 +7,10 @@ use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Repositories\UserHoursDaily;
 use Dainsys\Timy\Resources\UserTimerResource;
+use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-trait DashboardTestTrait
+class DashboardTest extends TestCase
 {
     /** @test */
     public function guest_are_unauthorized_to_see_users_dashboard()

@@ -3,10 +3,11 @@
 namespace Dainsys\Timy\Tests\Unit;
 
 use Dainsys\Timy\Models\Disposition;
+use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
-trait DispositionsTestsTrait
+class DispositionsTest extends TestCase
 {
     /** @test */
     public function it_properties_are_set_on_load()

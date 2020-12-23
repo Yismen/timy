@@ -9,11 +9,12 @@ use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Repositories\TimersRepository;
 use Dainsys\Timy\Resources\TimerResource;
+use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
 
-trait OpenTimersMonitorTestsTrait
+class OpenTimersMonitorTest extends TestCase
 {
     /** @test */
     public function it_renders_opent_timers_component()

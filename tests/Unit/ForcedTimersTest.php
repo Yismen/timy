@@ -7,10 +7,11 @@ use Carbon\Carbon;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
-trait ForcedTimersTestsTrait
+class ForcedTimersTest extends TestCase
 {
     /** @test */
     public function properties_are_set_on_load()

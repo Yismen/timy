@@ -4,9 +4,10 @@ namespace Dainsys\Timy\Tests\Unit;
 
 use Dainsys\Timy\Http\Livewire\UserHoursInfo;
 use Dainsys\Timy\Repositories\UserDataRepository;
+use Dainsys\Timy\Tests\TestCase;
 use Livewire\Livewire;
 
-trait UserHoursInfoTestsTrait
+class UserHoursInfoTest extends TestCase
 {
     /** @test */
     public function user_hours_info_renders()

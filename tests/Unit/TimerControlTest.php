@@ -6,9 +6,10 @@ use Carbon\Carbon;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Resources\TimerResource;
+use Dainsys\Timy\Tests\TestCase;
 use Livewire\Livewire;
 
-trait TimerControlTestsTrait
+class TimerControlTest extends TestCase
 {
     /** @test */
     public function timer_control_renders()

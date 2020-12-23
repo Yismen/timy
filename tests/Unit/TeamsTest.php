@@ -6,10 +6,11 @@ use App\User;
 use Dainsys\Timy\Http\Livewire\TeamsTable;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Repositories\TeamsRepository;
+use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
-trait TeamsTestsTrait
+class TeamsTest extends TestCase
 {
     /** @test */
     public function teams_component_inits_and_fetch_teams()

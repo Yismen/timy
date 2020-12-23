@@ -3,10 +3,11 @@
 namespace Dainsys\Timy\Tests\Feature;
 
 use Dainsys\Timy\Models\Disposition;
+use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 
-trait UserRotuesTestTrait
+class UserRoutesTest extends TestCase
 {
     /** @test */
     public function it_closes_user_session_when_it_leave_the_browser()

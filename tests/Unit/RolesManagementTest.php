@@ -7,9 +7,10 @@ use Dainsys\Timy\Http\Livewire\RolesManagement;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Tests\TestCase;
 use Livewire\Livewire;
 
-trait RolesManagementTestsTrait
+class RolesManagementTest extends TestCase
 {
     /** @test */
     public function roles_management_renders()

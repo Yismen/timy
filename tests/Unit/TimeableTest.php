@@ -9,8 +9,9 @@ use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Tests\TestCase;
 
-trait TimeableTestTrait
+class TimeableTest extends TestCase
 {
     /** @test */
     public function it_loads_relationships()
