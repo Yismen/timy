@@ -105,6 +105,7 @@ class TeamsTest extends TestCase
             ->assertSet('teams', TeamsRepository::all())
             ->assertSet('users_without_team', TeamsRepository::usersWithoutTeam());
     }
+
     /** @test */
     public function it_sets_the_team_var_and_emit_event_to_show_edit_form()
     {
@@ -116,6 +117,7 @@ class TeamsTest extends TestCase
             ->assertSet("team", $team->fresh())
             ->assertDispatchedBrowserEvent('show-edit-team-modal');
     }
+
     /** @test */
     public function a_name_is_required_to_edit_at_team()
     {
@@ -142,5 +144,47 @@ class TeamsTest extends TestCase
 
         $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
         $this->assertDatabaseHas('timy_teams', ['name' => 'Updated Name']);
+    }
+
+    /** @test */
+    public function it_prompts_to_delete_team()
+    {
+        $team = factory(Team::class)->create();
+
+        Livewire::test(TeamsTable::class)
+            ->call('beforeRemovingTeam', $team->id)
+            ->assertSet('team', $team->fresh())
+            ->assertDispatchedBrowserEvent('show-delete-team-modal');
+
+        $this->assertDatabaseHas('timy_teams', ['name' => $team->name]);
+    }
+
+    /** @test */
+    public function it_release_users_before_removing_a_team()
+    {
+        $team = factory(Team::class)->create();
+        $user = factory(User::class)->create();
+        $user->assignTimyTeam($team);
+
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'timy_team_id' => $team->id]);
+
+        Livewire::test(TeamsTable::class)
+            ->call('removeTeam', $team->id);
+
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'timy_team_id' => null]);
+
+        $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
+    }
+    /** @test */
+    public function it_deletes_a_team()
+    {
+        $team = factory(Team::class)->create();
+
+        Livewire::test(TeamsTable::class)
+            ->call('removeTeam', $team->id)
+            ->assertSet('team', new Team())
+            ->assertDispatchedBrowserEvent('hide-delete-team-modal');
+
+        $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
     }
 }

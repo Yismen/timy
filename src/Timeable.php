@@ -66,6 +66,12 @@ trait Timeable
         $this->save();
     }
 
+    public function unassignTeam()
+    {
+        $this->timy_team_id = null;
+        $this->save();
+    }
+
     public function removeTimyRole()
     {
         $this->stopRunningTimers();

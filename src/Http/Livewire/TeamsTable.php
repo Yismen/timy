@@ -126,4 +126,23 @@ class TeamsTable extends Component
 
         $this->dispatchBrowserEvent('hide-edit-team-modal', $this->team);
     }
+
+    public function beforeRemovingTeam(int $team_id)
+    {
+        $this->team = Team::findOrFail($team_id);
+
+        $this->dispatchBrowserEvent('show-delete-team-modal', $this->team);
+    }
+
+    public function removeTeam(int $team_id)
+    {
+        $team = Team::findOrFail($team_id);
+
+        $team->users->each->unassignTeam();
+        $team->delete();
+
+        $this->team = new Team();
+
+        $this->dispatchBrowserEvent('hide-delete-team-modal');
+    }
 }
