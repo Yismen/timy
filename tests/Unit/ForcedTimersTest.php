@@ -26,7 +26,7 @@ class ForcedTimersTest extends TestCase
 
         Livewire::test('timy::forced-timer-management')
             ->assertViewIs('timy::livewire.forced-timer-management')
-            ->assertViewHas('users', $users)
+            ->assertViewHas('users', null)
             ->assertViewHas('dispositions', Disposition::orderBy('name')->get());
     }
 
@@ -89,7 +89,7 @@ class ForcedTimersTest extends TestCase
     public function it_listen_for_events()
     {
         $livewire = Livewire::test('timy::forced-timer-management')
-            ->assertSet('users', new \Illuminate\Database\Eloquent\Collection());
+            ->assertSet('users', null);
 
         $disposition = factory(Disposition::class)->create();
         $this->user()->startTimer($disposition->id, ['forced' => true]);

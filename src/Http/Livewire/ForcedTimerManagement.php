@@ -22,7 +22,6 @@ class ForcedTimerManagement extends Component
     {
         return view('timy::livewire.forced-timer-management', [
             'dispositions' => DispositionsRepository::all(),
-            'users' => $this->getUsers()
         ]);
     }
 

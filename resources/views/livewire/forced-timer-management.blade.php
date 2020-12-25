@@ -4,20 +4,22 @@
         <div class="card-header bg-white">
             <h4>
                 {{ __('timy::titles.forced_timer_title') }}
-                <span class="badge badge-pill badge-danger">{{ $users->count() }}</span>
+                <span class="badge badge-pill badge-danger">{{ $users ? $users->count() : 0 }}</span>
                 <button class="btn btn-sm btn-secondary float-right" wire:click="getUsers">
                     {{ __('timy::titles.refresh') }}
                 </button>
             </h4>
         </div>
    
-        <div class="card-body p-0">
-            <ul class="list-group">
-                @foreach ($users as $user)
-                    @include('timy::livewire._user-checkbox', ['with_timers' => true])
-                @endforeach
-            </ul>
-        </div>
+        @if ($users)
+            <div class="card-body p-0">
+                <ul class="list-group">
+                    @foreach ($users as $user)
+                        @include('timy::livewire._user-checkbox', ['with_timers' => true])
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
     @if (count($selected) > 0)
         <div class="position-fixed" style="top: 20%; left: 20%; z-index: 1000; width: 300px;">
