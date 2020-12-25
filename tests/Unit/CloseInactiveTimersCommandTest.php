@@ -4,6 +4,7 @@ namespace Dainsys\Timy\Tests\Unit;
 
 use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Tests\TestCase;
+use Illuminate\Support\Facades\Http;
 
 class CloseInactiveTimersCommandTest extends TestCase
 {
@@ -23,6 +24,7 @@ class CloseInactiveTimersCommandTest extends TestCase
     /** @test */
     public function it_keeps_valid_ips()
     {
+        Http::fake();
         $ip_address = '142.250.9.139'; //google
         factory(Timer::class)->create(['ip_address' => $ip_address, 'finished_at' => null]);
 
