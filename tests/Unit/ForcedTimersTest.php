@@ -31,6 +31,16 @@ class ForcedTimersTest extends TestCase
     }
 
     /** @test */
+    public function forced_timers_view_has_key_words()
+    {
+        Livewire::test(ForcedTimerManagement::class)
+            ->assertSee('getUsers')
+            ->set('selected', [1])
+            ->assertSee('closeForm')
+            ->assertSee('createForcedTimers');
+    }
+
+    /** @test */
     public function it_toogles_a_user_when_selected()
     {
         $user = $this->user();

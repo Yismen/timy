@@ -41,7 +41,6 @@
                                 <td>{{ $disposition->invoiceable }}</td>
                                 <td>
                                     <a class="btn btn-warning btn-sm" wire:click.prevent="editDisposition({{ $disposition }})">{{ __('timy::titles.edit') }}</a>
-                                    {{-- <a href="{{ route('timy_web_disposition.edit', $disposition->id) }}" class="btn btn-warning btn-sm">{{ __('timy::titles.edit') }}</a> --}}
                                 </td>
                             </tr>
                         @endforeach

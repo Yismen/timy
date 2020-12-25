@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests\Unit;
 
+use Dainsys\Timy\Http\Livewire\Dispositions;
 use Dainsys\Timy\Models\Disposition;
 use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +15,8 @@ class DispositionsTest extends TestCase
     {
         factory(Disposition::class, 5)->create();
 
-        Livewire::test('timy::dispositions')
+        Livewire::test(Dispositions::class)
+            ->assertViewIs('timy::livewire.dispositions')
             ->assertSet('dispositions', Disposition::orderBy('name')->get())
             ->assertSet('disposition', [
                 'id' => null,
@@ -22,6 +24,20 @@ class DispositionsTest extends TestCase
                 'payable' => false,
                 'invoiceable' => false
             ]);
+    }
+
+    /** @test */
+    public function the_view_has_key_words()
+    {
+        $dispositions = factory(Disposition::class, 2)->create();
+
+        Livewire::test(Dispositions::class)
+            ->assertSee('createDisposition')
+            ->set('disposition', $dispositions->first())
+            ->assertSee('updateDisposition')
+            ->assertSee('resetForm')
+            ->set('dispositions', $dispositions)
+            ->assertSee('editDisposition');
     }
 
     /** @test */

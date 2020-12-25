@@ -13,8 +13,6 @@ class Dispositions extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
-
     public $dispositions;
 
     public $disposition = [
@@ -23,6 +21,13 @@ class Dispositions extends Component
         'payable' => false,
         'invoiceable' => false
     ];
+
+    protected $rules = [
+        'dispositions' => 'array',
+        'disposition.name' => 'required|min:3|unique:timy_dispositions,name'
+    ];
+
+    protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
@@ -36,9 +41,7 @@ class Dispositions extends Component
 
     public function createDisposition()
     {
-        $this->validate([
-            'disposition.name' => 'required|min:3|unique:timy_dispositions,name'
-        ]);
+        $this->validate();
 
         Disposition::create([
             'name' => $this->disposition['name'],
