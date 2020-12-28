@@ -58,4 +58,9 @@ return [
     'without_teams_header' => 'Usuarios Sin Equipo',
     'teams_management_form_title' => 'Asignar A Equipo',
     'filter_by_teams' => 'Filtrar Por Equipo',
+    'delete_team_title' => 'Eliminar Equipo',
+    'delete_team_body' => 'Esta accion es bien peligrosa. Estas a punto de eliminar el equipo que has seleccionado. Esta accion ademas va a desasociar todos los usuarios asignados a ese equipo. Estas seguro que quieres completar esta accion?',
+    'close' => 'Cerrar',
+    'delete' => 'Eliminar',
+    'edit_team_title' => 'Actualizar Equipo',
 ];

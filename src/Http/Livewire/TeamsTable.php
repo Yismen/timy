@@ -5,13 +5,12 @@ namespace Dainsys\Timy\Http\Livewire;
 use App\User;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Repositories\TeamsRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class TeamsTable extends Component
 {
-    public $name;
-
-    public $teams = [];
+    public Collection $teams;
 
     public $users_without_team = [];
 
@@ -19,11 +18,19 @@ class TeamsTable extends Component
 
     public $selectedTeam;
 
-    public Team $team;
+    public $team;
 
-    protected $rules = [
-        'team.name' => 'required|unique:timy_teams,name|min:3'
-    ];
+    protected function getRules(): array
+    {
+        return [
+            // 'team.id' => 'required|exists:timy_teams,id',
+            'team.name' => [
+                'required',
+                'min:3',
+                'unique:timy_teams,name,'
+            ]
+        ];
+    }
 
     protected function getListeners()
     {
@@ -39,7 +46,8 @@ class TeamsTable extends Component
 
     public function mount()
     {
-        $this->team = new Team();
+        $this->team ??= new Team();
+
         $this->getData();
     }
 
@@ -48,6 +56,8 @@ class TeamsTable extends Component
         $this->teams = TeamsRepository::all();
 
         $this->users_without_team = TeamsRepository::usersWithoutTeam();
+
+        return $this;
     }
 
     public function createTeam()
@@ -56,9 +66,8 @@ class TeamsTable extends Component
 
         Team::create(['name' => $this->team->name]);
 
-        $this->team->name = '';
-
-        $this->getData();
+        $this->resetTeamProps()
+            ->getData();
     }
 
     public function toggleSelection($user_id)
@@ -70,8 +79,6 @@ class TeamsTable extends Component
         } else {
             $this->selected[] = $user_id;
         }
-
-        $this->getData();
     }
 
     public function assignTeam()
@@ -87,9 +94,8 @@ class TeamsTable extends Component
 
         $users->each->assignTimyTeam($team);
 
-        $this->closeForm();
-
-        $this->getData();
+        $this->closeForm()
+            ->getData();
 
         $this->emit('timyTeamUpdated');
     }
@@ -97,6 +103,8 @@ class TeamsTable extends Component
     public function closeForm()
     {
         $this->selected = [];
+
+        return $this;
     }
 
     public function updatedSelectedTeam()
@@ -113,18 +121,25 @@ class TeamsTable extends Component
         $this->dispatchBrowserEvent('show-edit-team-modal', $this->team);
     }
 
-    public function updateTeam(int $team_id)
+    public function updateTeam()
     {
-        $this->validate();
+        $this->validate([
+            'team.id' => 'required|exists:timy_teams,id',
+            'team.name' => [
+                'required',
+                'min:3',
+                'unique:timy_teams,name,' . $this->team->id
+            ]
+        ]);
 
-        Team::findOrFail($team_id)
+        $team = Team::findOrFail($this->team->id)
             ->update([
                 'name' => $this->team->name
             ]);
 
-        $this->team = new Team();
-
-        $this->dispatchBrowserEvent('hide-edit-team-modal', $this->team);
+        $this->resetTeamProps()
+            ->getData()
+            ->dispatchBrowserEvent('hide-edit-team-modal', $team);
     }
 
     public function beforeRemovingTeam(int $team_id)
@@ -134,15 +149,21 @@ class TeamsTable extends Component
         $this->dispatchBrowserEvent('show-delete-team-modal', $this->team);
     }
 
-    public function removeTeam(int $team_id)
+    public function removeTeam()
     {
-        $team = Team::findOrFail($team_id);
+        $this->team->users->each->unassignTeam();
 
-        $team->users->each->unassignTeam();
-        $team->delete();
+        $this->team->delete();
 
+        $this->resetTeamProps()
+            ->getData()
+            ->dispatchBrowserEvent('hide-delete-team-modal');
+    }
+
+    protected function resetTeamProps()
+    {
         $this->team = new Team();
 
-        $this->dispatchBrowserEvent('hide-delete-team-modal');
+        return $this;
     }
 }

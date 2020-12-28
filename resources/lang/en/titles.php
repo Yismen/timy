@@ -58,4 +58,9 @@ return [
     'without_teams_header' => 'Users Without a Team',
     'teams_management_form_title' => 'Assign Selected to Team',
     'filter_by_teams' => 'Filter By Team',
+    'delete_team_title' => 'Delete Team',
+    'delete_team_body' => 'This is a very dangerous action. You are about to delete the team you have selected. This will also unassign all users under the that team. Are you sure about these actions?',
+    'close' => 'Close',
+    'delete' => 'Delete',
+    'edit_team_title' => 'Update Team',
 ];

@@ -20,7 +20,7 @@
                             <button class="btn btn-outline-primary text-uppercase" type="submit" id="button-addon1">{{ __('timy::titles.create') }}</button>
                         </div>                   
                 </div>    
-                @error('name')
+                @error('team.name')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>

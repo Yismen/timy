@@ -1,6 +1,11 @@
-☐ Tasks
+Issues:
+    ✔ Modal dissapears when name is updated @done (12/28/2020, 3:10:58 PM)
+    ☐ N+1 issue with teams when all other properties update
+Todo/Changes:
     ✔ Add abitlity to delete teams @done (12/23/2020, 9:12:26 PM)
-        ✔ Prompt first @done (12/23/2020, 9:12:35 PM)
-        ✔ Remove all users under team @done (12/23/2020, 10:38:49 PM)
-        ✔ Delete Team @done (12/23/2020, 9:12:44 PM)
+    ✔ Prompt first @done (12/23/2020, 9:12:35 PM)
+    ✔ Remove all users under team @done (12/23/2020, 10:38:49 PM)
+    ✔ Delete Team @done (12/23/2020, 9:12:44 PM)
+    Teams Table should be broken into components to avoid coupling and reactivity queries
+    
     
