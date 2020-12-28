@@ -50,21 +50,23 @@
 </div>
 
 @push(config('timy.scripts_stack', 'scripts'))
-<script>
-    window.addEventListener('show-edit-team-modal', event => {
-        $('#editTeamModal').modal('show');
-    });
-    
-    window.addEventListener('hide-edit-team-modal', event => {
-        $('#editTeamModal').modal('hide');
-    });
-    window.addEventListener('show-delete-team-modal', event => {
-        $('#deleteTeamModal').modal('show');
-    });
-    
-    window.addEventListener('hide-delete-team-modal', event => {
-        $('#deleteTeamModal').modal('hide');
-    });
+<script>          
+    (function() {
+        window.addEventListener('show-edit-team-modal', event => {
+            $('#editTeamModal').modal('show');
+        });
+        
+        window.addEventListener('hide-edit-team-modal', event => {
+            $('#editTeamModal').modal('hide');
+        });
+        window.addEventListener('show-delete-team-modal', event => {
+            $('#deleteTeamModal').modal('show');
+        });
+        
+        window.addEventListener('hide-delete-team-modal', event => {
+            $('#deleteTeamModal').modal('hide');
+        });
+    })()
 </script>
 @endpush
 
