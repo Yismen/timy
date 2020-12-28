@@ -10,7 +10,7 @@ use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
-class TeamsTest extends TestCase
+class TeamsTableTest extends TestCase
 {
     /** @test */
     public function teams_component_inits_and_fetch_teams()
@@ -58,7 +58,7 @@ class TeamsTest extends TestCase
         Livewire::test(TeamsTable::class)
             ->set('team.name', 'New Team')
             ->call('createTeam')
-            ->assertSet('team.name', '');
+            ->assertSet('team', new Team());
 
         $this->assertDatabaseHas('timy_teams', ['name' => 'New Team']);
     }
@@ -169,7 +169,8 @@ class TeamsTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $user->id, 'timy_team_id' => $team->id]);
 
         Livewire::test(TeamsTable::class)
-            ->call('removeTeam', $team->id);
+            ->call('beforeRemovingTeam', $team->id)
+            ->call('removeTeam');
 
         $this->assertDatabaseHas('users', ['id' => $user->id, 'timy_team_id' => null]);
 
@@ -181,7 +182,8 @@ class TeamsTest extends TestCase
         $team = factory(Team::class)->create();
 
         Livewire::test(TeamsTable::class)
-            ->call('removeTeam', $team->id)
+            ->call('beforeRemovingTeam', $team->id)
+            ->call('removeTeam')
             ->assertSet('team', new Team())
             ->assertDispatchedBrowserEvent('hide-delete-team-modal');
 
