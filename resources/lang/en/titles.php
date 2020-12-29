@@ -63,4 +63,5 @@ return [
     'close' => 'Close',
     'delete' => 'Delete',
     'edit_team_title' => 'Update Team',
+    'no_teams_created_yet' => 'No Teams Created So Far!',
 ];

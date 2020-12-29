@@ -8,5 +8,6 @@ Todo/Changes:
     ✔ Delete Team @done (12/23/2020, 9:12:44 PM)
     ✔ Move Create Team to a separate component @done (12/28/2020, 10:35:16 PM)
     ✔ Separate Update and Delete Components @done (12/29/2020, 9:38:21 AM)
+    ✔ Refactor Teams Table after components were set as child @done (12/29/2020, 9:58:02 AM)
     
     

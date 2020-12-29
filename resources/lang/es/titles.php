@@ -63,4 +63,5 @@ return [
     'close' => 'Cerrar',
     'delete' => 'Eliminar',
     'edit_team_title' => 'Actualizar Equipo',
+    'no_teams_created_yet' => 'Aun No Hay Equipos Creados!',
 ];

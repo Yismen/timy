@@ -61,12 +61,12 @@ class TeamsTableTest extends TestCase
     }
 
     /** @test */
-    public function teams_component_listen_for_events()
+    public function teams_component_responds_to_timy_role_updated_event()
     {
         $livewire = Livewire::test(TeamsTable::class);
 
-        factory(Team::class)->create();
-
+        $teams = factory(Team::class, 3)->create();
+        // Responds to User role updated
         $livewire
             ->emit('timyRoleUpdated')
             ->assertSet('teams', TeamsRepository::all())
@@ -74,86 +74,44 @@ class TeamsTableTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_the_team_var_and_emit_event_to_show_edit_form()
+    public function teams_component_responds_to_team_updated_event()
+    {
+        $livewire = Livewire::test(TeamsTable::class);
+        $teams = factory(Team::class, 3)->create();
+
+        $teams->first()->update(['name' => 'updated name']);
+        $livewire
+            ->emit('teamUpdated')
+            ->assertSet('teams', TeamsRepository::all());
+    }
+
+    /** @test */
+    public function teams_component_responds_to_team_deleted_event()
+    {
+        $livewire = Livewire::test(TeamsTable::class);
+        $teams = factory(Team::class, 3)->create();
+
+        $teams->first()->delete();
+        $livewire
+            ->emit('teamUpdated')
+            ->assertSet('teams', TeamsRepository::all());
+    }
+
+    /** @test */
+    public function teams_component_emits_wants_to_update_event()
     {
         $team = factory(Team::class)->create();
-
         Livewire::test(TeamsTable::class)
-            ->assertSet('team', new Team())
             ->call('editTeam', $team->id)
-            ->assertSet("team", $team->fresh())
-            ->assertDispatchedBrowserEvent('show-edit-team-modal');
+            ->assertEmitted('wantsEditTeam', $team->id);
     }
 
     /** @test */
-    public function a_name_is_required_to_edit_at_team()
+    public function teams_component_emits_wants_delete_event()
     {
         $team = factory(Team::class)->create();
-
         Livewire::test(TeamsTable::class)
-            ->call('editTeam', $team->id)
-            ->set("team.name", '')
-            ->call('updateTeam', $team->id)
-            ->assertHasErrors(['team.name']);
-    }
-
-    /** @test */
-    public function team_name_can_be_updated()
-    {
-        $team = factory(Team::class)->create();
-
-        Livewire::test(TeamsTable::class)
-            ->call('editTeam', $team->id)
-            ->set('team.name', "Updated Name")
-            ->call('updateTeam', $team->id)
-            ->assertDispatchedBrowserEvent('hide-edit-team-modal')
-            ->assertSet('team', new Team());
-
-        $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
-        $this->assertDatabaseHas('timy_teams', ['name' => 'Updated Name']);
-    }
-
-    /** @test */
-    public function it_prompts_to_delete_team()
-    {
-        $team = factory(Team::class)->create();
-
-        Livewire::test(TeamsTable::class)
-            ->call('beforeRemovingTeam', $team->id)
-            ->assertSet('team', $team->fresh())
-            ->assertDispatchedBrowserEvent('show-delete-team-modal');
-
-        $this->assertDatabaseHas('timy_teams', ['name' => $team->name]);
-    }
-
-    /** @test */
-    public function it_release_users_before_removing_a_team()
-    {
-        $team = factory(Team::class)->create();
-        $user = factory(User::class)->create();
-        $user->assignTimyTeam($team);
-
-        $this->assertDatabaseHas('users', ['id' => $user->id, 'timy_team_id' => $team->id]);
-
-        Livewire::test(TeamsTable::class)
-            ->call('beforeRemovingTeam', $team->id)
-            ->call('removeTeam');
-
-        $this->assertDatabaseHas('users', ['id' => $user->id, 'timy_team_id' => null]);
-
-        $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
-    }
-    /** @test */
-    public function it_deletes_a_team()
-    {
-        $team = factory(Team::class)->create();
-
-        Livewire::test(TeamsTable::class)
-            ->call('beforeRemovingTeam', $team->id)
-            ->call('removeTeam')
-            ->assertSet('team', new Team())
-            ->assertDispatchedBrowserEvent('hide-delete-team-modal');
-
-        $this->assertDatabaseMissing('timy_teams', ['name' => $team->name]);
+            ->call('removeTeam', $team->id)
+            ->assertEmitted('wantsDeleteTeam', $team->id);
     }
 }

@@ -18,25 +18,12 @@ class TeamsTable extends Component
 
     public $selectedTeam;
 
-    public $team;
-
-    protected function getRules(): array
-    {
-        return [
-            // 'team.id' => 'required|exists:timy_teams,id',
-            'team.name' => [
-                'required',
-                'min:3',
-                'unique:timy_teams,name,'
-            ]
-        ];
-    }
-
-    protected function getListeners()
+    protected function getListeners(): array
     {
         return [
             'timyRoleUpdated' => 'getData',
-            'teamCreated' => 'getData'
+            'teamCreated' => 'getData',
+            'teamUpdated' => 'getData',
         ];
     }
 
@@ -47,8 +34,6 @@ class TeamsTable extends Component
 
     public function mount()
     {
-        $this->team ??= new Team();
-
         $this->getData();
     }
 
@@ -107,54 +92,11 @@ class TeamsTable extends Component
 
     public function editTeam(int $team_id)
     {
-        $this->team = Team::findOrFail($team_id);
-
-        $this->dispatchBrowserEvent('show-edit-team-modal', $this->team);
+        $this->emitTo('timy::team-edit-component', 'wantsEditTeam', $team_id);
     }
 
-    public function updateTeam()
+    public function removeTeam(int $team_id)
     {
-        $this->validate([
-            'team.id' => 'required|exists:timy_teams,id',
-            'team.name' => [
-                'required',
-                'min:3',
-                'unique:timy_teams,name,' . $this->team->id
-            ]
-        ]);
-
-        $team = Team::findOrFail($this->team->id)
-            ->update([
-                'name' => $this->team->name
-            ]);
-
-        $this->resetTeamProps()
-            ->getData()
-            ->dispatchBrowserEvent('hide-edit-team-modal', $team);
-    }
-
-    public function beforeRemovingTeam(int $team_id)
-    {
-        $this->team = Team::findOrFail($team_id);
-
-        $this->dispatchBrowserEvent('show-delete-team-modal', $this->team);
-    }
-
-    public function removeTeam()
-    {
-        $this->team->users->each->unassignTeam();
-
-        $this->team->delete();
-
-        $this->resetTeamProps()
-            ->getData()
-            ->dispatchBrowserEvent('hide-delete-team-modal');
-    }
-
-    protected function resetTeamProps()
-    {
-        $this->team = new Team();
-
-        return $this;
+        $this->emitTo('timy::team-edit-component', 'wantsDeleteTeam', $team_id);
     }
 }

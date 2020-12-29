@@ -4,8 +4,14 @@
     @livewire('timy::team-create-component')
     @livewire('timy::team-edit-component')
 
+    @unless ($teams->count() > 0)
+        <div class="alert alert-warning border-warning" role="alert">
+            <strong>{{ __('timy::titles.no_teams_created_yet') }}</strong>
+        </div>
+    @else
+        @include('timy::livewire._teams-list')
+    @endunless
     @include('timy::livewire._teams-users-free')
-    @include('timy::livewire._teams-list')
     
     @if (count($selected) > 0)
         <div class="position-fixed" style="top: 60%; right: 25%; z-index: 1000; max-width: 300px;">
