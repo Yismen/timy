@@ -7,6 +7,6 @@ Todo/Changes:
     ✔ Remove all users under team @done (12/23/2020, 10:38:49 PM)
     ✔ Delete Team @done (12/23/2020, 9:12:44 PM)
     ✔ Move Create Team to a separate component @done (12/28/2020, 10:35:16 PM)
-    ☐ Move Update and Delete Team to a separate component
+    ✔ Separate Update and Delete Components @done (12/29/2020, 9:38:21 AM)
     
     

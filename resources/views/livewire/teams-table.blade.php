@@ -1,9 +1,9 @@
 <div class="mt-3">
 {{-- <div class="mt-3" wire:ignore> --}}
-    @include('timy::livewire._team_form_edit')
-    @include('timy::livewire._team_form_delete')    
 
     @livewire('timy::team-create-component')
+    @livewire('timy::team-edit-component')
+
     @include('timy::livewire._teams-users-free')
     @include('timy::livewire._teams-list')
     
@@ -49,25 +49,4 @@
         </div>
     @endif
 </div>
-
-@push(config('timy.scripts_stack', 'scripts'))
-<script>          
-    (function() {
-        window.addEventListener('show-edit-team-modal', event => {
-            $('#editTeamModal').modal('show');
-        });
-        
-        window.addEventListener('hide-edit-team-modal', event => {
-            $('#editTeamModal').modal('hide');
-        });
-        window.addEventListener('show-delete-team-modal', event => {
-            $('#deleteTeamModal').modal('show');
-        });
-        
-        window.addEventListener('hide-delete-team-modal', event => {
-            $('#deleteTeamModal').modal('hide');
-        });
-    })()
-</script>
-@endpush
 
