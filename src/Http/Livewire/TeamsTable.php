@@ -29,12 +29,9 @@ class TeamsTable extends Component
 
     public function render()
     {
-        return view('timy::livewire.teams-table');
-    }
-
-    public function mount()
-    {
         $this->getData();
+
+        return view('timy::livewire.teams-table');
     }
 
     public function getData()
@@ -70,8 +67,7 @@ class TeamsTable extends Component
 
         $users->each->assignTimyTeam($team);
 
-        $this->closeForm()
-            ->getData();
+        $this->closeForm();
 
         $this->emit('timyTeamUpdated');
     }

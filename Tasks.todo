@@ -1,6 +1,6 @@
 Issues:
     ✔ Modal dissapears when name is updated @done (12/28/2020, 3:10:58 PM)
-    ☐ Issue #1: N+1 issue with teams when all other properties update
+    ✔ Issue #1: N+1 issue with teams when all other properties update @done (12/29/2020, 1:52:03 PM)
 Todo/Changes:
     ✔ Add abitlity to delete teams @done (12/23/2020, 9:12:26 PM)
     ✔ Prompt first @done (12/23/2020, 9:12:35 PM)
@@ -9,5 +9,6 @@ Todo/Changes:
     ✔ Move Create Team to a separate component @done (12/28/2020, 10:35:16 PM)
     ✔ Separate Update and Delete Components @done (12/29/2020, 9:38:21 AM)
     ✔ Refactor Teams Table after components were set as child @done (12/29/2020, 9:58:02 AM)
+    ✔ Fix Issue #1: Calling getData from the mount method was causing reactivity issues and relationships break in the teams collection @done (12/29/2020, 1:53:32 PM)
     
     
