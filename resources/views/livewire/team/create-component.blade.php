@@ -14,15 +14,13 @@
                 <div class="input-group">
                     <input type="text"
                         wire:model.lazy="team.name"
-                        class="form-control" name="nameField" id="nameField" 
+                        class="form-control @error('team.name') border-danger @enderror" name="nameField" id="nameField" 
                         aria-describedby="nameHelpId" placeholder="">     
                         <div class="input-group-prepend">
                             <button class="btn btn-outline-primary text-uppercase" type="submit" id="button-addon1">{{ __('timy::titles.create') }}</button>
                         </div>                   
                 </div>    
-                @error('team.name')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                @error('team.name')<span class="text-danger">{{ $message }}</span>@enderror
             </div>
         </form>
     </div>

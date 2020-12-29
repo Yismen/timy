@@ -22,45 +22,12 @@ class TeamsTableTest extends TestCase
         $this->get(route('super_admin_dashboard'));
 
         Livewire::test(TeamsTable::class)
-            ->assertSee(__('timy::titles.create_teams_form_header'))
+            ->assertViewIs('timy::livewire.teams-table')
             ->assertSee(__('timy::titles.teams_header'))
-            ->assertSet('team', new Team())
-            ->assertSet('team.name', null)
             ->assertSet('selected', [])
             ->assertSet('selectedTeam', null)
             ->assertSet('teams', TeamsRepository::all())
-            // ->assertSee(__('timy::titles.without_teams_header'))
             ->assertSet('users_without_team', User::withoutTeam()->whereHas('timy_role')->orderBy('name')->get());
-    }
-    /** @test */
-    public function teams_component_validates_before_creating_a_team()
-    {
-        $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
-
-        $team = factory(Team::class)->create();
-
-        Livewire::test(TeamsTable::class)
-            ->set('team.name', '')
-            ->call('createTeam')
-            ->assertHasErrors('team.name', 'required')
-            ->set('team.name', $team->name)
-            ->call('createTeam')
-            ->assertHasErrors('team.name', 'unique')
-            ->set('team.name', 'aa')
-            ->call('createTeam')
-            ->assertHasErrors('team.name', 'min');
-    }
-    /** @test */
-    public function teams_component_create_a_team()
-    {
-        $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
-
-        Livewire::test(TeamsTable::class)
-            ->set('team.name', 'New Team')
-            ->call('createTeam')
-            ->assertSet('team', new Team());
-
-        $this->assertDatabaseHas('timy_teams', ['name' => 'New Team']);
     }
 
     /** @test */

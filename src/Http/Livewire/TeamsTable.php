@@ -35,7 +35,8 @@ class TeamsTable extends Component
     protected function getListeners()
     {
         return [
-            'timyRoleUpdated' => 'getData'
+            'timyRoleUpdated' => 'getData',
+            'teamCreated' => 'getData'
         ];
     }
 
@@ -58,16 +59,6 @@ class TeamsTable extends Component
         $this->users_without_team = TeamsRepository::usersWithoutTeam();
 
         return $this;
-    }
-
-    public function createTeam()
-    {
-        $this->validate();
-
-        Team::create(['name' => $this->team->name]);
-
-        $this->resetTeamProps()
-            ->getData();
     }
 
     public function toggleSelection($user_id)

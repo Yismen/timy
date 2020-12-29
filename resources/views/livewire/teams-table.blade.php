@@ -1,8 +1,9 @@
 <div class="mt-3">
 {{-- <div class="mt-3" wire:ignore> --}}
-@include('timy::livewire._team_form_edit')
-    @include('timy::livewire._team_form_delete')
-    @include('timy::livewire._teams-form')
+    @include('timy::livewire._team_form_edit')
+    @include('timy::livewire._team_form_delete')    
+
+    @livewire('timy::team-create-component')
     @include('timy::livewire._teams-users-free')
     @include('timy::livewire._teams-list')
     

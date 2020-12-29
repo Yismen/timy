@@ -7,6 +7,7 @@ use Dainsys\Timy\Http\Livewire\Dispositions;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
 use Dainsys\Timy\Http\Livewire\RolesManagement;
+use Dainsys\Timy\Http\Livewire\TeamCreateComponent;
 use Dainsys\Timy\Http\Livewire\TeamsTable;
 use Dainsys\Timy\Http\Livewire\TimerControl;
 use Dainsys\Timy\Http\Livewire\TimersTable;
@@ -86,6 +87,7 @@ class TimyServiceProvider extends ServiceProvider
         Livewire::component('timy::user-hours-info', UserHoursInfo::class);
         Livewire::component('timy::teams-table', TeamsTable::class);
         Livewire::component('timy::dispositions', Dispositions::class);
+        Livewire::component('timy::team-create-component', TeamCreateComponent::class);
 
         Blade::component('timy-info-box', InfoBox::class);
 
