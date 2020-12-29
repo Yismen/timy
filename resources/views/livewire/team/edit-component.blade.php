@@ -15,7 +15,7 @@
                         <div class="form-group row">
                             <label for="teamName" class="col-sm-2 col-form-label">{{ __('timy::titles.name') }}</label>
                             <div class="col-sm-10">
-                                <input wire:model="team.name" type="text" name="teamName" id="teamName" class="form-control" aria-describedby="helpId">
+                                <input wire:model.lazy="team.name" type="text" name="teamName" id="teamName" class="form-control" aria-describedby="helpId">
                                 @error('team.name') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>

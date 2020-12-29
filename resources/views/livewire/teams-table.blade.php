@@ -1,5 +1,4 @@
 <div class="mt-3">
-{{-- <div class="mt-3" wire:ignore> --}}
 
     @livewire('timy::team-create-component')
     @livewire('timy::team-edit-component')
