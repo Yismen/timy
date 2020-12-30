@@ -1,11 +1,9 @@
 <?php
 
 return [
-    /**
-         * ====================================================
-         * Timy Package Config Options
-         * ====================================================
-         */
+    // ====================================================
+    // Timy Package Config Options
+    // ====================================================
 
     /**
      * The id of the disposition to which the controller will default when no other is set. Usually it is an 
@@ -62,9 +60,6 @@ return [
      * pannel, in which roles are not in places.
      */
     'super_admin_email' => env('TIMY_SUPER_USER_EMAIL', null),
-    /**
-     * Timy models
-     */
     /**
      * Default seeder. When the table is migrated, these dispositions will be inserted.
      */
