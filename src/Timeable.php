@@ -10,10 +10,13 @@ use Dainsys\Timy\Resources\TimerResource;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Models\Timer;
+use Dainsys\Timy\Models\Traits\UserScopesTrait;
 use Illuminate\Support\Facades\Cache;
 
 trait Timeable
 {
+    use UserScopesTrait;
+
     public $cache_key = 'timy-user-last-disposition-';
 
     public function timers()
@@ -29,19 +32,6 @@ trait Timeable
     public function timy_team()
     {
         return $this->belongsTo(Team::class, 'timy_team_id');
-    }
-
-    public function scopeIsTimyUser($query)
-    {
-        return $query->with('timy_role')->whereHas('timy_role', function ($query) {
-            $query->where('name', config('timy.roles.user'))
-                ->orWhere('name', config('timy.roles.admin'));
-        });
-    }
-
-    public function scopeWithoutTeam($query)
-    {
-        return $query->whereDoesntHave('timy_team');
     }
 
     public function hasTimyRole($role)
