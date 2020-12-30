@@ -78,5 +78,10 @@ return [
         ['name' => 'Backoffice', 'payable' => 1, 'invoiceable' => 1],
         ['name' => 'Break', 'payable' => 1, 'invoiceable' => 0],
         ['name' => 'Lunch', 'payable' => 0, 'invoiceable' => 0],
-    ]
+    ],
+    /**
+     * Here you can specify the limit of minutes a timer can stay open. If a current session pass this threshold, 
+     * all admin users will be notified. 
+     */
+    'running_timers_threshold' => (int) 60 * 3 // 3 hours or 180 minutes
 ];

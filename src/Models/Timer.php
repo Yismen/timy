@@ -3,10 +3,14 @@
 namespace Dainsys\Timy\Models;
 
 use App\User;
+use Carbon\Carbon;
+use Dainsys\Timy\Models\Traits\Filters\TimerFiltersTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Timer extends Model
 {
+    use TimerFiltersTrait;
+
     protected $table = 'timy_timers';
 
     protected $fillable = ['user_id', 'disposition_id', 'name', 'started_at', 'finished_at', 'ip_address'];
@@ -63,6 +67,7 @@ class Timer extends Model
             return $query->where('payable', 1);
         });
     }
+
     /**
      * Method to mark current timer as complete!
      */
@@ -71,6 +76,16 @@ class Timer extends Model
         $this->update([
             'finished_at' => now()
         ]);
+    }
+
+    /**
+     * Method to mark current timer as complete!
+     */
+    public function fakeStop()
+    {
+        $this->finished_at = now();
+
+        return $this;
     }
 
     public function getTotalHoursAttribute()

@@ -3,6 +3,7 @@
 namespace Dainsys\Timy;
 
 use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
+use Dainsys\Timy\Console\Commands\TimersRunningForTooLong;
 use Dainsys\Timy\Http\Livewire\Dispositions;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
@@ -23,14 +24,13 @@ use Livewire\Livewire;
 
 class TimyServiceProvider extends ServiceProvider
 {
-
     public function boot()
     {
         $this
             ->registerPublishables()
-            ->loadComponents()
+            ->loadServiceComponents()
             ->registerLivewireComponents()
-            ->registerToContainer();
+            ->registerCommands();
 
         SecureGates::boot();
     }
@@ -38,9 +38,11 @@ class TimyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(EventServiceProvider::class);
+
         if ($this->app->runningInConsole()) {
             $this->commands(
-                CloseInactiveTimersCommand::class
+                CloseInactiveTimersCommand::class,
+                TimersRunningForTooLong::class
             );
         }
 
@@ -67,7 +69,7 @@ class TimyServiceProvider extends ServiceProvider
         return $this;
     }
 
-    protected function loadComponents()
+    protected function loadServiceComponents()
     {
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'timy');
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
@@ -96,13 +98,17 @@ class TimyServiceProvider extends ServiceProvider
         return $this;
     }
 
-    protected function registerToContainer()
+    protected function registerCommands()
     {
         if ((bool)config('timy.with_scheduled_commands')) {
             $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
                 $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
             });
         }
+
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            $schedule->command('timy:timers-running-for-too-long')->everyFifteenMinutes();
+        });
 
         return $this;
     }
