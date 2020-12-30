@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Tests\Unit;
+namespace Dainsys\Timy\Tests\Feature;
 
 use App\User;
 use Dainsys\Timy\Http\Livewire\TeamsTable;

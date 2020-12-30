@@ -13,6 +13,8 @@ Todo/Changes:
         ✔ Fix Issue #1: Calling getData from the mount method was causing reactivity issues and relationships break in the teams collection @done (12/29/2020, 1:53:32 PM)
     3.2.1:
         ✔ Notify about active sessions passing the hours threshold @done (12/30/2020, 2:27:04 PM)
+        ✔ Put tests into the correct folder @done (12/30/2020, 2:39:29 PM)
+        ☐ Create unit tests for all models:
         ☐ Notify about today's total hours have passed daily threshold
         ☐ Send a daily summary with the total hours by agent
 
