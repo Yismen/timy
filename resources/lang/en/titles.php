@@ -64,4 +64,11 @@ return [
     'delete' => 'Delete',
     'edit_team_title' => 'Update Team',
     'no_teams_created_yet' => 'No Teams Created So Far!',
+    'hello' => 'Hello :name',
+    'thanks' => 'Thanks',
+    'timers_too_long' => [
+        'subject' => 'Timers Running For Too Long',
+        'introduction' => 'The following users have timers running for more than :threshold minutes. Please take your time to make sure this is correct',
+        'call_to_action' => 'View Admin Dashboard',
+    ]
 ];

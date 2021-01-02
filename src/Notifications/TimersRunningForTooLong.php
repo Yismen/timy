@@ -48,10 +48,12 @@ class TimersRunningForTooLong extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line("Hello {$notifiable->name}!")
-            ->line("The following users have timers running for more than {$this->threshold} hours. Please take your time to check up on this.")
-            ->action('View Admin Dashboard', route('admin_dashboard'))
-            ->line('Thanks!');
+            ->subject(__('timy::titles.timers_too_long.subject'))
+            ->markdown('timy::mails.timers_running_for_too_long', [
+                'name' => $notifiable->name,
+                'threshold' => $this->threshold,
+                'timers' => $this->timers,
+            ]);
     }
 
     /**

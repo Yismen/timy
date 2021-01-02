@@ -64,4 +64,11 @@ return [
     'delete' => 'Eliminar',
     'edit_team_title' => 'Actualizar Equipo',
     'no_teams_created_yet' => 'Aun No Hay Equipos Creados!',
+    'hello' => 'Hola :name',
+    'thanks' => 'Gracias',
+    'timers_too_long' => [
+        'subject' => 'Timers Abiertos Por Demasiado Tiempo',
+        'introduction' => 'Los siguientes usuarios tienen timers abiertos por mas de :threshold minutos. Por favor tomese su tiempo en verificar que esto sea correcto',
+        'call_to_action' => 'Ver Tablero Admin',
+    ]
 ];
