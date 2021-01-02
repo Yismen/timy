@@ -7,8 +7,6 @@ use Dainsys\Timy\Models\Role;
 
 trait AppTestTrait
 {
-
-
     protected function user($attributes = [], $amount = null)
     {
         return factory(User::class, $amount)->create($attributes);

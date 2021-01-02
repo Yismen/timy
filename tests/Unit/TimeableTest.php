@@ -58,6 +58,32 @@ class TimeableTest extends TestCase
     }
 
     /** @test */
+    public function it_applies_timy_user_scope()
+    {
+        $regular = $this->user();
+        $timyUser = $this->timyUser();
+
+        $timyUsers = User::isTimyUser()->get();
+
+        $this->assertCount(1, $timyUsers);  
+        $this->assertContains($timyUser->name, $timyUsers->pluck('name'));  
+        $this->assertNotContains($regular->name, $timyUsers->pluck('name'));  
+    }
+
+    /** @test */
+    public function it_applies_timy_admin_scope()
+    {
+        $timyUser = $this->timyUser();
+        $admin = $this->adminUser();
+
+        $timyAdmins = User::isTimyAdmin()->get();
+
+        $this->assertCount(1, $timyAdmins);  
+        $this->assertContains($admin->name, $timyAdmins->pluck('name'));  
+        $this->assertNotContains($timyUser->name, $timyAdmins->pluck('name'));  
+    }
+
+    /** @test */
     public function it_removes_a_timy_role()
     {
         $user = $this->user();
@@ -74,6 +100,18 @@ class TimeableTest extends TestCase
         $user->assignTimyTeam($team);
 
         $this->assertEquals($user->timy_team_id, $team->id);
+    }
+
+    /** @test */
+    public function it_unassigns_a_timy_team()
+    {
+        $team = factory(Team::class)->create();
+        $user = $this->user();
+        $user->assignTimyTeam($team);
+
+        $user->unassignTeam();
+
+        $this->assertEquals($user->timy_team_id, null);
     }
 
     /** @test */
@@ -102,5 +140,25 @@ class TimeableTest extends TestCase
         $user->startTimer($disposition->id);
 
         $this->assertDatabaseMissing('timy_timers', ['user_id' => $user->id, 'finished_at' => null]);
+    }
+
+    /** @test */
+    public function it_checks_if_user_has_timy_role()
+    {
+        $user = $this->user();
+        $timyUser = $this->adminUser();
+
+        $this->assertTrue($timyUser->hasTimyRole('timy-admin'));
+        $this->assertFalse($user->hasTimyRole('timy-admin'));
+    }
+
+    /** @test */
+    public function it_checks_if_user_is_super_admin()
+    {
+        $user = $this->user();
+        $timyUser = $this->superAdminUser();
+        
+        $this->assertTrue($timyUser->isTimySuperAdmin());
+        $this->assertFalse($user->isTimySuperAdmin());
     }
 }

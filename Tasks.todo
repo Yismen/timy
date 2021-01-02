@@ -15,8 +15,13 @@ Todo/Changes:
         ✔ Notify about active sessions passing the hours threshold @done (12/30/2020, 2:27:04 PM)
         ✔ Put tests into the correct folder @done (12/30/2020, 2:39:29 PM)
         ☐ Create unit tests for all models:
+            ✔ Timeable @done (1/2/2021, 3:22:59 PM)
+            ☐ Disposition
+            ☐ Team
+            ☐ Timer
         ☐ Notify about today's total hours have passed daily threshold
         ☐ Send a daily summary with the total hours by agent
+
 
     
     

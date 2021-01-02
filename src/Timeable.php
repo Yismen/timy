@@ -41,7 +41,9 @@ trait Timeable
 
     public function isTimySuperAdmin()
     {
-        return $this->timy_role && $this->timy_role->name == config('timy.roles.super_admin');
+        $super_admin_email = config('timy.super_admin_email');
+        
+        return $this->email == $super_admin_email || $this->hasTimyRole(config('timy.roles.super_admin'));
     }
 
     public function assignTimyRole(Role $role)
@@ -103,7 +105,7 @@ trait Timeable
     {
         $user_id = $user_id ?: auth()->id();
 
-        return Cache::get('timy-user-last-disposition-' . $user_id, config('timy.default_disposition_id'));
+        return Cache::get($this->cache_key . $user_id, config('timy.default_disposition_id'));
     }
 
     protected function getTimerStarted($disposition_id, $now)
