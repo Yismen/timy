@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6105fd3881d4a20b57b635e85c2ffbef",
+    "content-hash": "7d0554b8a21833851b3123191b749248",
     "packages": [
         {
             "name": "balping/json-raw-encoder",
@@ -5904,6 +5904,151 @@
             "time": "2020-12-20T10:01:03+00:00"
         },
         {
+            "name": "orchestra/canvas",
+            "version": "6.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchestral/canvas.git",
+                "reference": "3d1a1890fbec3a03421fd2591a8c2df41eca0058"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchestral/canvas/zipball/3d1a1890fbec3a03421fd2591a8c2df41eca0058",
+                "reference": "3d1a1890fbec3a03421fd2591a8c2df41eca0058",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.0",
+                "illuminate/support": "^8.0",
+                "orchestra/canvas-core": "^6.1",
+                "php": ">=7.3 || >=8.0",
+                "symfony/yaml": "^5.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.4"
+            },
+            "default-branch": true,
+            "bin": [
+                "canvas"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Orchestra\\Canvas\\LaravelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchestra\\Canvas\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com"
+                }
+            ],
+            "description": "Code Generators for Laravel Applications and Packages",
+            "support": {
+                "issues": "https://github.com/orchestral/canvas/issues",
+                "source": "https://github.com/orchestral/canvas/tree/6.x"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2020-11-20T01:16:18+00:00"
+        },
+        {
+            "name": "orchestra/canvas-core",
+            "version": "6.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchestral/canvas-core.git",
+                "reference": "6ab404e8518bc6ff80a7a35aee4cf411b2539704"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchestral/canvas-core/zipball/6ab404e8518bc6ff80a7a35aee4cf411b2539704",
+                "reference": "6ab404e8518bc6ff80a7a35aee4cf411b2539704",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0",
+                "illuminate/filesystem": "^8.0",
+                "php": ">=7.3 || >=8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Orchestra\\Canvas\\Core\\LaravelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchestra\\Canvas\\Core\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com"
+                }
+            ],
+            "description": "Code Generators Builder for Laravel Applications and Packages",
+            "support": {
+                "issues": "https://github.com/orchestral/canvas/issues",
+                "source": "https://github.com/orchestral/canvas-core/tree/6.x"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2020-11-12T16:07:50+00:00"
+        },
+        {
             "name": "orchestra/testbench",
             "version": "6.x-dev",
             "source": {
@@ -7930,7 +8075,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "orchestra/testbench": 20,
-        "laravel/legacy-factories": 20
+        "laravel/legacy-factories": 20,
+        "orchestra/canvas": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -1,0 +1,27 @@
+preset: package
+
+namespace: Dainsys\Timy
+user-auth-provider: App\User
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: Dainsys\Timy\Console
+
+model:
+  namespace: Dainsys\Timy\Models
+
+provider:
+  namespace: Dainsys\Timy\Providers
+
+testing:
+  namespace: Dainsys\Timy\Tests

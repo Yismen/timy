@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "orchestra/testbench": "6.x-dev",
-        "laravel/legacy-factories": "1.x-dev"
+        "laravel/legacy-factories": "1.x-dev",
+        "orchestra/canvas": "9999999-dev"
     },
     "license": "MIT",
     "authors": [
