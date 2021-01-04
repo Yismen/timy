@@ -56,7 +56,7 @@ class DispositionFactory extends Factory
     public function notInvoiceable()
     {
         return $this->state([
-            'payable' => 0
+            'invoiceable' => 0
         ]);
     }
 }
