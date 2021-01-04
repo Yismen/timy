@@ -10,6 +10,7 @@ use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Tests\TestCase;
+use Ramsey\Uuid\Type\Time;
 
 class TimeableTest extends TestCase
 {
@@ -68,6 +69,118 @@ class TimeableTest extends TestCase
         $this->assertCount(1, $timyUsers);
         $this->assertContains($timyUser->name, $timyUsers->pluck('name'));
         $this->assertNotContains($regular->name, $timyUsers->pluck('name'));
+    }
+
+    /** @test */
+    public function method_getTotalHoursForDate_returns_an_instance_of_user_model()
+    {
+        $user = $this->user();
+
+        Timer::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertInstanceOf(User::class, $user->getTotalHoursForDate(now()));
+    }
+
+    /** @test */
+    public function method_getTotalHoursForDate_returns_the_sum_of_a_user_hours_payable_or_not()
+    {
+        $now = now();
+        $payableDispo = Disposition::factory()->payable()->create();
+        $notPayableDispo = Disposition::factory()->notPayable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHours(2),
+            'finished_at' => $now->copy()->subHour(),
+            'user_id' => $user->id,
+            'disposition_id' => $payableDispo->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHour(),
+            'finished_at' => $now->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $notPayableDispo->id
+        ]);
+
+        $userWithHours = $user->getTotalHoursForDate($now);
+
+        $this->assertEquals(2, $userWithHours->total_hours);
+    }
+
+    /** @test */
+    public function method_getTodayTotalHours_returns_the_sum_of_a_user_hours_payable_or_not()
+    {
+        $now = now();
+        $payableDispo = Disposition::factory()->payable()->create();
+        $notPayableDispo = Disposition::factory()->notPayable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHours(2),
+            'finished_at' => $now->copy()->subHour(),
+            'user_id' => $user->id,
+            'disposition_id' => $payableDispo->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHour(),
+            'finished_at' => $now->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $notPayableDispo->id
+        ]);
+
+        $userWithHours = $user->getTodayTotalHours();
+
+        $this->assertEquals(2, $userWithHours->total_hours);
+    }
+
+    /** @test */
+    public function method_getTodayPayableHours_sums_payable_hours_only()
+    {
+        $now = now();
+        $payableDispo = Disposition::factory()->payable()->create();
+        $notPayableDispo = Disposition::factory()->notPayable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHours(2),
+            'finished_at' => $now->copy()->subHour(),
+            'user_id' => $user->id,
+            'disposition_id' => $payableDispo->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHour(),
+            'finished_at' => $now->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $notPayableDispo->id
+        ]);
+
+        $userWithHours = $user->getTodayPayableHours();
+
+        $this->assertEquals(1, $userWithHours->total_hours);
+    }
+
+    /** @test */
+    public function method_getPayableHoursForDate_only_sums_hours_for_a_given_date()
+    {
+        $date = now();
+        $previousDate = $date->copy()->subDay();
+        $disposition = Disposition::factory()->payable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $date->copy()->subHour(),
+            'finished_at' => $date->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $disposition->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $previousDate->copy()->subHour(),
+            'finished_at' => $previousDate->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $disposition->id
+        ]);
+
+        $todayHours = $user->getPayableHoursForDate($date);
+
+        $this->assertEquals(1, $todayHours->total_hours);
     }
 
     /** @test */
