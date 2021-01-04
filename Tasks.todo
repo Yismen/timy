@@ -15,6 +15,7 @@ Todo/Changes:
         ✔ Notify about active sessions passing the hours threshold @done (12/30/2020, 2:27:04 PM)
         ✔ Put tests into the correct folder @done (12/30/2020, 2:39:29 PM)
         ✔ Add Changelog.md File @done (1/2/2021, 5:00:05 PM)
+    3.2.2:
         ☐ Create unit tests for all models:
             ✔ Timeable @done (1/2/2021, 3:22:59 PM)
             ☐ Disposition
@@ -22,6 +23,7 @@ Todo/Changes:
             ☐ Timer
         ☐ Notify about today's total hours have passed daily threshold
         ☐ Send a daily summary with the total hours by agent
+        ☐ Adopt laravel 8 factories style
 
 
     

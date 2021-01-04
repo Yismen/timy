@@ -28,7 +28,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Dainsys\\Timy\\": "src/"
+            "Dainsys\\Timy\\": "src/",
+            "Dainsys\\Timy\\Database\\": "database/"
         }
     },
     "autoload-dev": {
