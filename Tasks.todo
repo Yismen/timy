@@ -17,7 +17,7 @@ Todo/Changes:
         ✔ Add Changelog.md File @done (1/2/2021, 5:00:05 PM)
     3.2.2:
         ✔ Adopt laravel 8 factories style @done (1/4/2021, 11:03:59 AM)
-        ☐ Create unit tests for all models
+        ✔ Create unit tests for all models @done (1/4/2021, 3:00:16 PM)
             ✔ Timeable @done (1/2/2021, 3:22:59 PM)
             ✔ Timer @done (1/4/2021, 2:48:42 PM)
             ✔ Disposition @done (1/4/2021, 2:54:54 PM)

@@ -1,7 +1,9 @@
 # CHANGELOG
+
 ### 3.2.2:
 - Remove package legacy factories.
 - Adopt laravel 8 factories style.
+- Create unit tests for all models
 
 ### 3.2.1:
 - Notify about active sessions passing the hours threshold.
