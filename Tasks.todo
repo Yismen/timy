@@ -20,8 +20,9 @@ Todo/Changes:
         ☐ Create unit tests for all models:
             ✔ Timeable @done (1/2/2021, 3:22:59 PM)
             ✔ Timer @done (1/4/2021, 2:48:42 PM)
-            ☐ Disposition
+            ✔ Disposition @done (1/4/2021, 2:54:54 PM)
             ☐ Team
+            ☐ Role
         ☐ Notify about today's total hours have passed daily threshold
         ☐ Send a daily summary with the total hours by agent
 
