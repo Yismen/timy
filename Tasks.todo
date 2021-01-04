@@ -17,12 +17,12 @@ Todo/Changes:
         ✔ Add Changelog.md File @done (1/2/2021, 5:00:05 PM)
     3.2.2:
         ✔ Adopt laravel 8 factories style @done (1/4/2021, 11:03:59 AM)
-        ☐ Create unit tests for all models:
+        ☐ Create unit tests for all models
             ✔ Timeable @done (1/2/2021, 3:22:59 PM)
             ✔ Timer @done (1/4/2021, 2:48:42 PM)
             ✔ Disposition @done (1/4/2021, 2:54:54 PM)
             ✔ Team @done (1/4/2021, 2:56:32 PM)
-            ☐ Role
+            ✔ Role @done (1/4/2021, 2:57:50 PM)
         ☐ Notify about today's total hours have passed daily threshold
         ☐ Send a daily summary with the total hours by agent
 
