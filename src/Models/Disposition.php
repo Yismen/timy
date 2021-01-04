@@ -2,10 +2,14 @@
 
 namespace Dainsys\Timy\Models;
 
+use Dainsys\Timy\Database\Factories\DispositionFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Disposition extends Model
 {
+    use HasFactory;
+
     protected $table = 'timy_dispositions';
 
     protected $fillable = ['name', 'payable', 'invoiceable'];
@@ -42,5 +46,14 @@ class Disposition extends Model
     public function getOpenTimersAttribute()
     {
         return $this->timers()->running();
+    }
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return DispositionFactory::new();
     }
 }

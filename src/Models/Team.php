@@ -3,10 +3,14 @@
 namespace Dainsys\Timy\Models;
 
 use App\User;
+use Dainsys\Timy\Database\Factories\TeamFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
+    use HasFactory;
+
     protected $table = 'timy_teams';
 
     protected $fillable = ['name'];
@@ -29,5 +33,14 @@ class Team extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'timy_team_id');
+    }
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return TeamFactory::new();
     }
 }

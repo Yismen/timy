@@ -75,7 +75,7 @@ class TimyServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'timy');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
+        // $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
 
         return $this;
     }

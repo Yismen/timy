@@ -17,7 +17,7 @@ class TeamsTableTest extends TestCase
     {
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
-        factory(Team::class, 5)->create();
+        Team::factory()->count(5)->create();
 
         $this->get(route('super_admin_dashboard'));
 
@@ -49,7 +49,7 @@ class TeamsTableTest extends TestCase
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
         $user = $this->user();
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         Livewire::test(TeamsTable::class)
             ->set('selectedTeam', $team->id)
@@ -65,7 +65,7 @@ class TeamsTableTest extends TestCase
     {
         $livewire = Livewire::test(TeamsTable::class);
 
-        $teams = factory(Team::class, 3)->create();
+        $teams = Team::factory()->count(3)->create();
         // Responds to User role updated
         $livewire
             ->emit('timyRoleUpdated')
@@ -77,7 +77,7 @@ class TeamsTableTest extends TestCase
     public function teams_component_responds_to_team_updated_event()
     {
         $livewire = Livewire::test(TeamsTable::class);
-        $teams = factory(Team::class, 3)->create();
+        $teams = Team::factory()->count(3)->create();
 
         $teams->first()->update(['name' => 'updated name']);
         $livewire
@@ -89,7 +89,7 @@ class TeamsTableTest extends TestCase
     public function teams_component_responds_to_team_deleted_event()
     {
         $livewire = Livewire::test(TeamsTable::class);
-        $teams = factory(Team::class, 3)->create();
+        $teams = Team::factory()->count(3)->create();
 
         $teams->first()->delete();
         $livewire
@@ -100,7 +100,7 @@ class TeamsTableTest extends TestCase
     /** @test */
     public function teams_component_emits_wants_to_update_event()
     {
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         Livewire::test(TeamsTable::class)
             ->call('editTeam', $team->id)
             ->assertEmitted('wantsEditTeam', $team->id);
@@ -109,7 +109,7 @@ class TeamsTableTest extends TestCase
     /** @test */
     public function teams_component_emits_wants_delete_event()
     {
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         Livewire::test(TeamsTable::class)
             ->call('removeTeam', $team->id)
             ->assertEmitted('wantsDeleteTeam', $team->id);

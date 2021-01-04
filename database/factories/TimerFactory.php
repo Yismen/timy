@@ -1,17 +1,35 @@
 <?php
 
+namespace Dainsys\Timy\Database\Factories;
+
 use App\User;
 use Dainsys\Timy\Models\Disposition;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Dainsys\Timy\Models\Timer;
-use Faker\Generator as Faker;
 
-$factory->define(Timer::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'user_id' => factory(User::class),
-        'disposition_id' => factory(Disposition::class),
-        'started_at' => now(),
-        'finished_at' => null,
-        'ip_address' => $faker->ipv4,
-    ];
-});
+class TimerFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Timer::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'user_id' => User::factory(),
+            'disposition_id' => Disposition::factory(),
+            'started_at' => now(),
+            'finished_at' => null,
+            'ip_address' => $this->faker->ipv4,
+        ];
+    }
+}

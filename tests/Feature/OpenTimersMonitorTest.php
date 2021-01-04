@@ -20,9 +20,9 @@ class OpenTimersMonitorTest extends TestCase
     public function it_renders_opent_timers_component()
     {
         $this->actingAs($this->adminUser());
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
 
-        $users = factory(User::class, 5)->create()
+        $users = User::factory()->count(5)->create()
             ->each->startTimer($disposition->id, ['forced' => true]);
 
         Livewire::test(OpenTimersMonitor::class)
@@ -96,8 +96,8 @@ class OpenTimersMonitorTest extends TestCase
         $now = now()->startOfWeek(2)->setHour('10'); // Tuesday, 10:00 am
         Carbon::setTestNow($now);
         $this->actingAs($this->adminUser());
-        $users = factory(User::class, 4)->create();
-        $disposition = factory(Disposition::class)->create();
+        $users = User::factory()->count(4)->create();
+        $disposition = Disposition::factory()->create();
 
         Livewire::test(OpenTimersMonitor::class)
             ->set('selected', $users->pluck('id'))
@@ -114,12 +114,12 @@ class OpenTimersMonitorTest extends TestCase
     public function open_timers_closes_selected_timers()
     {
         $this->actingAs($this->adminUser());
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
 
-        $users = factory(User::class, 4)->create()
+        $users = User::factory()->count(4)->create()
             ->each->startTimer($disposition->id, ['forced' => true]);
 
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
 
         Livewire::test(OpenTimersMonitor::class)
             ->set('selected', $users->pluck('id'))

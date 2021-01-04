@@ -2,17 +2,17 @@
 
 namespace Dainsys\Timy\Database\Factories;
 
-use Dainsys\Timy\Models\Disposition;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Dainsys\Timy\Models\Role;
 
-class DispositionFactory extends Factory
+class RoleFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Disposition::class;
+    protected $model = Role::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,7 @@ class DispositionFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'payable' => rand(0, 1),
-            'invoiceable' => rand(0, 1)
+            'name' => $this->faker->name
         ];
     }
 }

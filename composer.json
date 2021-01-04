@@ -15,7 +15,6 @@
     },
     "require-dev": {
         "orchestra/testbench": "6.x-dev",
-        "laravel/legacy-factories": "1.x-dev",
         "orchestra/canvas": "9999999-dev"
     },
     "license": "MIT",
@@ -28,7 +27,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Dainsys\\Timy\\": "src/"
+            "Dainsys\\Timy\\": "src/",
+            "Dainsys\\Timy\\Database\\": "database/"
         }
     },
     "autoload-dev": {

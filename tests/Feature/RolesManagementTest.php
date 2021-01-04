@@ -54,7 +54,7 @@ class RolesManagementTest extends TestCase
     public function roles_management_assign_roles()
     {
         $users = $this->user([], 5);
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         Livewire::test(RolesManagement::class)
             ->set('selected', $users->pluck('id')->toArray())
@@ -71,8 +71,8 @@ class RolesManagementTest extends TestCase
     /** @test */
     public function roles_management_removes_roles_and_close_open_timers()
     {
-        $role = factory(Role::class)->create();
-        $disposition = factory(Disposition::class)->create();
+        $role = Role::factory()->create();
+        $disposition = Disposition::factory()->create();
         $users = $this->user([], 5)
             ->each->assignTimyRole($role);
 

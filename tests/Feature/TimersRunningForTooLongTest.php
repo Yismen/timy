@@ -25,29 +25,30 @@ class TimersRunningForTooLongTest extends TestCase
     /** @test */
     public function itGrabsAllActiveTimersAndNotifyIfTheyHavePassedTheHoursThresshold()
     {
+        $this->user();
         $this->adminUser();
         $this->superAdminUser();
         $notifyableUsers = User::isTimyAdmin()->get();
 
-        $runningTimers = factory(Timer::class, 2)->create([
+        $timers = Timer::factory()->count(2)->create([
             'started_at' => now()->subMinutes(
                 $this->threshold + $minutes = 10
             ),
             'finished_at' => null
         ]);
 
-        $this->assertCount(2, Timer::running()->get());
-
         $this->artisan('timy:timers-running-for-too-long')
             ->assertExitCode(0);
 
-        Notification::assertSentTo(
-            [$notifyableUsers],
+        $this->assertCount(2, Timer::running()->get());
+
+        Notification::assertTimesSent(
+            2,
             TimersRunningForTooLong::class
         );
 
-        Notification::assertTimesSent(
-            $notifyableUsers->count(),
+        Notification::assertSentTo(
+            [$notifyableUsers],
             TimersRunningForTooLong::class
         );
 
@@ -61,7 +62,7 @@ class TimersRunningForTooLongTest extends TestCase
 
         $notifyableUsers = User::isTimyAdmin()->get();
 
-        $runningTimers = factory(Timer::class, 2)->create([
+        $runningTimers = Timer::factory()->count(2)->create([
             'started_at' => now()->subMinutes(
                 $this->threshold + $minutes = 10
             ),
@@ -71,7 +72,7 @@ class TimersRunningForTooLongTest extends TestCase
         $this->artisan('timy:timers-running-for-too-long');
 
         Notification::assertTimesSent(
-            $notifyableUsers->count(),
+            1,
             TimersRunningForTooLong::class
         );
 
@@ -88,7 +89,7 @@ class TimersRunningForTooLongTest extends TestCase
         $this->superAdminUser();
         $notifyableUsers = User::isTimyAdmin()->get();
 
-        $runningTimersShortly = factory(Timer::class, 2)->create([
+        $runningTimersShortly = Timer::factory()->count(2)->create([
             'started_at' => now()->subMinutes(
                 $this->threshold - $minutes = 10
             ),

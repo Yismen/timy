@@ -3,10 +3,14 @@
 namespace Dainsys\Timy\Models;
 
 use App\User;
+use Dainsys\Timy\Database\Factories\RoleFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    use HasFactory;
+
     protected $table = 'timy_roles';
 
     protected $fillable = ['name'];
@@ -39,5 +43,14 @@ class Role extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'timy_role_id');
+    }
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return RoleFactory::new();
     }
 }

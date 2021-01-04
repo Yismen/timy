@@ -27,7 +27,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_starts_a_forced_timer()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $user->startTimer($disposition->id, ['forced' => true]);
 
@@ -38,7 +38,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_stops_all_running_timers()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $user->startTimer($disposition->id, ['forced' => true]);
         $user->stopRunningTimers();
@@ -50,7 +50,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_assigns_a_timy_role()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $user = $this->user();
         $user->assignTimyRole($role);
 
@@ -65,9 +65,9 @@ class TimeableTest extends TestCase
 
         $timyUsers = User::isTimyUser()->get();
 
-        $this->assertCount(1, $timyUsers);  
-        $this->assertContains($timyUser->name, $timyUsers->pluck('name'));  
-        $this->assertNotContains($regular->name, $timyUsers->pluck('name'));  
+        $this->assertCount(1, $timyUsers);
+        $this->assertContains($timyUser->name, $timyUsers->pluck('name'));
+        $this->assertNotContains($regular->name, $timyUsers->pluck('name'));
     }
 
     /** @test */
@@ -78,9 +78,9 @@ class TimeableTest extends TestCase
 
         $timyAdmins = User::isTimyAdmin()->get();
 
-        $this->assertCount(1, $timyAdmins);  
-        $this->assertContains($admin->name, $timyAdmins->pluck('name'));  
-        $this->assertNotContains($timyUser->name, $timyAdmins->pluck('name'));  
+        $this->assertCount(1, $timyAdmins);
+        $this->assertContains($admin->name, $timyAdmins->pluck('name'));
+        $this->assertNotContains($timyUser->name, $timyAdmins->pluck('name'));
     }
 
     /** @test */
@@ -95,7 +95,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_assigns_a_timy_team()
     {
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $user = $this->user();
         $user->assignTimyTeam($team);
 
@@ -105,7 +105,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_unassigns_a_timy_team()
     {
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $user = $this->user();
         $user->assignTimyTeam($team);
 
@@ -117,7 +117,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function timeable_creates_a_timer_if_withing_shift()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $now = now()->startOfWeek(2)->setHour('10'); // Tuesday, 10:00 am
         Carbon::setTestNow($now);
@@ -130,7 +130,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function timeable_creates_throw_exception_if_outside_shift_and_does_not_create_the_timer()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $now = now()->endOfWeek(1)->setHour('20'); // Tuesday, 10:00 am
         Carbon::setTestNow($now);
@@ -157,7 +157,7 @@ class TimeableTest extends TestCase
     {
         $user = $this->user();
         $timyUser = $this->superAdminUser();
-        
+
         $this->assertTrue($timyUser->isTimySuperAdmin());
         $this->assertFalse($user->isTimySuperAdmin());
     }

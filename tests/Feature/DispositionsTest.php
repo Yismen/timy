@@ -13,7 +13,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function it_properties_are_set_on_load()
     {
-        factory(Disposition::class, 5)->create();
+        Disposition::factory()->count(5)->create();
 
         Livewire::test(Dispositions::class)
             ->assertViewIs('timy::livewire.dispositions')
@@ -29,7 +29,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function the_view_has_key_words()
     {
-        $dispositions = factory(Disposition::class, 2)->create();
+        $dispositions = Disposition::factory()->count(2)->create();
 
         Livewire::test(Dispositions::class)
             ->assertSee('createDisposition')
@@ -43,7 +43,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function it_validates_a_name_create_a_new_disposition()
     {
-        factory(Disposition::class)->create(['name' => 'duplicated']);
+        Disposition::factory()->create(['name' => 'duplicated']);
 
         Livewire::test('timy::dispositions')
             ->set('disposition.name', null)
@@ -78,7 +78,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function it_sets_a_disposition_to_be_updated()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
 
         Livewire::test('timy::dispositions')
             ->set('disposition.name', $disposition->name)
@@ -95,7 +95,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function it_validates_a_name_before_updating_a_disposition()
     {
-        $disposition = factory(Disposition::class)->create(['name' => 'duplicated']);
+        $disposition = Disposition::factory()->create(['name' => 'duplicated']);
 
         Livewire::test('timy::dispositions')
             ->set('disposition.name', null)
@@ -113,7 +113,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function it_updates_disposition_and_resets_values()
     {
-        $disposition = factory(Disposition::class)->create(['name' => 'Some Name']);
+        $disposition = Disposition::factory()->create(['name' => 'Some Name']);
 
         Livewire::test('timy::dispositions')
             ->call('editDisposition', $disposition)
@@ -140,7 +140,7 @@ class DispositionsTest extends TestCase
     /** @test */
     public function it_resets_form()
     {
-        $disposition = factory(Disposition::class)->create(['name' => 'Some Name']);
+        $disposition = Disposition::factory()->create(['name' => 'Some Name']);
 
         Livewire::test('timy::dispositions')
             ->call('editDisposition', $disposition)

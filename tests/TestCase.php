@@ -20,7 +20,6 @@ class TestCase extends TestbenchTestCase
     {
         parent::setUp();
 
-        $this->withFactories(__DIR__ . '/../database/factories');
         $this->loadLaravelMigrations();
         $this->artisan('migrate');
 

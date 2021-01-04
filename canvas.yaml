@@ -9,6 +9,7 @@ paths:
 
 factory:
   path: database/factories
+  namespace: Dainsys\Timy\Database
 
 migration:
   path: database/migrations

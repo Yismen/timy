@@ -4,11 +4,14 @@ namespace Dainsys\Timy\Models;
 
 use App\User;
 use Carbon\Carbon;
+use Dainsys\Timy\Database\Factories\TimerFactory;
 use Dainsys\Timy\Models\Traits\Filters\TimerFiltersTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Timer extends Model
 {
+    use HasFactory;
     use TimerFiltersTrait;
 
     protected $table = 'timy_timers';
@@ -107,5 +110,14 @@ class Timer extends Model
     public function getIsPayableAttribute()
     {
         return optional($this->disposition)->payable;
+    }
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return TimerFactory::new();
     }
 }

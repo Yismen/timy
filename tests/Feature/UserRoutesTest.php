@@ -13,7 +13,7 @@ class UserRoutesTest extends TestCase
     public function it_closes_user_session_when_it_leave_the_browser()
     {
         $user = $this->user();
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user->startTimer($disposition->id, ['forced' => true]);
 
         $this->assertEquals($user->timers()->first()->finished_at, null);
@@ -29,7 +29,7 @@ class UserRoutesTest extends TestCase
     public function it_pings_user_and_keeps_session_if_user_is_active()
     {
         $user = $this->user();
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user->startTimer($disposition->id, ['forced' => true]);
 
         $this->actingAs($user)
@@ -43,7 +43,7 @@ class UserRoutesTest extends TestCase
     public function it_pings_user_and_return_error_if_not_logged_in()
     {
         $user = $this->user();
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user->startTimer($disposition->id, ['forced' => true]);
         $this->actingAs($user);
         auth()->logout();

@@ -26,7 +26,7 @@ class TeamCreateComponentTest extends TestCase
     {
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         Livewire::test(TeamCreateComponent::class)
             ->set('team.name', '')
