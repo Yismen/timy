@@ -27,4 +27,36 @@ class DispositionFactory extends Factory
             'invoiceable' => rand(0, 1)
         ];
     }
+    /**
+     * Payable state
+     *
+     * @return void
+     */
+    public function payable()
+    {
+        return $this->state([
+            'payable' => 1
+        ]);
+    }
+
+    public function notPayable()
+    {
+        return $this->state([
+            'payable' => 0
+        ]);
+    }
+
+    public function invoiceable()
+    {
+        return $this->state([
+            'invoiceable' => 1
+        ]);
+    }
+
+    public function notInvoiceable()
+    {
+        return $this->state([
+            'payable' => 0
+        ]);
+    }
 }

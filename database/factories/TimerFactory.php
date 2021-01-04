@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Database\Factories;
 
 use App\User;
+use Carbon\Carbon;
 use Dainsys\Timy\Models\Disposition;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Dainsys\Timy\Models\Timer;
@@ -31,5 +32,19 @@ class TimerFactory extends Factory
             'finished_at' => null,
             'ip_address' => $this->faker->ipv4,
         ];
+    }
+
+    public function running()
+    {
+        return $this->state([
+            'finished_at' => null
+        ]);
+    }
+
+    public function closed(Carbon $when = null)
+    {
+        return $this->state([
+            'finished_at' => $when ?: now()
+        ]);
     }
 }

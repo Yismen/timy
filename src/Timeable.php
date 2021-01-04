@@ -42,7 +42,7 @@ trait Timeable
     public function isTimySuperAdmin()
     {
         $super_admin_email = config('timy.super_admin_email');
-        
+
         return $this->email == $super_admin_email || $this->hasTimyRole(config('timy.roles.super_admin'));
     }
 
@@ -92,6 +92,11 @@ trait Timeable
         }
 
         return $this->getTimerStarted($disposition_id, $now);
+    }
+
+    public function startForcedTimer(int $disposition_id)
+    {
+        return $this->startTimer($disposition_id, ['forced' => true]);
     }
 
     public function forgetTimyCache()

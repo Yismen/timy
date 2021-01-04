@@ -45,8 +45,7 @@ class TimersRunningForTooLong extends Command
     {
         $notifyableUsers = User::isTimyAdmin()->get();
 
-        $runningTimers = Timer::running()->get()
-            ->filter->isRunningForTooLong();
+        $runningTimers = Timer::runningForTooLong()->get();
 
         if ($runningTimers->count() > 0 && $notifyableUsers->count() > 0) {
             $notifyableUsers
