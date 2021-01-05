@@ -47,4 +47,18 @@ class TimerFactory extends Factory
             'finished_at' => $when ?: now()
         ]);
     }
+
+    public function payable()
+    {
+        return $this->state([
+            'disposition_id' => Disposition::factory()->payable()
+        ]);
+    }
+
+    public function notPayable()
+    {
+        return $this->state([
+            'disposition_id' => Disposition::factory()->notPayable()
+        ]);
+    }
 }

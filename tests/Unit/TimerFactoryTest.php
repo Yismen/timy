@@ -39,4 +39,24 @@ class TimerFactoryTest extends TestCase
         $this->assertNotNull($timer->finished_at);
         $this->assertEquals($timer->finished_at->format('Y-m-d H:i:s'), $carbon->format('Y-m-d H:i:s'));
     }
+    /** @test */
+    public function it_creates_a_payable_timer()
+    {
+        $carbon = now()->subMinutes(153);
+
+        $timer = Timer::factory()->payable()->create();
+
+        $this->assertEquals(1, $timer->is_payable);
+        $this->assertEquals(1, $timer->disposition->payable);
+    }
+    /** @test */
+    public function it_creates_a_notPayable_timer()
+    {
+        $carbon = now()->subMinutes(153);
+
+        $timer = Timer::factory()->notPayable()->create();
+
+        $this->assertEquals(0, $timer->is_payable);
+        $this->assertEquals(0, $timer->disposition->payable);
+    }
 }
