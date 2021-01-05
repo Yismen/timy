@@ -78,5 +78,6 @@ return [
      * Here you can specify the limit of minutes a timer can stay open. If a current session pass this threshold, 
      * all admin users will be notified. 
      */
-    'running_timers_threshold' => (int) 60 * 3 // 3 hours or 180 minutes
+    'running_timers_threshold' => (int) 60 * 3, // 3 hours or 180 minutes,
+    'daily_hours_threshold' => (float) 8.5,
 ];
