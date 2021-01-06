@@ -17,7 +17,7 @@ class PreviousDateHoursReport extends Notification
      *
      * @return void
      */
-    public $timers;
+    public $timy_users;
 
     public function __construct(Collection $timy_users)
     {
