@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Console\Commands;
+namespace Dainsys\Timy\Console;
 
 use App\User;
 use Dainsys\Timy\Notifications\PreviousDateHoursReport as NotificationsPreviousDateHoursReport;

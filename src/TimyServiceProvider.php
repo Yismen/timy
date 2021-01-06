@@ -2,10 +2,10 @@
 
 namespace Dainsys\Timy;
 
-use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
-use Dainsys\Timy\Console\Commands\PreviousDateHoursReport;
-use Dainsys\Timy\Console\Commands\TimersRunningForTooLong;
-use Dainsys\Timy\Console\Commands\UsersWithTooManyHours;
+use Dainsys\Timy\Console\CloseInactiveTimersCommand;
+use Dainsys\Timy\Console\PreviousDateHoursReport;
+use Dainsys\Timy\Console\TimersRunningForTooLong;
+use Dainsys\Timy\Console\UsersWithTooManyHours;
 use Dainsys\Timy\Http\Livewire\Dispositions;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;

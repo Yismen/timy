@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Timy\Console\Commands;
+namespace Dainsys\Timy\Console;
 
 use Dainsys\Timy\Events\TimerCreatedAdmin;
 use Dainsys\Timy\Events\TimerStopped;
