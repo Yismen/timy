@@ -70,5 +70,10 @@ return [
         'subject' => 'Timers Running For Too Long',
         'introduction' => 'The following users have timers running for more than :threshold minutes. Please take your time to make sure this is correct',
         'call_to_action' => 'View Admin Dashboard',
+    ],
+    'previous_date_hours_report' => [
+        'subject' => 'Previous Date Hours Report',
+        'introduction' => 'This is a summary of the payable hours worked yesterday by your peers!',
+        'call_to_action' => 'View Admin Dashboard',
     ]
 ];

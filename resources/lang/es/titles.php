@@ -70,5 +70,10 @@ return [
         'subject' => 'Timers Abiertos Por Demasiado Tiempo',
         'introduction' => 'Los siguientes usuarios tienen timers abiertos por mas de :threshold minutos. Por favor tomese su tiempo en verificar que esto sea correcto',
         'call_to_action' => 'Ver Tablero Admin',
+    ],
+    'previous_date_hours_report' => [
+        'subject' => 'Report Horas Día Anterior',
+        'introduction' => 'Este es un resumen de las horas pagables trabajadas por tus compañeros en el día de ayer!',
+        'call_to_action' => 'Ver Tablero Admin',
     ]
 ];

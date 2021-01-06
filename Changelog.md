@@ -5,6 +5,7 @@
 - Adopt laravel 8 factories style.
 - Create unit tests for all models.
 - Create Unit Tests for all factories.
+- Send a daily summary with the total hours by agent.
 
 ### 3.2.1:
 - Notify about active sessions passing the hours threshold.

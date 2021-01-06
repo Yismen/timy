@@ -3,6 +3,7 @@
 namespace Dainsys\Timy;
 
 use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
+use Dainsys\Timy\Console\Commands\PreviousDateHoursReport;
 use Dainsys\Timy\Console\Commands\TimersRunningForTooLong;
 use Dainsys\Timy\Http\Livewire\Dispositions;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
@@ -42,7 +43,7 @@ class TimyServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands(
                 CloseInactiveTimersCommand::class,
-                TimersRunningForTooLong::class
+                PreviousDateHoursReport::class,
             );
         }
 
@@ -108,6 +109,7 @@ class TimyServiceProvider extends ServiceProvider
 
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->command('timy:timers-running-for-too-long')->everyFifteenMinutes();
+            $schedule->command('timy:previous-date-hours-report')->dailyAt('07:00');
         });
 
         return $this;
