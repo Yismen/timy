@@ -26,7 +26,7 @@ return [
      * @type Boolean. If set to true, will register a command that would check the timers ip to
      * see if they are still alive.
      */
-    'with_scheduled_commands' => env('TIMY_WITH_SCHEDULED_COMMANDS', false),
+    'with_scheduled_commands' => (bool) env('TIMY_WITH_SCHEDULED_COMMANDS', false),
     /**
      * The amount of seconds to wait for an IP Address to respond when checking if alive.
      */
@@ -78,5 +78,6 @@ return [
      * Here you can specify the limit of minutes a timer can stay open. If a current session pass this threshold, 
      * all admin users will be notified. 
      */
-    'running_timers_threshold' => (int) 60 * 3 // 3 hours or 180 minutes
+    'running_timers_threshold' => (int) 60 * 3, // 3 hours or 180 minutes,
+    'daily_hours_threshold' => (float) 8.75, // Use entire hours
 ];

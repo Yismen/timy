@@ -10,6 +10,7 @@ use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Models\Team;
 use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Tests\TestCase;
+use Ramsey\Uuid\Type\Time;
 
 class TimeableTest extends TestCase
 {
@@ -27,7 +28,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_starts_a_forced_timer()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $user->startTimer($disposition->id, ['forced' => true]);
 
@@ -38,7 +39,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_stops_all_running_timers()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $user->startTimer($disposition->id, ['forced' => true]);
         $user->stopRunningTimers();
@@ -50,7 +51,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_assigns_a_timy_role()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $user = $this->user();
         $user->assignTimyRole($role);
 
@@ -65,9 +66,121 @@ class TimeableTest extends TestCase
 
         $timyUsers = User::isTimyUser()->get();
 
-        $this->assertCount(1, $timyUsers);  
-        $this->assertContains($timyUser->name, $timyUsers->pluck('name'));  
-        $this->assertNotContains($regular->name, $timyUsers->pluck('name'));  
+        $this->assertCount(1, $timyUsers);
+        $this->assertContains($timyUser->name, $timyUsers->pluck('name'));
+        $this->assertNotContains($regular->name, $timyUsers->pluck('name'));
+    }
+
+    /** @test */
+    public function method_getTotalHoursForDate_returns_an_instance_of_user_model()
+    {
+        $user = $this->user();
+
+        Timer::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertInstanceOf(User::class, $user->getTotalHoursForDate(now()));
+    }
+
+    /** @test */
+    public function method_getTotalHoursForDate_returns_the_sum_of_a_user_hours_payable_or_not()
+    {
+        $now = now();
+        $payableDispo = Disposition::factory()->payable()->create();
+        $notPayableDispo = Disposition::factory()->notPayable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHours(2),
+            'finished_at' => $now->copy()->subHour(),
+            'user_id' => $user->id,
+            'disposition_id' => $payableDispo->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHour(),
+            'finished_at' => $now->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $notPayableDispo->id
+        ]);
+
+        $userWithHours = $user->getTotalHoursForDate($now);
+
+        $this->assertEquals(2, $userWithHours->total_hours);
+    }
+
+    /** @test */
+    public function method_getTodayTotalHours_returns_the_sum_of_a_user_hours_payable_or_not()
+    {
+        $now = now();
+        $payableDispo = Disposition::factory()->payable()->create();
+        $notPayableDispo = Disposition::factory()->notPayable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHours(2),
+            'finished_at' => $now->copy()->subHour(),
+            'user_id' => $user->id,
+            'disposition_id' => $payableDispo->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHour(),
+            'finished_at' => $now->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $notPayableDispo->id
+        ]);
+
+        $userWithHours = $user->getTodayTotalHours();
+
+        $this->assertEquals(2, $userWithHours->total_hours);
+    }
+
+    /** @test */
+    public function method_getTodayPayableHours_sums_payable_hours_only()
+    {
+        $now = now();
+        $payableDispo = Disposition::factory()->payable()->create();
+        $notPayableDispo = Disposition::factory()->notPayable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHours(2),
+            'finished_at' => $now->copy()->subHour(),
+            'user_id' => $user->id,
+            'disposition_id' => $payableDispo->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $now->copy()->subHour(),
+            'finished_at' => $now->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $notPayableDispo->id
+        ]);
+
+        $userWithHours = $user->getTodayPayableHours();
+
+        $this->assertEquals(1, $userWithHours->total_hours);
+    }
+
+    /** @test */
+    public function method_getPayableHoursForDate_only_sums_hours_for_a_given_date()
+    {
+        $date = now();
+        $previousDate = $date->copy()->subDay();
+        $disposition = Disposition::factory()->payable()->create();
+        $user = $this->user();
+        Timer::factory()->create([
+            'started_at' => $date->copy()->subHour(),
+            'finished_at' => $date->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $disposition->id
+        ]);
+        Timer::factory()->create([
+            'started_at' => $previousDate->copy()->subHour(),
+            'finished_at' => $previousDate->copy(),
+            'user_id' => $user->id,
+            'disposition_id' => $disposition->id
+        ]);
+
+        $todayHours = $user->getPayableHoursForDate($date);
+
+        $this->assertEquals(1, $todayHours->total_hours);
     }
 
     /** @test */
@@ -78,9 +191,9 @@ class TimeableTest extends TestCase
 
         $timyAdmins = User::isTimyAdmin()->get();
 
-        $this->assertCount(1, $timyAdmins);  
-        $this->assertContains($admin->name, $timyAdmins->pluck('name'));  
-        $this->assertNotContains($timyUser->name, $timyAdmins->pluck('name'));  
+        $this->assertCount(1, $timyAdmins);
+        $this->assertContains($admin->name, $timyAdmins->pluck('name'));
+        $this->assertNotContains($timyUser->name, $timyAdmins->pluck('name'));
     }
 
     /** @test */
@@ -95,7 +208,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_assigns_a_timy_team()
     {
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $user = $this->user();
         $user->assignTimyTeam($team);
 
@@ -105,7 +218,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function it_unassigns_a_timy_team()
     {
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $user = $this->user();
         $user->assignTimyTeam($team);
 
@@ -117,7 +230,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function timeable_creates_a_timer_if_withing_shift()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $now = now()->startOfWeek(2)->setHour('10'); // Tuesday, 10:00 am
         Carbon::setTestNow($now);
@@ -130,7 +243,7 @@ class TimeableTest extends TestCase
     /** @test */
     public function timeable_creates_throw_exception_if_outside_shift_and_does_not_create_the_timer()
     {
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $user = $this->user();
         $now = now()->endOfWeek(1)->setHour('20'); // Tuesday, 10:00 am
         Carbon::setTestNow($now);
@@ -157,7 +270,7 @@ class TimeableTest extends TestCase
     {
         $user = $this->user();
         $timyUser = $this->superAdminUser();
-        
+
         $this->assertTrue($timyUser->isTimySuperAdmin());
         $this->assertFalse($user->isTimySuperAdmin());
     }

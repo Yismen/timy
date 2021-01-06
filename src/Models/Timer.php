@@ -3,13 +3,13 @@
 namespace Dainsys\Timy\Models;
 
 use App\User;
-use Carbon\Carbon;
-use Dainsys\Timy\Models\Traits\Filters\TimerFiltersTrait;
+use Dainsys\Timy\Database\Factories\TimerFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Timer extends Model
 {
-    use TimerFiltersTrait;
+    use HasFactory;
 
     protected $table = 'timy_timers';
 
@@ -39,6 +39,27 @@ class Timer extends Model
         return $this->belongsTo(Disposition::class);
     }
 
+    public function getTotalHoursAttribute()
+    {
+        return !$this->finished_at ? 0 : $this->started_at->floatDiffInHours($this->finished_at);
+    }
+
+    public function getPayableHoursAttribute()
+    {
+        return optional($this->disposition)->payable == true && $this->finished_at
+            ? $this->started_at->floatDiffInHours($this->finished_at) : 0;
+    }
+
+    public function getNameAttribute()
+    {
+        return optional($this->user)->name;
+    }
+
+    public function getIsPayableAttribute()
+    {
+        return optional($this->disposition)->payable;
+    }
+
     /**
      * Get timer for current user.
      *
@@ -61,6 +82,14 @@ class Timer extends Model
         return $query->whereNull('finished_at');
     }
 
+    public function scopeRunningForTooLong($query)
+    {
+        $limit = now()->subMinutes(config('timy.running_timers_threshold'));
+
+        return $query->running()
+            ->where('started_at', '<', $limit);
+    }
+
     public function scopePayable($query)
     {
         return $query->whereHas('disposition', function ($query) {
@@ -77,35 +106,23 @@ class Timer extends Model
             'finished_at' => now()
         ]);
     }
-
     /**
      * Method to mark current timer as complete!
      */
     public function fakeStop()
     {
-        $this->finished_at = now();
+        $this->finished_at == null ? $this->finished_at = now() : $this->finished_at;
 
         return $this;
     }
 
-    public function getTotalHoursAttribute()
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
     {
-        return !$this->finished_at ? 0 : $this->started_at->floatDiffInHours($this->finished_at);
-    }
-
-    public function getPayableHoursAttribute()
-    {
-        return optional($this->disposition)->payable == true && $this->finished_at
-            ? $this->started_at->floatDiffInHours($this->finished_at) : 0;
-    }
-
-    public function getNameAttribute()
-    {
-        return optional($this->user)->name;
-    }
-
-    public function getIsPayableAttribute()
-    {
-        return optional($this->disposition)->payable;
+        return TimerFactory::new();
     }
 }

@@ -72,7 +72,7 @@ class RolesManagementTest extends TestCase
     public function roles_management_removes_roles_and_close_open_timers()
     {
         $role = Role::factory()->create();
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $users = $this->user([], 5)
             ->each->assignTimyRole($role);
 

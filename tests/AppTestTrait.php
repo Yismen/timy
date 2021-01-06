@@ -9,7 +9,7 @@ trait AppTestTrait
 {
     protected function user($attributes = [], $amount = null)
     {
-        return factory(User::class, $amount)->create($attributes);
+        return User::factory($attributes)->count($amount)->create();
     }
 
     protected function timyUser()

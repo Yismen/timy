@@ -1,17 +1,64 @@
 <?php
 
-use App\User;
-use Dainsys\Timy\Models\Disposition;
-use Dainsys\Timy\Models\Timer;
-use Faker\Generator as Faker;
+namespace Dainsys\Timy\Database\Factories;
 
-$factory->define(Timer::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'user_id' => factory(User::class),
-        'disposition_id' => factory(Disposition::class),
-        'started_at' => now(),
-        'finished_at' => null,
-        'ip_address' => $faker->ipv4,
-    ];
-});
+use App\User;
+use Carbon\Carbon;
+use Dainsys\Timy\Models\Disposition;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Dainsys\Timy\Models\Timer;
+
+class TimerFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Timer::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'user_id' => User::factory(),
+            'disposition_id' => Disposition::factory(),
+            'started_at' => now(),
+            'finished_at' => null,
+            'ip_address' => $this->faker->ipv4,
+        ];
+    }
+
+    public function running()
+    {
+        return $this->state([
+            'finished_at' => null
+        ]);
+    }
+
+    public function closed(Carbon $when = null)
+    {
+        return $this->state([
+            'finished_at' => $when ?: now()
+        ]);
+    }
+
+    public function payable()
+    {
+        return $this->state([
+            'disposition_id' => Disposition::factory()->payable()
+        ]);
+    }
+
+    public function notPayable()
+    {
+        return $this->state([
+            'disposition_id' => Disposition::factory()->notPayable()
+        ]);
+    }
+}

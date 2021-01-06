@@ -16,14 +16,18 @@ Todo/Changes:
         ✔ Put tests into the correct folder @done (12/30/2020, 2:39:29 PM)
         ✔ Add Changelog.md File @done (1/2/2021, 5:00:05 PM)
     3.2.2:
-        ☐ Create unit tests for all models:
+        ✔ Adopt laravel 8 factories style @done (1/4/2021, 11:03:59 AM)
+        ✔ Create unit tests for all models @done (1/4/2021, 3:00:16 PM)
             ✔ Timeable @done (1/2/2021, 3:22:59 PM)
-            ☐ Disposition
-            ☐ Team
-            ☐ Timer
-        ☐ Notify about today's total hours have passed daily threshold
-        ☐ Send a daily summary with the total hours by agent
-        ☐ Adopt laravel 8 factories style
+            ✔ Timer @done (1/4/2021, 2:48:42 PM)
+            ✔ Disposition @done (1/4/2021, 2:54:54 PM)
+            ✔ Team @done (1/4/2021, 2:56:32 PM)
+            ✔ Role @done (1/4/2021, 2:57:50 PM)
+        ✔ Create Unit Tests for all factories @done (1/4/2021, 3:24:38 PM)
+        ✔ Notify about today's total hours have passed daily threshold @done (1/6/2021, 2:32:22 PM)
+            ✔ Add api to get user total_hours @done (1/4/2021, 7:38:10 PM)
+            ✔ Add Repositories to allow getting collections of user hours @done (1/5/2021, 1:52:43 PM)
+        ✔ Send a daily summary with the total hours by agent @done (1/6/2021, 11:43:59 AM)
 
 
     

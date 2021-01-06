@@ -11,7 +11,7 @@ use Dainsys\Timy\Notifications\TimersRunningForTooLong;
 
 class TimersRunningForTooLongTest extends TestCase
 {
-    public $threshold;
+    public float $threshold;
 
     public function setUp(): void
     {
@@ -23,72 +23,50 @@ class TimersRunningForTooLongTest extends TestCase
     }
 
     /** @test */
-    public function itGrabsAllActiveTimersAndNotifyIfTheyHavePassedTheHoursThresshold()
+    public function it_sends_a_notification_with_users_that_have_too_many_hours()
     {
-        $this->adminUser();
-        $this->superAdminUser();
-        $notifyableUsers = User::isTimyAdmin()->get();
-
-        $runningTimers = factory(Timer::class, 2)->create([
-            'started_at' => now()->subMinutes(
-                $this->threshold + $minutes = 10
-            ),
-            'finished_at' => null
+        $regularUser = $this->user();
+        $timyUser = $this->timyUser();
+        $adminUser = $this->adminUser();
+        $superAdminUser = $this->superAdminUser();
+        $tooManyHours = Timer::factory()->payable()->count(2)->create([
+            'started_at' => now()->subMinutes($this->threshold + $minutes = 10),
+            'user_id' => $timyUser->id
         ]);
-
-        $this->assertCount(2, Timer::running()->get());
 
         $this->artisan('timy:timers-running-for-too-long')
             ->assertExitCode(0);
 
-        Notification::assertSentTo(
-            [$notifyableUsers],
-            TimersRunningForTooLong::class
-        );
-
-        Notification::assertTimesSent(
-            $notifyableUsers->count(),
-            TimersRunningForTooLong::class
-        );
-
-        $this->assertCount(2, Timer::running()->get());
+        Notification::assertTimesSent(2, TimersRunningForTooLong::class);
+        Notification::assertSentTo([$adminUser, $superAdminUser], TimersRunningForTooLong::class);
     }
     /** @test */
-    public function itDoesNotNotifyUnauthorizedUsers()
+    public function it_only_notify_admin_and_super_admin_users()
     {
         $user = $this->user();
-        $this->superAdminUser();
-
-        $notifyableUsers = User::isTimyAdmin()->get();
-
-        $runningTimers = factory(Timer::class, 2)->create([
-            'started_at' => now()->subMinutes(
-                $this->threshold + $minutes = 10
-            ),
-            'finished_at' => null
+        $timyUser = $this->user();
+        $adminUser = $this->adminUser();
+        $superAdminUser = $this->superAdminUser();
+        $tooManyHours = Timer::factory()->payable()->count(2)->create([
+            'started_at' => now()->subMinutes($this->threshold + $minutes = 10),
+            'user_id' => $timyUser->id
         ]);
 
         $this->artisan('timy:timers-running-for-too-long');
 
-        Notification::assertTimesSent(
-            $notifyableUsers->count(),
-            TimersRunningForTooLong::class
-        );
-
-        Notification::assertNotSentTo(
-            [$user],
-            TimersRunningForTooLong::class
-        );
+        Notification::assertTimesSent(2, TimersRunningForTooLong::class);
+        Notification::assertSentTo([$adminUser, $superAdminUser], TimersRunningForTooLong::class);
+        Notification::assertNotSentTo([$user, $timyUser], TimersRunningForTooLong::class);
     }
 
     /** @test */
-    public function itDoesNotNotifyIfTimersIsRunningForLessThanTheThreshold()
+    public function it_send_the_notification_only_if_user_passes_the_threshold()
     {
         $this->adminUser();
         $this->superAdminUser();
         $notifyableUsers = User::isTimyAdmin()->get();
 
-        $runningTimersShortly = factory(Timer::class, 2)->create([
+        $runningTimersShortly = Timer::factory()->count(2)->create([
             'started_at' => now()->subMinutes(
                 $this->threshold - $minutes = 10
             ),
@@ -96,10 +74,6 @@ class TimersRunningForTooLongTest extends TestCase
         ]);
 
         $this->artisan('timy:timers-running-for-too-long');
-
-        Notification::assertNothingSent(
-            [$notifyableUsers],
-            TimersRunningForTooLong::class
-        );
+        Notification::assertNothingSent();
     }
 }

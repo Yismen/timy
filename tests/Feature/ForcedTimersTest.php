@@ -67,7 +67,7 @@ class ForcedTimersTest extends TestCase
     public function it_creates_forced_timers()
     {
         $user = $this->user();
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
 
         Livewire::test('timy::forced-timer-management')
             ->call('toggleSelection', $user->id)
@@ -91,7 +91,7 @@ class ForcedTimersTest extends TestCase
         $livewire = Livewire::test('timy::forced-timer-management')
             ->assertSet('users', null);
 
-        $disposition = factory(Disposition::class)->create();
+        $disposition = Disposition::factory()->create();
         $this->user()->startTimer($disposition->id, ['forced' => true]);
 
         $livewire

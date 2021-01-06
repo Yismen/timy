@@ -41,6 +41,10 @@ class CloseInactiveTimersCommand extends Command
      */
     public function handle()
     {
+        if (!(bool)config('timy.with_scheduled_commands')) {
+            return 0;
+        }
+
         $this->getOpenTimers()
             ->each(function ($timer) {
                 try {
