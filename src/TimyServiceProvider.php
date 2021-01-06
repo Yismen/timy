@@ -5,6 +5,7 @@ namespace Dainsys\Timy;
 use Dainsys\Timy\Console\Commands\CloseInactiveTimersCommand;
 use Dainsys\Timy\Console\Commands\PreviousDateHoursReport;
 use Dainsys\Timy\Console\Commands\TimersRunningForTooLong;
+use Dainsys\Timy\Console\Commands\UsersWithTooManyHours;
 use Dainsys\Timy\Http\Livewire\Dispositions;
 use Dainsys\Timy\Http\Livewire\ForcedTimerManagement;
 use Dainsys\Timy\Http\Livewire\OpenTimersMonitor;
@@ -31,7 +32,7 @@ class TimyServiceProvider extends ServiceProvider
             ->registerPublishables()
             ->loadServiceComponents()
             ->registerLivewireComponents()
-            ->registerCommands();
+            ->scheduleConsoleCommands();
 
         SecureGates::boot();
     }
@@ -43,6 +44,8 @@ class TimyServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands(
                 CloseInactiveTimersCommand::class,
+                TimersRunningForTooLong::class,
+                UsersWithTooManyHours::class,
                 PreviousDateHoursReport::class,
             );
         }
@@ -99,16 +102,12 @@ class TimyServiceProvider extends ServiceProvider
         return $this;
     }
 
-    protected function registerCommands()
+    protected function scheduleConsoleCommands()
     {
-        if ((bool)config('timy.with_scheduled_commands')) {
-            $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-                $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
-            });
-        }
-
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
             $schedule->command('timy:timers-running-for-too-long')->everyFifteenMinutes();
+            $schedule->command('timy:users-with-too-many-hours')->everyThirtyMinutes();
             $schedule->command('timy:previous-date-hours-report')->dailyAt('07:00');
         });
 

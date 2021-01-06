@@ -24,8 +24,9 @@ Todo/Changes:
             ✔ Team @done (1/4/2021, 2:56:32 PM)
             ✔ Role @done (1/4/2021, 2:57:50 PM)
         ✔ Create Unit Tests for all factories @done (1/4/2021, 3:24:38 PM)
-        ☐ Notify about today's total hours have passed daily threshold
+        ✔ Notify about today's total hours have passed daily threshold @done (1/6/2021, 2:32:22 PM)
             ✔ Add api to get user total_hours @done (1/4/2021, 7:38:10 PM)
+            ✔ Add Repositories to allow getting collections of user hours @done (1/5/2021, 1:52:43 PM)
         ✔ Send a daily summary with the total hours by agent @done (1/6/2021, 11:43:59 AM)
 
 

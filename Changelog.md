@@ -6,6 +6,7 @@
 - Create unit tests for all models.
 - Create Unit Tests for all factories.
 - Send a daily summary with the total hours by agent.
+- Notify every thirty minutes if there are users with more than 8.75 hours.
 
 ### 3.2.1:
 - Notify about active sessions passing the hours threshold.

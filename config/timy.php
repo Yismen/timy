@@ -79,5 +79,5 @@ return [
      * all admin users will be notified. 
      */
     'running_timers_threshold' => (int) 60 * 3, // 3 hours or 180 minutes,
-    'daily_hours_threshold' => (float) 8.5,
+    'daily_hours_threshold' => (float) 8.75, // Use entire hours
 ];

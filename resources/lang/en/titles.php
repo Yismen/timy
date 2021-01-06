@@ -71,6 +71,11 @@ return [
         'introduction' => 'The following users have timers running for more than :threshold minutes. Please take your time to make sure this is correct',
         'call_to_action' => 'View Admin Dashboard',
     ],
+    'users_with_too_many_hours' => [
+        'subject' => 'Users With Too Many Hours',
+        'introduction' => 'The following users have more than :threshold hours so far today. Please take your time to make sure this is correct',
+        'call_to_action' => 'View Admin Dashboard',
+    ],
     'previous_date_hours_report' => [
         'subject' => 'Previous Date Hours Report',
         'introduction' => 'This is a summary of the payable hours worked yesterday by your peers!',
