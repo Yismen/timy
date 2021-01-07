@@ -23,7 +23,7 @@ class TimersRunningForTooLongTest extends TestCase
     }
 
     /** @test */
-    public function it_sends_a_notification_with_users_that_have_too_many_hours()
+    public function it_sends_a_notification_with_if_timer_is_running_for_too_long()
     {
         $regularUser = $this->user();
         $timyUser = $this->timyUser();
@@ -39,6 +39,23 @@ class TimersRunningForTooLongTest extends TestCase
 
         Notification::assertTimesSent(2, TimersRunningForTooLong::class);
         Notification::assertSentTo([$adminUser, $superAdminUser], TimersRunningForTooLong::class);
+    }
+
+    /** @test */
+    public function it_does_not_notify_if_timer_is_not_running()
+    {
+        $regularUser = $this->user();
+        $timyUser = $this->timyUser();
+        $adminUser = $this->adminUser();
+        $superAdminUser = $this->superAdminUser();
+        $tooManyHours = Timer::factory()->payable()->closed()->create([
+            'started_at' => now()->subMinutes($this->threshold + $minutes = 10),
+            'user_id' => $timyUser->id
+        ]);
+
+        $this->artisan('timy:timers-running-for-too-long');
+
+        Notification::assertNothingSent();
     }
     /** @test */
     public function it_only_notify_admin_and_super_admin_users()
@@ -74,6 +91,40 @@ class TimersRunningForTooLongTest extends TestCase
         ]);
 
         $this->artisan('timy:timers-running-for-too-long');
+        Notification::assertNothingSent();
+    }
+
+    /** @test */
+    public function it_send_the_notification_only_on_payable_timers()
+    {
+        $user = $this->user();
+        $timyUser = $this->user();
+        $adminUser = $this->adminUser();
+        $superAdminUser = $this->superAdminUser();
+        $tooManyHours = Timer::factory()->payable()->running()->count(2)->create([
+            'started_at' => now()->subMinutes($this->threshold + $minutes = 10),
+            'user_id' => $timyUser->id
+        ]);
+
+        $this->artisan('timy:timers-running-for-too-long');
+
+        Notification::assertTimesSent(2, TimersRunningForTooLong::class);
+    }
+
+    /** @test */
+    public function it_does_not_send_the_notification_if_running_timer_is_not_payable()
+    {
+        $user = $this->user();
+        $timyUser = $this->user();
+        $adminUser = $this->adminUser();
+        $superAdminUser = $this->superAdminUser();
+        $tooManyHours = Timer::factory()->notPayable()->running()->count(2)->create([
+            'started_at' => now()->subMinutes($this->threshold + $minutes = 10),
+            'user_id' => $timyUser->id
+        ]);
+
+        $this->artisan('timy:timers-running-for-too-long');
+
         Notification::assertNothingSent();
     }
 }
