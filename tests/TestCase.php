@@ -2,6 +2,7 @@
 
 namespace Dainsys\Timy\Tests;
 
+use Carbon\Carbon;
 use ConsoleTVs\Charts\ChartsServiceProvider;
 use Dainsys\Components\ComponentsServiceProvider;
 use Dainsys\Timy\TimyServiceProvider;
@@ -16,10 +17,11 @@ class TestCase extends TestbenchTestCase
     /**
      * Executed before each test.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-
+        date_default_timezone_set('America/Santo_Domingo');
+        Carbon::setTestNow(Carbon::parse('17:00'));
         $this->loadLaravelMigrations();
         $this->artisan('migrate');
 
@@ -29,9 +31,10 @@ class TestCase extends TestbenchTestCase
     /**
      * Executed after each test.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
+        Carbon::setTestNow();
     }
 
     /**

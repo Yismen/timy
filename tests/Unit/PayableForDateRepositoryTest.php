@@ -79,7 +79,7 @@ class PayableForDateRepositoryTest extends TestCase
             'user_id' => $underThresholdUser->id
         ]);
 
-        $repo = (new PayableForDate(now()->subDay()))->overDailyThreshold();
+        $repo = (new PayableForDate(now()))->overDailyThreshold();
 
         $this->assertCount(1, $repo);
         $this->assertEquals($threshold + 1, $repo->sum('total_hours'));
