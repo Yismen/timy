@@ -12,7 +12,7 @@ class PayableForDateRepositoryTest extends TestCase
     /** @test */
     public function payable_for_date_repo_returns_correct_instances()
     {
-        $repo = new PayableForDate();
+        $repo = new PayableForDate(now());
 
         $this->assertInstanceOf(HoursBaseRepository::class, $repo);
     }
@@ -33,7 +33,7 @@ class PayableForDateRepositoryTest extends TestCase
             'user_id' => $notPayableUser->id
         ]);
 
-        $repo = (new PayableForDate())->getTotal();
+        $repo = (new PayableForDate(now()))->getTotal();
 
         $this->assertEquals(1, $repo->sum('total_hours'));
         $this->assertEquals(1, $repo->where('name', $payableUser->name)->sum('total_hours'));
@@ -74,12 +74,12 @@ class PayableForDateRepositoryTest extends TestCase
             'started_at' => $today->copy()->subMinutes(($threshold + 1) * 60),
             'user_id' => $overThresholdUser->id
         ]);
-        Timer::factory()->payable()->create([
+        Timer::factory()->payable()->closed()->create([
             'started_at' => $today->copy()->subMinutes(($threshold - 1) * 60),
             'user_id' => $underThresholdUser->id
         ]);
 
-        $repo = (new PayableForDate())->overDailyThreshold();
+        $repo = (new PayableForDate(now()->subDay()))->overDailyThreshold();
 
         $this->assertCount(1, $repo);
         $this->assertEquals($threshold + 1, $repo->sum('total_hours'));
