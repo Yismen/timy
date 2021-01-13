@@ -1,7 +1,11 @@
 # CHANGELOG
 
-### 3.2.3
+### 3.2.5
 - Users With too many hours is sent only if hours changes.
+### 3.2.4
+- Fix tests issues with timezone.
+### 3.2.3
+- Fix tests issues with timezone.
 ### 3.2.2:
 - Remove package legacy factories.
 - Adopt laravel 8 factories style.
