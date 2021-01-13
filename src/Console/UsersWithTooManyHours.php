@@ -6,6 +6,7 @@ use App\User;
 use Dainsys\Timy\Repositories\Hours\PayableToday;
 use Dainsys\Timy\Notifications\UsersWithTooManyHours as NotificationsUsersWithTooManyHours;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class UsersWithTooManyHours extends Command
 {
@@ -42,8 +43,15 @@ class UsersWithTooManyHours extends Command
     {
         $notifyableUsers = User::isTimyAdmin()->get();
         $usersWithTooManyHours = (new PayableToday())->overDailyThreshold();
+        $cacheKey = 'timy-users-with-too-hours-' . date('Y-m-d') . '-' . number_format($usersWithTooManyHours->sum('total_hours'), 2);
 
-        if ($usersWithTooManyHours->count() > 0 && $notifyableUsers->count() > 0) {
+        if (
+            !Cache::has($cacheKey) &&
+            $usersWithTooManyHours->count() > 0 &&
+            $notifyableUsers->count() > 0
+        ) {
+            Cache::put($cacheKey, 1, now()->addDay());
+
             $notifyableUsers
                 ->each
                 ->notify(new NotificationsUsersWithTooManyHours($usersWithTooManyHours));

@@ -6,6 +6,7 @@ use Dainsys\Timy\Models\Timer;
 use Dainsys\Timy\Tests\TestCase;
 use Illuminate\Support\Facades\Notification;
 use Dainsys\Timy\Notifications\UsersWithTooManyHours;
+use Illuminate\Support\Facades\Cache;
 
 class UsersWithTooManyHoursTest extends TestCase
 {
@@ -18,6 +19,8 @@ class UsersWithTooManyHoursTest extends TestCase
         Notification::fake();
 
         $this->threshold = config('timy.daily_hours_threshold');
+
+        Cache::flush();
     }
 
     /** @test */
@@ -93,5 +96,50 @@ class UsersWithTooManyHoursTest extends TestCase
         $this->artisan('timy:users-with-too-many-hours');
 
         Notification::assertNothingSent();
+    }
+
+    /** @test */
+    public function it_add_key_to_cache()
+    {
+        $timer = Timer::factory()->payable()->create([
+            'started_at' => now()->subMinutes(($this->threshold * 60) + 50),
+            'finished_at' => now(),
+            'user_id' => $this->timyUser()->id,
+        ]);
+        $cacheKey = 'timy-users-with-too-hours-' . date('Y-m-d') . '-' . number_format($timer->total_hours, 2);
+
+        Cache::shouldReceive('has')
+            ->once()
+            ->with($cacheKey)
+            ->andReturn(false);
+
+        $this->artisan('timy:users-with-too-many-hours');
+
+        Cache::shouldReceive('has')
+            ->once()
+            ->with($cacheKey)
+            ->andReturn(true);
+
+        $this->artisan('timy:users-with-too-many-hours');
+    }
+
+    /** @test */
+    public function notification_is_not_sent_if_hours_dont_change()
+    {
+        $timyUser = $this->timyUser();
+        $adminUser = $this->adminUser();
+        $timer = Timer::factory()->payable()->create([
+            'started_at' => now()->subMinutes(($this->threshold * 60) + 50),
+            'finished_at' => now(),
+            'user_id' => $timyUser->id,
+        ]);
+
+        $this->artisan('timy:users-with-too-many-hours');
+
+        Notification::assertSentTo([$adminUser], UsersWithTooManyHours::class);
+
+        $this->artisan('timy:users-with-too-many-hours');
+
+        // Notification::assertNothingSent();
     }
 }
