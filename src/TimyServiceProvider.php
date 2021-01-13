@@ -105,8 +105,8 @@ class TimyServiceProvider extends ServiceProvider
     protected function scheduleConsoleCommands()
     {
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-            $schedule->command('timy:close-inactive-timers')->everyFiveMinutes();
-            $schedule->command('timy:timers-running-for-too-long')->everyFifteenMinutes();
+            $schedule->command('timy:close-inactive-timers')->everyTenMinutes();
+            $schedule->command('timy:timers-running-for-too-long')->everyThirtyMinutes();
             $schedule->command('timy:users-with-too-many-hours')->everyThirtyMinutes();
             $schedule->command('timy:previous-date-hours-report')->dailyAt('07:00');
         });
