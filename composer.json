@@ -6,7 +6,7 @@
         "php": ">=7.0",
         "dainsys/components": "^1.0",
         "consoletvs/charts": "6.*",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^6.3|^7.0.1",
         "laravel/framework": "^6.0|^7.0|^8.0",
         "laravel/ui": "^3.0",
         "livewire/livewire": "^v2.0",
