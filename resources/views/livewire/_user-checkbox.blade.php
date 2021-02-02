@@ -13,7 +13,7 @@
             @isset ($with_timers)
                 @if ($with_timers)
                     @foreach ($user->timers as $timer)
-                        <span class="badge badge-pill badge-{{ $timer->is_payable == 1 ? 'success text-light' : 'light' }} float-right ">
+                        <span class="text-light badge badge-pill badge-{{ $timer->is_payable == 1 ? 'success' : 'danger' }} float-right ">
                             {{ $timer->disposition->name }}
                         </span>
                     @endforeach
