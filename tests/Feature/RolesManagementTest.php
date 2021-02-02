@@ -43,10 +43,8 @@ class RolesManagementTest extends TestCase
 
         Livewire::test(RolesManagement::class)
             ->assertSet('selected', [])
-            ->call('toggleSelection', $user->id)
-            ->assertSet('selected', [$user->id])
-            ->call('toggleSelection', $user->id)
-            ->assertSet('selected', [])
+            ->set('selected', [$user->id])
+            ->set('selected', [$user->id])
             ->assertSet('selectedDisposition', null);
     }
 

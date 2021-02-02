@@ -35,13 +35,12 @@ class TeamsTableTest extends TestCase
     {
         $this->actingAs($this->user(['email' => config('timy.super_admin_email')]));
 
-        $user = $this->user();
+        $user = $this->user(3);
 
         Livewire::test(TeamsTable::class)
-            ->call('toggleSelection', $user->id)
-            ->assertSet('selected', [$user->id])
-            ->call('toggleSelection', $user->id)
-            ->assertSet('selected', []);
+            ->assertSet('selected', [])
+            ->set('selected', [$user->first()->id])
+            ->assertSet('selected', [$user->first()->id]);
     }
     /** @test */
     public function teams_component_assign_teams()
@@ -53,9 +52,8 @@ class TeamsTableTest extends TestCase
 
         Livewire::test(TeamsTable::class)
             ->set('selectedTeam', $team->id)
-            ->call('toggleSelection', $user->id)
-            ->call('assignTeam')
-            ->assertSet('selected', []);
+            ->set('selected', [$user->id])
+            ->call('assignTeam');
 
         $this->assertDatabaseHas('users', ['timy_team_id' => $team->id]);
     }
