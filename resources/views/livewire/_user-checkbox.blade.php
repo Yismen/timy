@@ -6,7 +6,9 @@
                 @if (in_array($user->id, $selected))
                     checked
                 @endif
-                wire:change="toggleSelection({{ $user->id }})">
+                value="{{ $user->id }}"
+                wire:model="selected"
+                >
             {{ $user->name }}
             @isset ($with_timers)
                 @if ($with_timers)

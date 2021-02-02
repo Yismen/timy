@@ -44,17 +44,6 @@ class ForcedTimerManagement extends Component
             ->get();
     }
 
-    public function toggleSelection($user_id)
-    {
-        if (in_array($user_id, (array)$this->selected)) {
-            $this->selected = array_filter($this->selected, function ($value) use ($user_id) {
-                return (int)$value != (int)$user_id;
-            });
-        } else {
-            $this->selected[] = $user_id;
-        }
-    }
-
     public function updated($property)
     {
         $this->validateOnly($property);
