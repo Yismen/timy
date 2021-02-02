@@ -12,11 +12,16 @@ trait AppTestTrait
         return User::factory($attributes)->count($amount)->create();
     }
 
-    protected function timyUser()
+    protected function timyUser(array $attributes = [], $amount = null)
     {
-        $user =  $this->user();
         $role = Role::where('name', config('timy.roles.user'))->first(); //created at the migration
-        $user->assignTimyRole($role);
+        $user =  $this->user($attributes, $amount);
+
+        if ($user instanceof \App\User) {
+            $user->assignTimyRole($role);
+        } else {
+            $user->each->assignTimyRole($role);
+        }
 
         return $user;
     }
