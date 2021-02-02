@@ -15,4 +15,5 @@ Route::middleware(
         Route::get('admin/profile/{user}', 'DashboardController@profile')->name('timy_user_profile');
         Route::get('ping', 'TimyUserController@ping')->name('timy_ping_user');
         Route::get('/user_left/{userId}', 'TimyUserController@userDisconnected')->name('timy_timers.user_left');
+        Route::get('get_open_timer_hours', 'TimerController@getOpenTimersHours')->name('timy.getOpenTimersHours');
     });

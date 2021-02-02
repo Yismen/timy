@@ -8,6 +8,5 @@ Route::middleware(
     ->prefix('timy/api')
     ->namespace('\Dainsys\Timy\Http\Controllers\Api')
     ->group(function () {
-        Route::get('get_open_timer_hours', 'TimerController@getOpenTimersHours')->name('timy.getOpenTimersHours');
         Route::get('timers_filtered', 'TimerController@filtered')->name('timy.timers_filtered');
     });
