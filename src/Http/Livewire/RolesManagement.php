@@ -67,22 +67,6 @@ class RolesManagement extends Component
         return User::orderBy('name')->whereDoesntHave('timy_role')->get();
     }
     /**
-     * Insert a selected id into the selected variable, remove it if was previously selected.
-     *
-     * @param int $user_id
-     * @return void
-     */
-    public function toggleSelection($user_id)
-    {
-        if (in_array($user_id, (array)$this->selected)) {
-            $this->selected = array_filter($this->selected, function ($value) use ($user_id) {
-                return (int)$value != (int)$user_id;
-            });
-        } else {
-            $this->selected[] = $user_id;
-        }
-    }
-    /**
      * Assign the selected role to the selected users. If the remove option was selected then unassign all selected users.
      *
      * @return void
