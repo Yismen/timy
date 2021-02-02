@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class ForcedTimerManagement extends Component
 {
-    public $selected = [];
+    public array $selected = [];
 
     public $selectedDisposition;
 
@@ -22,6 +22,7 @@ class ForcedTimerManagement extends Component
     {
         return view('timy::livewire.forced-timer-management', [
             'dispositions' => DispositionsRepository::all(),
+            'users' => $this->getUsers()
         ]);
     }
 

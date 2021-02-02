@@ -16,14 +16,6 @@ class ForcedTimersTest extends TestCase
     /** @test */
     public function properties_are_set_on_load()
     {
-        $users = User::orderBy('name')
-            ->with(['timers' => function ($query) {
-                $query->running()
-                    ->with('disposition');
-            }])
-            ->isTimyUser()
-            ->get();
-
         Livewire::test('timy::forced-timer-management')
             ->assertViewIs('timy::livewire.forced-timer-management')
             ->assertViewHas('users', null)
@@ -33,25 +25,15 @@ class ForcedTimersTest extends TestCase
     /** @test */
     public function forced_timers_view_has_key_words()
     {
+        $this->timyUser([], 2);
+        $users = $this->usersWithTimers();
+
         Livewire::test(ForcedTimerManagement::class)
             ->assertSee('getUsers')
-            ->set('selected', [1])
+            ->assertSet('users', $users)
+            ->set('selected', $users->pluck('id')->toArray())
             ->assertSee('closeForm')
             ->assertSee('createForcedTimers');
-    }
-
-    /** @test */
-    public function it_toogles_a_user_when_selected()
-    {
-        $user = $this->user();
-
-        Livewire::test('timy::forced-timer-management')
-            ->assertSet('selected', [])
-            ->call('toggleSelection', $user->id)
-            ->assertSet('selected', [$user->id])
-            ->call('toggleSelection', $user->id)
-            ->assertSet('selected', [])
-            ->assertSet('selectedDisposition', null);
     }
 
     /** @test */
@@ -70,7 +52,7 @@ class ForcedTimersTest extends TestCase
         $disposition = Disposition::factory()->create();
 
         Livewire::test('timy::forced-timer-management')
-            ->call('toggleSelection', $user->id)
+            ->set('selected', [$user->id])
             ->call('createForcedTimers')
             ->assertSet('selectedDisposition', null)
             ->set('selectedDisposition', null)
@@ -88,20 +70,22 @@ class ForcedTimersTest extends TestCase
     /** @test */
     public function it_listen_for_events()
     {
+        $users = $this->usersWithTimers();;
+
         $livewire = Livewire::test('timy::forced-timer-management')
-            ->assertSet('users', null);
+            ->assertSet('users', $users);
 
         $disposition = Disposition::factory()->create();
         $this->user()->startTimer($disposition->id, ['forced' => true]);
 
         $livewire
             ->emit('timyRoleUpdated')
-            ->assertSet('users', $this->usersWithTimers())
+            ->assertSet('users', $users)
             ->emit('echo-private:Timy.Admin,\\Dainsys\\Timy\\Events\\TimerCreatedAdmin')
-            ->assertSet('users', $this->usersWithTimers());
+            ->assertSet('users', $users);
     }
 
-    protected function usersWithTimers()
+    protected function usersWithTimers(int $amount = 1)
     {
         return User::orderBy('name')
             ->with(['timers' => function ($query) {

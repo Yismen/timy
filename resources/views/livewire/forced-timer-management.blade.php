@@ -1,6 +1,6 @@
 <div class="text-danger">   
     @include('timy::_loading', ['target' => 'getUsers'])
-    <div class="card mb-3" wire:loading.remove wire:target="getUsers" wire:init="getUsers">
+    <div class="card mb-3" wire:loading.remove wire:target="getUsers">
         <div class="card-header bg-white">
             <h4>
                 {{ __('timy::titles.forced_timer_title') }}
