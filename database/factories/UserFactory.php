@@ -3,6 +3,7 @@
 namespace Dainsys\Timy\Database\Factories;
 
 use App\User;
+use Dainsys\Timy\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -30,5 +31,14 @@ class UserFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function asTimyUser()
+    {
+        $role = Role::where('name', config('timy.roles.user'))->first(); //created at the migration
+
+        return $this->state([
+            'timy_role_id' => $role->id
+        ]);
     }
 }
