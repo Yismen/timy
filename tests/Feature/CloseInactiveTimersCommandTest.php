@@ -12,7 +12,7 @@ class CloseInactiveTimersCommandTest extends TestCase
     /** @test */
     public function it_closes_invalid_ips()
     {
-        Config::set('timy.with_scheduled_commands', true);
+        Config::set('timy.commands.close-inactive-timers', true);
         Timer::factory()->create(['ip_address' => 'invalid ip address', 'finished_at' => null]);
 
         $this->assertCount(1, Timer::running()->get());
@@ -22,9 +22,11 @@ class CloseInactiveTimersCommandTest extends TestCase
 
         $this->assertCount(0, Timer::running()->get());
     }
+
     /** @test */
     public function it_only_runs_if_config_is_set_to_true()
     {
+        Config::set('timy.commands.close-inactive-timers', false);
         Timer::factory()->create(['ip_address' => 'invalid ip address', 'finished_at' => null]);
 
         $this->assertCount(1, Timer::running()->get());

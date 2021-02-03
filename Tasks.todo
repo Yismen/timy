@@ -28,6 +28,8 @@ Todo/Changes:
             ✔ Add api to get user total_hours @done (1/4/2021, 7:38:10 PM)
             ✔ Add Repositories to allow getting collections of user hours @done (1/5/2021, 1:52:43 PM)
         ✔ Send a daily summary with the total hours by agent @done (1/6/2021, 11:43:59 AM)
+        ✔ Make commands optional @done (03/02/2021, 14:22:04)
+        ☐ Admin should only see users from it's team or teams
 
 
     

@@ -26,7 +26,13 @@ return [
      * @type Boolean. If set to true, will register a command that would check the timers ip to
      * see if they are still alive.
      */
-    'with_scheduled_commands' => (bool) env('TIMY_WITH_SCHEDULED_COMMANDS', false),
+    'with_scheduled_commands' => (bool) env('TIMY_WITH_SCHEDULED_COMMANDS', false), // **** Deprecated!
+    'commands' => [
+        'close-inactive-timers' => (bool) env('TIMY_WITH_SCHEDULED_COMMANDS', false),
+        'previous-date-hours-report' => (bool) env('TIMY_PREVIOUS_DATE_HOURS_REPORT', true),
+        'timers-running-for-too-long' => (bool) env('TIMY_TIMERS_RUNNING_FOR_TOO_LONG', true),
+        'users-with-too-many-hours' => (bool) env('TIMY_USERS_WITH_TOO_MANY_HOURS', true),
+    ],
     /**
      * The amount of seconds to wait for an IP Address to respond when checking if alive.
      */

@@ -40,6 +40,10 @@ class PreviousDateHoursReport extends Command
      */
     public function handle()
     {
+        if (!(bool)config('timy.commands.previous-date-hours-report')) {
+            return 0;
+        }
+
         $notifyableUsers = User::isTimyAdmin()->get();
 
         $previousDateHours = (new PayableForDate(now()->subDay()))

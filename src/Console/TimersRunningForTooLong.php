@@ -43,6 +43,10 @@ class TimersRunningForTooLong extends Command
      */
     public function handle()
     {
+        if (!(bool)config('timy.commands.timers-running-for-too-long')) {
+            return 0;
+        }
+
         $notifyableUsers = User::isTimyAdmin()->get();
 
         $runningTimers = Timer::runningForTooLong()->payable()->get();

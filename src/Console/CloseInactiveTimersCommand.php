@@ -41,7 +41,7 @@ class CloseInactiveTimersCommand extends Command
      */
     public function handle()
     {
-        if (!(bool)config('timy.with_scheduled_commands')) {
+        if (!(bool)config('timy.commands.close-inactive-timers')) {
             return 0;
         }
 

@@ -41,6 +41,10 @@ class UsersWithTooManyHours extends Command
      */
     public function handle()
     {
+        if (!(bool)config('timy.commands.users-with-too-many-hours')) {
+            return 0;
+        }
+
         $notifyableUsers = User::isTimyAdmin()->get();
         $usersWithTooManyHours = (new PayableToday())->overDailyThreshold();
         $cacheKey = 'timy-users-with-too-hours-' . date('Y-m-d') . '-' . number_format($usersWithTooManyHours->sum('total_hours'), 2);
