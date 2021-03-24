@@ -95,7 +95,12 @@ class DashboardController extends BaseController
 
         return  view('timy::user-profile', [
             'user' => $user,
-            'data' => array_merge(UserDataRepository::toArray($user), ['hours_daily' => UserHoursDaily::get($user)])
+            'data' => array_merge(
+                UserDataRepository::toArray($user),
+                [
+                    'hours_daily' => UserHoursDaily::get($user)->reverse()
+                ]
+            )
         ]);
     }
 

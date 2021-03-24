@@ -15,6 +15,8 @@ class TimersTable extends Component
 
     public $user;
 
+    public $perPage = 15;
+
     protected function getListeners()
     {
         return [
@@ -22,11 +24,6 @@ class TimersTable extends Component
             // "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerCreated" => 'getTimers',
             // "echo-private:Timy.User.{$this->user->id},\\Dainsys\\Timy\\Events\\TimerStopped" => 'getTimers',
         ];
-    }
-
-    public function mount()
-    {
-        $this->user = auth()->user();
     }
 
     public function render()
@@ -41,8 +38,8 @@ class TimersTable extends Component
         return TimerResource::collection(
             Timer::orderBy('started_at', 'desc')
                 ->with(['disposition', 'user.timy_team'])
-                ->mine()
-                ->paginate(15)
+                ->mine($this->user)
+                ->paginate($this->perPage)
         );
     }
 }

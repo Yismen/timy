@@ -66,9 +66,9 @@ class Timer extends Model
      * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeMine($query)
+    public function scopeMine($query, User $user = null)
     {
-        return $query->whereUserId(auth()->user()->id);
+        return $query->whereUserId($user->id ?? auth()->user()->id);
     }
 
     /**
