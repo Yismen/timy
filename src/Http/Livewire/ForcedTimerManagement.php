@@ -20,9 +20,10 @@ class ForcedTimerManagement extends Component
 
     public function render()
     {
+        $this->getUsers();
+
         return view('timy::livewire.forced-timer-management', [
             'dispositions' => DispositionsRepository::all(),
-            'users' => $this->getUsers()
         ]);
     }
 
