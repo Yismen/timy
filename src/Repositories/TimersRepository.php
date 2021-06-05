@@ -11,16 +11,19 @@ use Dainsys\Timy\Models\QueryFilters\ToDate;
 use Dainsys\Timy\Models\QueryFilters\User;
 use Dainsys\Timy\Models\Timer;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Cache;
 
 class TimersRepository
 {
     public static function all()
     {
-        return Timer::with(['user.timy_team', 'disposition'])
-            ->running()
-            ->orderBy('disposition_id')
-            ->orderBy('name')
-            ->get();
+        return Cache::rememberForever('timers', function () {
+            return Timer::with(['user.timy_team', 'disposition'])
+                ->running()
+                ->orderBy('disposition_id')
+                ->orderBy('name')
+                ->get();
+        });
     }
 
     public static function filtered()

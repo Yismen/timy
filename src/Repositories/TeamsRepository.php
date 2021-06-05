@@ -4,18 +4,21 @@ namespace Dainsys\Timy\Repositories;
 
 use App\User;
 use Dainsys\Timy\Models\Team;
+use Illuminate\Support\Facades\Cache;
 
 class TeamsRepository
 {
     public static function all()
     {
-        return Team::orderBy('name')
-            ->with(['users' => function ($query) {
-                return $query
-                    ->orderBy('name')
-                    ->with('timy_role')
-                    ->whereHas('timy_role');
-            }])->get();
+        return Cache::rememberForever('teams', function () {
+            return Team::orderBy('name')
+                ->with(['users' => function ($query) {
+                    return $query
+                        ->orderBy('name')
+                        ->with('timy_role')
+                        ->whereHas('timy_role');
+                }])->get();
+        });
     }
 
     public static function usersWithoutTeam()
