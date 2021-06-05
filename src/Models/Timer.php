@@ -50,11 +50,6 @@ class Timer extends Model
             ? $this->started_at->floatDiffInHours($this->finished_at) : 0;
     }
 
-    public function getNameAttribute()
-    {
-        return optional($this->user)->name;
-    }
-
     public function getIsPayableAttribute()
     {
         return optional($this->disposition)->payable;
