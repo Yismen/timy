@@ -4,12 +4,15 @@ namespace Dainsys\Timy\Models;
 
 use App\User;
 use Dainsys\Timy\Database\Factories\RoleFactory;
+use Dainsys\Timy\Models\Traits\ModelBootTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
     use HasFactory;
+    use ModelBootTrait;
 
     protected $table = 'timy_roles';
 

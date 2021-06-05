@@ -4,12 +4,14 @@ namespace Dainsys\Timy\Models;
 
 use App\User;
 use Dainsys\Timy\Database\Factories\TeamFactory;
+use Dainsys\Timy\Models\Traits\ModelBootTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
     use HasFactory;
+    use ModelBootTrait;
 
     protected $table = 'timy_teams';
 

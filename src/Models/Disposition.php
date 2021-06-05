@@ -3,12 +3,14 @@
 namespace Dainsys\Timy\Models;
 
 use Dainsys\Timy\Database\Factories\DispositionFactory;
+use Dainsys\Timy\Models\Traits\ModelBootTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Disposition extends Model
 {
     use HasFactory;
+    use ModelBootTrait;
 
     protected $table = 'timy_dispositions';
 

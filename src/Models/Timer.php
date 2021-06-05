@@ -4,12 +4,14 @@ namespace Dainsys\Timy\Models;
 
 use App\User;
 use Dainsys\Timy\Database\Factories\TimerFactory;
+use Dainsys\Timy\Models\Traits\ModelBootTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Timer extends Model
 {
     use HasFactory;
+    use ModelBootTrait;
 
     protected $table = 'timy_timers';
 
@@ -48,11 +50,6 @@ class Timer extends Model
     {
         return optional($this->disposition)->payable == true && $this->finished_at
             ? $this->started_at->floatDiffInHours($this->finished_at) : 0;
-    }
-
-    public function getNameAttribute()
-    {
-        return optional($this->user)->name;
     }
 
     public function getIsPayableAttribute()
