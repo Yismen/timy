@@ -15,7 +15,7 @@
             <div class="card-body p-0">
                 <ul class="list-group">
                     @foreach ($users as $user)
-                        @include('timy::livewire._user-checkbox', ['with_timers' => true])
+                        @include('timy::livewire._user-checkbox', ['with_timers' => false])
                     @endforeach
                 </ul>
             </div>

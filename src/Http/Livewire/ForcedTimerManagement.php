@@ -38,10 +38,10 @@ class ForcedTimerManagement extends Component
     public function getUsers()
     {
         $this->users =  User::orderBy('name')
-            ->with(['timers' => function ($query) {
-                $query->running()
-                    ->with('disposition');
-            }])
+            // ->with(['timers' => function ($query) {
+            //     $query->running()
+            //         ->with('disposition');
+            // }])
             ->isTimyUser()
             ->get();
     }
