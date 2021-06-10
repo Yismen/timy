@@ -19,8 +19,9 @@ class RolesRepository
 
     public static function usersWithoutRole()
     {
-        return Cache::rememberForever('timy.usersWithoutRole', function () {
-            return User::orderBy('name')->whereDoesntHave('timy_role')->get();
-        });
+        return User::orderBy('name')
+            ->actives()
+            ->whereDoesntHave('timy_role')
+            ->get();
     }
 }

@@ -5,6 +5,7 @@ namespace Dainsys\Timy\Http\Livewire;
 use App\User;
 use Dainsys\Timy\Models\Role;
 use Dainsys\Timy\Repositories\RolesRepository;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class RolesManagement extends Component
@@ -72,6 +73,7 @@ class RolesManagement extends Component
      */
     public function updateRoles()
     {
+        Cache::forget('timy.roles');
         $this->validate();
         $users = User::whereIn('id', $this->selected)->get();
 

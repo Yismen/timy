@@ -34,6 +34,7 @@ trait ModelBootTrait
             'timy.dispositions',
             'timy.teams',
             'timy.timers',
+            'timy.roles',
             'timy.usersWithoutRole',
         ];
 
