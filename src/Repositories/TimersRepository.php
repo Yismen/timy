@@ -17,7 +17,7 @@ class TimersRepository
 {
     public static function all()
     {
-        return Cache::rememberForever('timers', function () {
+        return Cache::rememberForever('timy.timers', function () {
             return Timer::with(['user.timy_team', 'disposition'])
                 ->running()
                 ->orderBy('disposition_id')

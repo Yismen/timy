@@ -9,7 +9,7 @@ class DispositionsRepository
 {
     public static function all()
     {
-        return Cache::rememberForever('dispositions', function () {
+        return Cache::rememberForever('timy.dispositions', function () {
             return Disposition::orderBy('name')->get();
         });;
     }

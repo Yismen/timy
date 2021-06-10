@@ -10,7 +10,7 @@ class TeamsRepository
 {
     public static function all()
     {
-        return Cache::rememberForever('teams', function () {
+        return Cache::rememberForever('timy.teams', function () {
             return Team::orderBy('name')
                 ->with(['users' => function ($query) {
                     return $query

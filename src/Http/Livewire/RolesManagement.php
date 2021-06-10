@@ -4,6 +4,7 @@ namespace Dainsys\Timy\Http\Livewire;
 
 use App\User;
 use Dainsys\Timy\Models\Role;
+use Dainsys\Timy\Repositories\RolesRepository;
 use Livewire\Component;
 
 class RolesManagement extends Component
@@ -53,9 +54,7 @@ class RolesManagement extends Component
      */
     public function getRoles()
     {
-        return Role::with(['users' => function ($query) {
-            return $query->orderBy('name');
-        }])->get();
+        return RolesRepository::all();
     }
     /**
      * All users who don't have a role assigned.
@@ -64,7 +63,7 @@ class RolesManagement extends Component
      */
     public function getUnassigned()
     {
-        return User::orderBy('name')->whereDoesntHave('timy_role')->get();
+        return RolesRepository::usersWithoutRole();
     }
     /**
      * Assign the selected role to the selected users. If the remove option was selected then unassign all selected users.

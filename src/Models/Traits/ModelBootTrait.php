@@ -29,8 +29,17 @@ trait ModelBootTrait
 
     protected static function removeCacheKey()
     {
-        $key = Str::of(class_basename(self::class))->snake()->lower()->plural()->__toString();
+        $repository_keys = [
+            Str::of(class_basename(self::class))->snake()->lower()->plural()->__toString(),
+            'timy.dispositions',
+            'timy.teams',
+            'timy.timers',
+            'timy.usersWithoutRole',
+        ];
 
-        Cache::forget($key);
+        foreach ($repository_keys as $value) {
+            Cache::forget($value);
+        }
+        // Cache::flush();
     }
 }
